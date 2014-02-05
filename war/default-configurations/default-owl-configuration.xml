@@ -281,6 +281,59 @@
             </columns>
         </tab>
 
+        <!-- ********************************** -->
+        <!--       Term Builder Tab        -->
+        <!-- ********************************** -->
+        <tab>
+            <name>edu.stanford.bmir.protege.web.client.ui.termbuilder.TermBuilderTab</name>
+            <label>Term Builder</label>
+            <columns>
+
+                <!-- Column 1 -->
+                <column>
+                    <width>0.25</width>
+                    <portlets>
+                        <portlet>
+                            <name>edu.stanford.bmir.protege.web.client.ui.termbuilder.CompetencyQuestionsPortlet</name>
+                            <height>570</height>
+                            <width>450</width>
+                        </portlet>
+                    </portlets>
+                </column>
+
+                <!-- Column 2 -->
+                <column>
+                    <width>0.5</width>
+                    <portlets>
+                        <portlet>
+                            <name>edu.stanford.bmir.protege.web.client.ui.termbuilder.RecommendedConceptsPortlet</name>
+                            <height>280</height>
+                            <width>450</width>
+                        </portlet>
+                        <portlet>
+                            <name>edu.stanford.bmir.protege.web.client.ui.termbuilder.ExtractedConceptsPortlet</name>
+                            <height>280</height>
+                            <width>450</width>
+                        </portlet>
+                    </portlets>
+                </column>
+
+                <!-- Column 3 -->
+                <column>
+                    <width>0.25</width>
+                    <portlets>
+                        <portlet>
+                            <name>edu.stanford.bmir.protege.web.client.ui.ontology.classes.ClassTreePortlet</name>
+                            <height>570</height>
+                            <width>450</width>
+                        </portlet>
+                    </portlets>
+                </column>
+
+            </columns>
+            <controllingPortlet reference="../columns/column/portlets/portlet"/>
+        </tab>
+
     </tabs>
 
 </project>

@@ -1,6 +1,7 @@
 package edu.stanford.bmir.protege.web.client.ui.generated;
 
 import com.google.gwt.core.client.GWT;
+
 import edu.stanford.bmir.protege.web.client.project.Project;
 import edu.stanford.bmir.protege.web.client.ui.editor.EditorPortlet;
 import edu.stanford.bmir.protege.web.client.ui.notes.DiscussionThreadPortlet;
@@ -34,6 +35,7 @@ import edu.stanford.bmir.protege.web.client.ui.portlet.propertyForm.PropertyFiel
 import edu.stanford.bmir.protege.web.client.ui.projectfeed.ProjectFeedPortlet;
 import edu.stanford.bmir.protege.web.client.ui.tab.AbstractTab;
 import edu.stanford.bmir.protege.web.client.ui.tab.UserDefinedTab;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.*;
 import edu.stanford.bmir.protege.web.client.usage.UsagePortlet;
 
 import java.util.*;
@@ -82,6 +84,9 @@ public class UIFactory {
         }
         else if (tabJavaClassName.equals(ManageHierarchyTab.class.getName())) {
             return new ManageHierarchyTab(project);
+        }
+        else if (tabJavaClassName.equals(TermBuilderTab.class.getName())) {
+        	return new TermBuilderTab(project);
         }
         return null;
     }
@@ -192,6 +197,15 @@ public class UIFactory {
             else if(portletJavaClassName.equals(UsagePortlet.class.getName())) {
                 return new UsagePortlet(project);
             }
+            else if(portletJavaClassName.equals(CompetencyQuestionsPortlet.class.getName())) {
+            	return new CompetencyQuestionsPortlet(project);
+            }
+            else if(portletJavaClassName.equals(ExtractedConceptsPortlet.class.getName())) {
+            	return new ExtractedConceptsPortlet(project);
+            }
+            else if(portletJavaClassName.equals(RecommendedConceptsPortlet.class.getName())) {
+            	return new RecommendedConceptsPortlet(project);
+            }
         }
         catch (Exception e) {
             GWT.log("Error when creating portlet", e);
@@ -206,7 +220,7 @@ public class UIFactory {
          * OtherTerminologiesTab.class.getName(),
          *
          */
-        String[] tabs = {ClassesTab.class.getName(), PropertiesTab.class.getName(), IndividualsTab.class.getName(), MetadataTab.class.getName(), NotesTab.class.getName()};
+        String[] tabs = {ClassesTab.class.getName(), PropertiesTab.class.getName(), IndividualsTab.class.getName(), MetadataTab.class.getName(), NotesTab.class.getName(), TermBuilderTab.class.getName()};
         return Arrays.asList(tabs);
     }
 
