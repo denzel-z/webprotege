@@ -1,4 +1,4 @@
-package edu.stanford.bmir.protege.web.client.ui.termbuilder;
+package edu.stanford.bmir.protege.web.client.ui.termbuilder.recommend;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.AbstractDataProvider;

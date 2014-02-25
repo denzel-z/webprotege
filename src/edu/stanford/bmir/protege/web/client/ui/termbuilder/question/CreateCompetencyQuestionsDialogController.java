@@ -1,4 +1,4 @@
-package edu.stanford.bmir.protege.web.client.ui.termbuilder;
+package edu.stanford.bmir.protege.web.client.ui.termbuilder.question;
 
 import com.google.common.base.Optional;
 import com.google.gwt.user.client.ui.Focusable;

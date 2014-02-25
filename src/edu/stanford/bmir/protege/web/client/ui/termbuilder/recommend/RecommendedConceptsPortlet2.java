@@ -1,4 +1,4 @@
-package edu.stanford.bmir.protege.web.client.ui.termbuilder;
+package edu.stanford.bmir.protege.web.client.ui.termbuilder.recommend;
 
 import java.util.Collection;
 
@@ -36,18 +36,18 @@ import edu.stanford.bmir.protege.web.client.ui.portlet.AbstractOWLEntityPortlet;
  * @author Yuhao Zhang <zyh@stanford.edu>
  */
 @SuppressWarnings("unchecked")
-public class CopyOfRecommendedConceptsPortlet extends AbstractOWLEntityPortlet {
+public class RecommendedConceptsPortlet2 extends AbstractOWLEntityPortlet {
 	
 	protected ToolbarButton refreshButton;
 	protected ToolbarButton acceptButton;
 	
 	protected GridPanel recommendationPanel;
 
-	public CopyOfRecommendedConceptsPortlet(Project project) {
+	public RecommendedConceptsPortlet2(Project project) {
 		super(project);
 	}
 	
-	public CopyOfRecommendedConceptsPortlet(Project project, boolean initialize) {
+	public RecommendedConceptsPortlet2(Project project, boolean initialize) {
 		super(project, initialize);
 	}
 

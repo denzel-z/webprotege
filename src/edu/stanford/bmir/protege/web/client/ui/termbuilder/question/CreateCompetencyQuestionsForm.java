@@ -1,4 +1,4 @@
-package edu.stanford.bmir.protege.web.client.ui.termbuilder;
+package edu.stanford.bmir.protege.web.client.ui.termbuilder.question;
 
 import java.util.ArrayList;
 import java.util.List;

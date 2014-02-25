@@ -1,0 +1,20 @@
+svg .rect-pristine {
+  fill: white;
+  stroke: gray;
+  stroke-dasharray: 3, 3;
+  fill-opacity: 0;
+}
+
+svg .rect-selected {
+  fill: blue;
+  stroke: gray;
+  stroke-width: 1;
+  fill-opacity: 0.15;
+}
+
+svg .rect-mouseover {
+  fill: blue;
+  stroke: gray;
+  stroke-dasharray: 3, 3;
+  fill-opacity: 0.05;
+}

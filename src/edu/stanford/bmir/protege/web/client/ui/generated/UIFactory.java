@@ -36,6 +36,9 @@ import edu.stanford.bmir.protege.web.client.ui.projectfeed.ProjectFeedPortlet;
 import edu.stanford.bmir.protege.web.client.ui.tab.AbstractTab;
 import edu.stanford.bmir.protege.web.client.ui.tab.UserDefinedTab;
 import edu.stanford.bmir.protege.web.client.ui.termbuilder.*;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.extract.ExtractedConceptsPortlet;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.question.CompetencyQuestionsPortlet;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.recommend.RecommendedConceptsPortlet;
 import edu.stanford.bmir.protege.web.client.usage.UsagePortlet;
 
 import java.util.*;

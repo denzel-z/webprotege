@@ -1,4 +1,4 @@
-package edu.stanford.bmir.protege.web.client.ui.termbuilder;
+package edu.stanford.bmir.protege.web.client.ui.termbuilder.question;
 
 import java.util.Collection;
 
@@ -34,7 +34,7 @@ import edu.stanford.bmir.protege.web.client.ui.portlet.AbstractOWLEntityPortlet;
  * @author Yuhao Zhang <zyh@stanford.edu>
  */
 @SuppressWarnings("unchecked")
-public class CompetencyQuestionsPortlet extends AbstractOWLEntityPortlet {
+public class CompetencyQuestionsPortlet2 extends AbstractOWLEntityPortlet {
 	
 	protected ToolbarButton createButton;
 	protected ToolbarButton deleteButton;
@@ -43,11 +43,11 @@ public class CompetencyQuestionsPortlet extends AbstractOWLEntityPortlet {
 	
 	protected GridPanel questionsPanel;
 
-	public CompetencyQuestionsPortlet(Project project) {
+	public CompetencyQuestionsPortlet2(Project project) {
 		super(project);
 	}
 	
-	public CompetencyQuestionsPortlet(Project project, boolean initialize) {
+	public CompetencyQuestionsPortlet2(Project project, boolean initialize) {
 		super(project, initialize);
 	}
 

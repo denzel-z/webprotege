@@ -1,4 +1,4 @@
-package edu.stanford.bmir.protege.web.client.ui.termbuilder;
+package edu.stanford.bmir.protege.web.client.ui.termbuilder.recommend;
 
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.core.client.GWT;
@@ -40,8 +40,8 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
 	private final String EMPTY_TABLE_LABEL = "There is no recommendations to show.";
 	
 	@UiField(provided=true) DataGrid<RecommendedConceptInfo> dataGrid;
-	@UiField Button refreshButton = new Button();
-	@UiField Button acceptButton = new Button();
+	@UiField Button refreshButton;
+	@UiField Button acceptButton;
 
 	public RecommendedConceptsListViewImpl() {
 		ProvidesKey<RecommendedConceptInfo> providesKey = new ProvidesKey<RecommendedConceptInfo>() {

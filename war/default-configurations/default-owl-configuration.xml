@@ -294,7 +294,7 @@
                     <width>0.25</width>
                     <portlets>
                         <portlet>
-                            <name>edu.stanford.bmir.protege.web.client.ui.termbuilder.CompetencyQuestionsPortlet</name>
+                            <name>edu.stanford.bmir.protege.web.client.ui.termbuilder.question.CompetencyQuestionsPortlet</name>
                             <height>570</height>
                             <width>450</width>
                         </portlet>
@@ -306,12 +306,12 @@
                     <width>0.5</width>
                     <portlets>
                         <portlet>
-                            <name>edu.stanford.bmir.protege.web.client.ui.termbuilder.RecommendedConceptsPortlet</name>
+                            <name>edu.stanford.bmir.protege.web.client.ui.termbuilder.recommend.RecommendedConceptsPortlet</name>
                             <height>280</height>
                             <width>450</width>
                         </portlet>
                         <portlet>
-                            <name>edu.stanford.bmir.protege.web.client.ui.termbuilder.ExtractedConceptsPortlet</name>
+                            <name>edu.stanford.bmir.protege.web.client.ui.termbuilder.extract.ExtractedConceptsPortlet</name>
                             <height>280</height>
                             <width>450</width>
                         </portlet>

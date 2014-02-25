@@ -1,4 +1,4 @@
-package edu.stanford.bmir.protege.web.client.ui.termbuilder;
+package edu.stanford.bmir.protege.web.client.ui.termbuilder.extract;
 
 import java.util.Collection;
 
@@ -12,26 +12,27 @@ import com.gwtext.client.widgets.layout.FitLayout;
 import edu.stanford.bmir.protege.web.client.project.Project;
 import edu.stanford.bmir.protege.web.client.rpc.data.EntityData;
 import edu.stanford.bmir.protege.web.client.ui.portlet.AbstractOWLEntityPortlet;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.question.CompetencyQuestionsPortlet2;
 
 /**
- * The portlet that shows concepts extracted from {@link CompetencyQuestionsPortlet} and
+ * The portlet that shows concepts extracted from {@link CompetencyQuestionsPortlet2} and
  * allows user to select concepts from them. The concepts will be visualized in a tag
  * cloud.
  * 
  * @author Yuhao Zhang <zyh@stanford.edu>
  */
 @SuppressWarnings("unchecked")
-public class ExtractedConceptsPortlet extends AbstractOWLEntityPortlet {
+public class ExtractedConceptsPortlet2 extends AbstractOWLEntityPortlet {
 	
 	protected ToolbarButton selectAllButton;
 	protected ToolbarButton unselectAllButton;
 	protected ToolbarButton acceptButton;
 
-	public ExtractedConceptsPortlet(Project project) {
+	public ExtractedConceptsPortlet2(Project project) {
 		super(project);
 	}
 	
-	public ExtractedConceptsPortlet(Project project, boolean initialize) {
+	public ExtractedConceptsPortlet2(Project project, boolean initialize) {
 		super(project, initialize);
 	}
 
