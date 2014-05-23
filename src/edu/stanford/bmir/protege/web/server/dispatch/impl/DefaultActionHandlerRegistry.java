@@ -137,6 +137,10 @@ public class DefaultActionHandlerRegistry implements ActionHandlerRegistry {
         register(new GetUsageActionHandler(), GetUsageAction.class);
 
         register(new GetIndividualsActionHandler(), GetIndividualsAction.class);
+        
+        //Term Builder
+        register(new GenerateConceptsActionHandler(), GenerateConceptsAction.class);
+        register(new RecommendConceptsActionHandler(), RecommendConceptsAction.class);
 
 
         // TODO: Plugin

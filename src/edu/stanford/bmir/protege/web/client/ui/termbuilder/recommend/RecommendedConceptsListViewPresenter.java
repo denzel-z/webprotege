@@ -1,9 +1,13 @@
 package edu.stanford.bmir.protege.web.client.ui.termbuilder.recommend;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 
 import edu.stanford.bmir.protege.web.shared.project.ProjectId;
+import edu.stanford.bmir.protege.web.shared.termbuilder.CompetencyQuestionInfo;
 import edu.stanford.bmir.protege.web.shared.termbuilder.RecommendedConceptInfo;
 
 /**
@@ -26,6 +30,7 @@ public class RecommendedConceptsListViewPresenter {
 		this.projectId = projectId;
 		dataProvider = new ListDataProvider<RecommendedConceptInfo>();
 		view.setDataProvider(dataProvider);
+		view.setViewPresenter(this);
 		
 		//Here probably need some code.
 	}
@@ -37,6 +42,17 @@ public class RecommendedConceptsListViewPresenter {
 	public void reload() {
 		//Here is some code to get data from the service, and store the data
 		//into dataProvider
+		List<RecommendedConceptInfo> listData = 
+				new ArrayList<RecommendedConceptInfo>(view.getCompetencyQuestionsManager().getRecommendedConcepts());
+		setListData(listData);
+	}
+	
+	private void setListData(List<RecommendedConceptInfo> list) {
+		List<RecommendedConceptInfo> data = dataProvider.getList();
+		data.clear();
+		data.addAll(list);
+//		data = list;
+		dataProvider.flush();
 	}
 	
 	//Here probably need some other methods.

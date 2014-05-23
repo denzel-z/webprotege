@@ -14,14 +14,18 @@ var w = 615,
 var rectHorizontalMargin = 2;
 var textBlockPadding = 10;
 var selectedClass = [];
+var conceptArray = [];
 var classData = [];
 
 /******************************************
         Prepare Class (word) Data
 *******************************************/
-classData = [
-      "Hello", "world", "normally", "you", "want", "more", "words",
-      "than", "this", "Pizza", "Pizza Topping", "Pizza Base", "Other"].map(function(d) {
+conceptArray = [
+      "food", "world", "money", "Italian Food", "pie", "noodles", "Burger",
+      "drink", "Sauce", "Pizza", "Pizza Topping", "Pizza Base", "Other"];
+
+
+classData = conceptArray.map(function(d) {
       return {text: d, size: 20 + Math.random() * 10};
     });
 
@@ -46,6 +50,20 @@ classData = [
 
 function initializeTermVis() {
   console.log("initializeTermVis() function run!");
+  d3.layout.cloud().size([w, h])
+      .words(classData)
+      .padding(textBlockPadding)
+      .rotate(0)
+      .font("Impact")
+      .fontSize(function(d) { return d.size; })
+      .on("end", draw)
+      .start();
+}
+
+function initializeTermVisWithConcepts(array) {
+  console.log("initializeTermVisWithConcepts() function run!");
+  console.log(array);
+  var classData = convertConceptArrayIntoRandomData(array);
   d3.layout.cloud().size([w, h])
       .words(classData)
       .padding(textBlockPadding)
@@ -201,4 +219,36 @@ function removeFromSelectedClass(c) {
 function setcursor(cursor)
 {
   d3.select("svg").style("cursor", cursor);
+}
+
+function convertConceptArrayIntoRandomData(array) {
+  var classData = array.map(function(d) {
+      return {text: d, size: 20 + Math.random() * 10};
+    });
+  return classData;
+};
+
+function getSelectedClass() {
+  return selectedClass;
+}
+
+/*********************************************
+             JSNI functions
+**********************************************/
+function selectAll() {
+  var rects = d3.select('svg').selectAll('rect');
+  rects.each(function() {
+    var rectID = this.getAttribute('id');
+    addToSelectedClass(rectID);
+  });
+  rects.attr('class', 'rect-selected');
+}
+
+function unselectAll() {
+  var rects = d3.select('svg').selectAll('rect');
+  rects.each(function() {
+    var rectID = this.getAttribute('id');
+    removeFromSelectedClass(rectID);
+  });
+  rects.attr('class', 'rect-pristine');
 }

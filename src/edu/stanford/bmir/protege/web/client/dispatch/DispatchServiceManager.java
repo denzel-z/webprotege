@@ -85,6 +85,9 @@ public class DispatchServiceManager {
     }
 
 
+    /**
+     * A wrapper of the common AsyncCallback to do event propagation and so on.
+     */
     private class AsyncCallbackProxy<R extends Result> implements AsyncCallback<DispatchServiceResultContainer> {
 
         private Action<?> action;

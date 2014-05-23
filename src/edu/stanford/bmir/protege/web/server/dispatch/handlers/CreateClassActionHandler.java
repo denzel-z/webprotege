@@ -38,7 +38,6 @@ public class CreateClassActionHandler extends AbstractProjectChangeHandler<OWLCl
         return new UserHasProjectWritePermissionValidator();
     }
 
-
     @Override
     protected ChangeListGenerator<OWLClass> getChangeListGenerator(final CreateClassAction action, OWLAPIProject project, ExecutionContext executionContext) {
         return new CreateClassChangeGenerator(action.getBrowserText(), action.getSuperClass());

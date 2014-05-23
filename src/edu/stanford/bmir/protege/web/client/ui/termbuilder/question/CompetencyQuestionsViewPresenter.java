@@ -1,5 +1,8 @@
 package edu.stanford.bmir.protege.web.client.ui.termbuilder.question;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 
@@ -26,6 +29,7 @@ public class CompetencyQuestionsViewPresenter {
 		view.setDataProvider(dataProvider);
 		
 		//Here probably need some code.
+		view.setViewPresenter(this);
 	}
 	
 	public Widget getWidget() {
@@ -35,5 +39,21 @@ public class CompetencyQuestionsViewPresenter {
 	public void reload() {
 		//Here is some code to get data from the service, and store the data
 		//into dataProvider
+		setListData(view.getCompetencyQuestionsManager().getQuestions());
+	}
+	
+	private ListDataProvider<CompetencyQuestionInfo> getNewListDataProvider() {
+		List<CompetencyQuestionInfo> list = new ArrayList<CompetencyQuestionInfo>();
+		list.add(new CompetencyQuestionInfo(0, "What is Pizza?"));
+		list.add(new CompetencyQuestionInfo(0, "What is Pizza Topping?"));
+		ListDataProvider<CompetencyQuestionInfo> provider = new ListDataProvider<CompetencyQuestionInfo>(list);
+		return provider;
+	}
+	
+	private void setListData(List<CompetencyQuestionInfo> list) {
+		List<CompetencyQuestionInfo> data = dataProvider.getList();
+		data.clear();
+		data.addAll(list);
+		dataProvider.flush();
 	}
 }

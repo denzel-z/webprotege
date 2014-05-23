@@ -2,25 +2,25 @@ package edu.stanford.bmir.protege.web.shared.termbuilder;
 
 import java.io.Serializable;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
  * This class is used to represent the all the info about a recommended concept. 
  * The three properties are necessary for the table display.
  * 
  * @author Yuhao Zhang <zyh@stanford.edu>
  */
-public class RecommendedConceptInfo implements Serializable, IsSerializable, Comparable<RecommendedConceptInfo> {
+public class RecommendedConceptInfo implements Serializable, Comparable<RecommendedConceptInfo> {
 
-	private int recommendationID;
+	private String recommendationID;
 	private Concept srcConcept;
 	private Concept recommendedConcept;
 	private ConceptRelation relation;
 	
-	private static enum ConceptRelation {
-		IS_CHILD_OF,
-		IS_PARENT_OF,
-		IS_SIBLING_OF
+	public static enum ConceptRelation {
+		SUPERCLASS_OF,
+		SUBCLASS_OF,
+		RELATED_TO,
+		PART_OF,
+		SYNONYM
 	}
 	
 	public RecommendedConceptInfo(Concept srcConcept,
@@ -29,9 +29,16 @@ public class RecommendedConceptInfo implements Serializable, IsSerializable, Com
 		this.srcConcept = srcConcept;
 		this.recommendedConcept = recommendedConcept;
 		this.relation = relation;
+		this.recommendationID = srcConcept.getConceptName().hashCode() + "-" +
+				recommendedConcept.getConceptName().hashCode() + "-" + relation.hashCode();
 	}
 	
-	public int getId() {
+	//For serialization purpose
+	protected RecommendedConceptInfo() {
+		
+	}
+	
+	public String getId() {
 		return this.recommendationID;
 	}
 	
@@ -60,12 +67,16 @@ public class RecommendedConceptInfo implements Serializable, IsSerializable, Com
 	}
 	
 	public String getConceptRelationDescription() {
-		if(relation == ConceptRelation.IS_CHILD_OF) {
-			return "Child of " + srcConcept.getConceptName();
-		} else if (relation == ConceptRelation.IS_PARENT_OF) {
-			return "Parent of " + srcConcept.getConceptName();
+		if(relation == ConceptRelation.SUPERCLASS_OF) {
+			return "SuperClass Of [" + srcConcept.getConceptName() + "]";
+		} else if (relation == ConceptRelation.SUBCLASS_OF) {
+			return "SubClass Of [" + srcConcept.getConceptName() + "]";
+		} else if (relation == ConceptRelation.RELATED_TO) {
+			return "Related To [" + srcConcept.getConceptName() + "]";
+		} else if (relation == ConceptRelation.PART_OF) {
+			return "Part Of [" + srcConcept.getConceptName() + "]";
 		} else {
-			return "Sibling of " + srcConcept.getConceptName();
+			return "Synonym Of [" + srcConcept.getConceptName() + "]";
 		}
 	}
 
@@ -75,13 +86,25 @@ public class RecommendedConceptInfo implements Serializable, IsSerializable, Com
 	 */
 	@Override
 	public int compareTo(RecommendedConceptInfo info) {
-		int srcResult = this.srcConcept.compareTo(info.srcConcept);
-		if(srcResult != 0) {
-			return srcResult;
-		} else {
-			int recResult = this.recommendedConcept.compareTo(this.recommendedConcept);
-			return recResult;
-		}
+//		int srcResult = this.srcConcept.compareTo(info.srcConcept);
+//		if(srcResult != 0) {
+//			return srcResult;
+//		} else {
+//			int recResult = this.recommendedConcept.compareTo(this.recommendedConcept);
+//			return recResult;
+//		}
+		int result = this.recommendationID.compareTo(info.recommendationID);
+		return result;
+	}
+	
+	@Override
+	public String toString() {
+		return recommendedConcept.getConceptName() + "::" + getConceptRelationDescription();
+	}
+	
+	@Override
+	public boolean equals(Object info) {
+		return this.recommendationID.equals(((RecommendedConceptInfo)info).recommendationID);
 	}
 	
 	

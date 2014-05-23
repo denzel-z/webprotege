@@ -14,6 +14,8 @@ import edu.stanford.bmir.protege.web.shared.user.UserId;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.google.gwt.core.shared.GWT;
+
 /**
  * Author: Matthew Horridge<br>
  * Stanford University<br>
@@ -26,7 +28,7 @@ public class DispatchServiceImpl extends WebProtegeRemoteServiceServlet implemen
 
     @Override
     public DispatchServiceResultContainer executeAction(Action action) throws ActionExecutionException, PermissionDeniedException {
-        UserId userId = getUserInSession();
+    	UserId userId = getUserInSession();
         HttpServletRequest request = getThreadLocalRequest();
         HttpSession session = request.getSession();
         final RequestContext requestContext = new RequestContext(userId, session);

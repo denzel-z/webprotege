@@ -34,7 +34,7 @@ public class CompetencyQuestionsPortlet extends AbstractOWLEntityPortlet {
 		setLayout(new FitLayout());
 		setHeight(INITIAL_HEIGHT);
 		presenter = new CompetencyQuestionsViewPresenter(getProjectId(), 
-				new CompetencyQuestionsViewImpl());
+				new CompetencyQuestionsViewImpl(getProject()));
 		presenter.reload();
 		add(presenter.getWidget());
 		setTitle("Competency Questions");

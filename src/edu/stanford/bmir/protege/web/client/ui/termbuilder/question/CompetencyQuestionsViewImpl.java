@@ -1,5 +1,10 @@
 package edu.stanford.bmir.protege.web.client.ui.termbuilder.question;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
@@ -11,6 +16,7 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
@@ -21,9 +27,19 @@ import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.SelectionModel;
+import com.google.gwt.view.client.SingleSelectionModel;
 
+import edu.stanford.bmir.protege.web.client.dispatch.DispatchServiceManager;
+import edu.stanford.bmir.protege.web.client.dispatch.actions.GenerateConceptsAction;
+import edu.stanford.bmir.protege.web.client.dispatch.actions.GenerateConceptsResult;
+import edu.stanford.bmir.protege.web.client.project.Project;
 import edu.stanford.bmir.protege.web.client.ui.library.dlg.WebProtegeDialog;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.CompetencyQuestionsManager;
+import edu.stanford.bmir.protege.web.shared.dispatch.Action;
+import edu.stanford.bmir.protege.web.shared.event.EventBusManager;
 import edu.stanford.bmir.protege.web.shared.termbuilder.CompetencyQuestionInfo;
+import edu.stanford.bmir.protege.web.shared.termbuilder.ConceptList;
+import edu.stanford.bmir.protege.web.shared.termbuilder.ExtractedConceptsChangedEvent;
 import edu.stanford.bmir.protege.web.shared.termbuilder.RecommendedConceptInfo;
 
 public class CompetencyQuestionsViewImpl extends Composite implements CompetencyQuestionsView {
@@ -38,6 +54,10 @@ public class CompetencyQuestionsViewImpl extends Composite implements Competency
 	private final String COMPETENCY_QUESTIONS_COL_TITLE = "Competentcy Questions";
 	private final String SELECT_COL_TITLE = "Select";
 	private final String EMPTY_TABLE_LABEL = "There is no competency question to show.";
+	
+	private final Project project;
+	private CompetencyQuestionsViewPresenter presenter = null;
+	private final MultiSelectionModel<CompetencyQuestionInfo> selectionModel;
 
 	@UiField(provided=true) DataGrid<CompetencyQuestionInfo> dataGrid;
 	@UiField Button createButton;
@@ -45,7 +65,7 @@ public class CompetencyQuestionsViewImpl extends Composite implements Competency
 	@UiField Button clearButton;
 	@UiField Button generateButton;
 	
-	public CompetencyQuestionsViewImpl() {
+	public CompetencyQuestionsViewImpl(Project project) {
 		ProvidesKey<CompetencyQuestionInfo> providesKey = new ProvidesKey<CompetencyQuestionInfo>() {
 			@Override
 			public Object getKey(CompetencyQuestionInfo item) {
@@ -53,11 +73,13 @@ public class CompetencyQuestionsViewImpl extends Composite implements Competency
 			}
 		};
 		
+		this.project = project;
+		
 		dataGrid = new DataGrid<CompetencyQuestionInfo>(1000, providesKey);
 		initWidget(uiBinder.createAndBindUi(this));
 		dataGrid.setAutoHeaderRefreshDisabled(true);
 		dataGrid.setEmptyTableWidget(new Label(this.EMPTY_TABLE_LABEL));
-		final SelectionModel<CompetencyQuestionInfo> selectionModel =
+		selectionModel =
 				new MultiSelectionModel<CompetencyQuestionInfo>(providesKey);
 		dataGrid.setSelectionModel(selectionModel, DefaultSelectionEventManager
 				.<CompetencyQuestionInfo> createCheckboxManager());
@@ -75,7 +97,7 @@ public class CompetencyQuestionsViewImpl extends Composite implements Competency
 					}
 		};
 		dataGrid.addColumn(questionColumn, this.COMPETENCY_QUESTIONS_COL_TITLE);
-		dataGrid.setColumnWidth(questionColumn, 90, Unit.PCT);
+		dataGrid.setColumnWidth(questionColumn, 80, Unit.PCT);
 		
 		Column<CompetencyQuestionInfo, Boolean> checkColumn =
 				new Column<CompetencyQuestionInfo, Boolean>(new CheckboxCell(true, false)) {
@@ -85,7 +107,7 @@ public class CompetencyQuestionsViewImpl extends Composite implements Competency
 					}
 		};
 		dataGrid.addColumn(checkColumn, this.SELECT_COL_TITLE);
-		dataGrid.setColumnWidth(checkColumn, 10, Unit.PCT);
+		dataGrid.setColumnWidth(checkColumn, 20, Unit.PCT);
 	}
 
 	@Override
@@ -100,17 +122,17 @@ public class CompetencyQuestionsViewImpl extends Composite implements Competency
 	
 	@UiHandler("deleteButton")
 	void onDeleteButtonClick(ClickEvent event) {
-		//TODO: Add click event handler
+		onDeleteQuestions();
 	}
-	
+
 	@UiHandler("clearButton")
 	void onClearButtonClick(ClickEvent event) {
-		//TODO: Add click event handler
+		onClearQuestions();
 	}
 	
 	@UiHandler("generateButton")
 	void onGenerateButtonClick(ClickEvent event) {
-		//TODO: Add click event handler
+		onGenerateConcepts();
 	}
 	
 	protected void onCreateQuestions() {
@@ -122,14 +144,70 @@ public class CompetencyQuestionsViewImpl extends Composite implements Competency
 					CreateCompetencyQuestionsInfo createCompetencyQuestionsInfo) {
 				//TODO: Add code to handle server side operation on
 				// on input questions.
+				final Set<String> browserTexts = new HashSet<String>(createCompetencyQuestionsInfo.getBrowserTexts());
+				project.getCompetencyQuestionsManager().addQuestionFromStringSet(browserTexts);
+				presenter.reload();
 			}
 		}));
+	}
+	
+	private void onDeleteQuestions() {
+		Set<CompetencyQuestionInfo> selectedSet = selectionModel.getSelectedSet();
+		project.getCompetencyQuestionsManager().removeQuestionsInSet(selectedSet);
+		//You have to clear all the selection in selectionModel
+		selectionModel.clear();
+		presenter.reload();
+	}
+	
+	private void onClearQuestions() {
+		project.getCompetencyQuestionsManager().clearQuestions();
+		presenter.reload();
+	}
+	
+	private void onGenerateConcepts() {
+		System.err.println("[Client] Generate Button Clicked!");
+		List<CompetencyQuestionInfo> questions = project.getCompetencyQuestionsManager().getQuestions();
+		GenerateConceptsAction action = new GenerateConceptsAction(project.getProjectId(), questions);
+		DispatchServiceManager.get().execute(action, getGenerateConceptsActionAsyncHandler());
+	}
+	
+	private AsyncCallback<GenerateConceptsResult> getGenerateConceptsActionAsyncHandler() {
+		return new AsyncCallback<GenerateConceptsResult>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				System.err.println("[Client] Generate Concept Action Handling Error!");
+			}
+
+			@Override
+			public void onSuccess(GenerateConceptsResult result) {
+				System.err.println("[Client] Generate Concept Action Handling return Success!");
+				Map<CompetencyQuestionInfo, ConceptList> map = result.getQuestionToConceptMap();
+//				List questions = project.getCompetencyQuestionsManager().getQuestions();
+//				CompetencyQuestionInfo info = (CompetencyQuestionInfo) questions.get(1);
+//				ConceptList list = (ConceptList) map.get(info);
+				CompetencyQuestionsManager manager = project.getCompetencyQuestionsManager();
+				for(CompetencyQuestionInfo info: map.keySet()) {
+					manager.addExtractedConcepts(map.get(info).getList());
+				}
+				EventBusManager.getManager().postEvent(new ExtractedConceptsChangedEvent(project.getProjectId()));
+			}
+		};
 	}
 
 	@Override
 	public void setDataProvider(
 			AbstractDataProvider<CompetencyQuestionInfo> dataProvider) {
 		dataProvider.addDataDisplay(dataGrid);
-		
+	}
+
+	@Override
+	public void setViewPresenter(CompetencyQuestionsViewPresenter presenter) {
+		this.presenter = presenter;
+	}
+
+	@Override
+	public CompetencyQuestionsManager getCompetencyQuestionsManager() {
+		return project.getCompetencyQuestionsManager();
 	}
 }

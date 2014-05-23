@@ -9,10 +9,20 @@ public class CompetencyQuestionInfo implements Serializable, IsSerializable, Com
 	private int questionID;
 	private String question;
 	
+	private CompetencyQuestionInfo() {
+		
+	}
+	
 	public CompetencyQuestionInfo(int questionID, String question) {
 		super();
 		this.questionID = questionID;
 		this.question = question;
+	}
+	
+	public CompetencyQuestionInfo(CompetencyQuestionInfo info) {
+		super();
+		this.questionID = info.getId();
+		this.question = info.getQuestion();
 	}
 
 	public int getId() {
@@ -33,7 +43,21 @@ public class CompetencyQuestionInfo implements Serializable, IsSerializable, Com
 
 	@Override
 	public int compareTo(CompetencyQuestionInfo info) {
-		return this.question.compareTo(info.question);
+		return new Integer(questionID).compareTo(new Integer(info.questionID));
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		CompetencyQuestionInfo info = (CompetencyQuestionInfo) o;
+		if(this.questionID == info.questionID && this.question.equals(info.question)) {
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public String toString() {
+		return this.questionID + "::" + question;
 	}
 	
 }

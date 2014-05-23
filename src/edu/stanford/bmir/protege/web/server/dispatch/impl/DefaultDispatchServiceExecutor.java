@@ -1,5 +1,7 @@
 package edu.stanford.bmir.protege.web.server.dispatch.impl;
 
+import com.google.gwt.core.shared.GWT;
+
 import edu.stanford.bmir.protege.web.client.dispatch.ActionExecutionException;
 import edu.stanford.bmir.protege.web.server.dispatch.*;
 import edu.stanford.bmir.protege.web.server.dispatch.validators.UserHasProjectWritePermissionValidator;
@@ -22,7 +24,9 @@ public class DefaultDispatchServiceExecutor implements DispatchServiceHandler {
 
     @Override
     public <A extends Action<R>, R extends Result> DispatchServiceResultContainer execute(A action, RequestContext requestContext, ExecutionContext executionContext) throws ActionExecutionException {
-        ActionHandler<A, R> actionHandler = handlerRegistry.getActionHandler(action);
+    	GWT.log("[Server] Executor get action handler:");
+    	ActionHandler<A, R> actionHandler = handlerRegistry.getActionHandler(action);
+        GWT.log(actionHandler.getClass().getSimpleName());
         RequestValidator<A> validator = actionHandler.getRequestValidator(action, requestContext);
         if (validator instanceof UserHasProjectWritePermissionValidator) {
             // Temp fix for permission problem

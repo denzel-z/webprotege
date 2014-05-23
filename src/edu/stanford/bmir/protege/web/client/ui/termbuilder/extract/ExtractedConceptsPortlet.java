@@ -57,7 +57,7 @@ public class ExtractedConceptsPortlet extends AbstractOWLEntityPortlet {
 		setLayout(new FitLayout());
 		setHeight(INITIAL_HEIGHT);
 		presenter = new ExtractedConceptsViewPresenter(getProjectId(),
-				new ExtractedConceptsViewImpl());
+				new ExtractedConceptsViewImpl(getProject()));
 		add(presenter.getWidget());
 		presenter.reload();
 		setTitle("Extracted Concepts");

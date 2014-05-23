@@ -11,6 +11,9 @@ gwt-unitCache/
 war/WEB-INF/deploy/
 war/WEB-INF/classes/
 war/WEB-INF/lib/gwt-servlet.jar
+war/webprotege/
+war/logs/
+war/authenticate/
 
 # build files
 build/
@@ -32,8 +35,12 @@ TEST-*.txt
 webprotege.properties
 mail.properties
 
+#Over-large lib packages
+war/WEB-INF/lib/stanford-corenlp-3.3.1-models.jar
+
 # others
 .svn/
 .DS_Store
 /docs
 /bin
+.gwt/

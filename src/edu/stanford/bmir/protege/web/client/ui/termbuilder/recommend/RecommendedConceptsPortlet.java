@@ -63,7 +63,7 @@ public class RecommendedConceptsPortlet extends AbstractOWLEntityPortlet {
 		setLayout(new FitLayout());
 		setHeight(INITIAL_HEIGHT);
 		presenter = new RecommendedConceptsListViewPresenter(getProjectId(), 
-				new RecommendedConceptsListViewImpl());
+				new RecommendedConceptsListViewImpl(getProject()));
 		presenter.reload();
 		add(presenter.getWidget());
 		setTitle("Recommended Concepts");

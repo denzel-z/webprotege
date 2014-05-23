@@ -5,6 +5,7 @@ import edu.stanford.bmir.protege.web.client.events.EventPollingManager;
 import edu.stanford.bmir.protege.web.client.permissions.ProjectPermissionManager;
 import edu.stanford.bmir.protege.web.client.rpc.data.layout.ProjectLayoutConfiguration;
 import edu.stanford.bmir.protege.web.client.ui.LayoutManager;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.CompetencyQuestionsManager;
 import edu.stanford.bmir.protege.web.shared.HasDispose;
 import edu.stanford.bmir.protege.web.shared.HasProjectId;
 import edu.stanford.bmir.protege.web.shared.permissions.Permission;
@@ -12,7 +13,6 @@ import edu.stanford.bmir.protege.web.shared.permissions.PermissionsSet;
 import edu.stanford.bmir.protege.web.shared.project.ProjectDetails;
 import edu.stanford.bmir.protege.web.shared.project.ProjectId;
 import edu.stanford.bmir.protege.web.shared.user.UserId;
-
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -35,6 +35,8 @@ public class Project implements HasProjectId, HasDispose {
     private LayoutManager layoutManager;
 
     private EventPollingManager eventPollingManager;
+    
+    private CompetencyQuestionsManager competencyQuestionsManager;
 
 
     /**
@@ -52,6 +54,8 @@ public class Project implements HasProjectId, HasDispose {
 
         this.eventPollingManager = EventPollingManager.get(10 * 1000, projectDetails.getProjectId());
         eventPollingManager.start();
+        
+        this.competencyQuestionsManager = new CompetencyQuestionsManager();
     }
 
     public ProjectId getProjectId() {
@@ -89,6 +93,10 @@ public class Project implements HasProjectId, HasDispose {
 
     public LayoutManager getLayoutManager() {
         return layoutManager;
+    }
+    
+    public CompetencyQuestionsManager getCompetencyQuestionsManager() {
+    	return this.competencyQuestionsManager;
     }
 
 //    public ProjectPermissionManager getProjectPermissionManager() {
