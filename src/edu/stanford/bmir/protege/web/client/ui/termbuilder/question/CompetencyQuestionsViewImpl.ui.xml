@@ -10,7 +10,7 @@
 		<g:HorizontalPanel width="100%" horizontalAlignment="ALIGN_LEFT">
 			<g:Button text="Create" ui:field = "createButton"></g:Button>
 			<g:Button text="Delete" ui:field = "deleteButton"></g:Button>
-			<g:Button text="Clear" ui:field = "clearButton"></g:Button>
+			<g:Button text="Clear All" ui:field = "clearButton"></g:Button>
 			<g:Button text="Generate" ui:field = "generateButton"></g:Button>
 		</g:HorizontalPanel>
 		<p1:DataGrid width="100%" height="100%" ui:field="dataGrid"/>

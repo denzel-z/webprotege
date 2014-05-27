@@ -1,12 +1,10 @@
 package edu.stanford.bmir.protege.web.shared.termbuilder.wordnet;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.IDictionary;

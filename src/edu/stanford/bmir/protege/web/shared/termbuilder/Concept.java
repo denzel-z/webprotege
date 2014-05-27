@@ -1,5 +1,7 @@
 package edu.stanford.bmir.protege.web.shared.termbuilder;
 
+import org.semanticweb.owlapi.model.IRI;
+
 import java.io.Serializable;
 
 
@@ -11,6 +13,7 @@ import java.io.Serializable;
 public class Concept implements Serializable, Comparable<Concept>{
 	
 	private String conceptName;
+    private IRI conceptIRI;
 	
 	private Concept() {
 		
@@ -19,11 +22,19 @@ public class Concept implements Serializable, Comparable<Concept>{
 	public Concept(String conceptName) {
 		super();
 		this.conceptName = conceptName;
+        conceptIRI = null;
 	}
+
+    public Concept(String conceptName, IRI conceptIRI) {
+        super();
+        this.conceptName = conceptName;
+        this.conceptIRI = conceptIRI;
+    }
 
 	public String getConceptName() {
 		return conceptName;
 	}
+    public IRI getIRI() { return conceptIRI; }
 
 	public void setConceptName(String conceptName) {
 		this.conceptName = conceptName;

@@ -139,16 +139,16 @@ public class DefaultActionHandlerRegistry implements ActionHandlerRegistry {
         register(new GetIndividualsActionHandler(), GetIndividualsAction.class);
         
         //Term Builder
+        register(new CreateClassesWithHierarchyActionHandler(), CreateClassesWithHierarchyAction.class);
         register(new GenerateConceptsActionHandler(), GenerateConceptsAction.class);
         register(new RecommendConceptsActionHandler(), RecommendConceptsAction.class);
-
+        register(new RecommendForSingleConceptActionHandler(), RecommendForSingleConceptAction.class);
 
         // TODO: Plugin
         register(new GetEntityCrudKitsActionHandler(), GetEntityCrudKitsAction.class);
         register(new SetEntityCrudKitSettingsActionHandler(), SetEntityCrudKitSettingsAction.class);
         register(new GetEntityCrudKitSettingsActionHandler(), GetEntityCrudKitSettingsAction.class);
     }
-
 
     private  <A extends Action<R>, R extends Result> void register(ActionHandler<A, R> handler, Class<A> forAction) {
         registry.put(forAction, handler);

@@ -8,7 +8,10 @@
 	</ui:style>
 	<g:HTMLPanel>
 		<g:HorizontalPanel width="100%" horizontalAlignment="ALIGN_LEFT" height="">
-			<g:Button text="Refresh" ui:field = "refreshButton"></g:Button>
+            <!--<g:Label text="Get recommendations for" />-->
+            <!--<g:ListBox ui:field='listBox' visibleItemCount='5'/>-->
+            <!--<g:Button text="Submit" ui:field = "submitButton" />-->
+			<g:Button text="Refresh" ui:field = "refreshButton" />
 			<g:Button text="Add Into Class Tree" ui:field = "acceptButton"/>
 		</g:HorizontalPanel>
 		<p1:DataGrid width="100%" height="277px" ui:field="dataGrid"/>

@@ -21,6 +21,12 @@
 
     <inherits name="org.semanticweb.owlapi.gwt.owlapi"/>
 
-	<entry-point class="edu.stanford.bmir.protege.web.client.Authenticate"/> 
+	<entry-point class="edu.stanford.bmir.protege.web.client.Authenticate"/>
+
+    <!--<set-configuration-property name='xsiframe.failIfScriptTag' value='FALSE'/>-->
+
+    <!--<add-linker name="xsiframe"/>-->
+    <!--<set-configuration-property name="devModeRedirectEnabled" value="true"/>-->
+    <!--<set-property name="compiler.useSourceMaps" value="true" />-->
     
 </module>

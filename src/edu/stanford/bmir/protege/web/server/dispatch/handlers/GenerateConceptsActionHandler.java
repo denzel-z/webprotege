@@ -40,7 +40,8 @@ public class GenerateConceptsActionHandler implements
 	 * StanfordCoreNLP pipeline and validTags set.
 	 */
 	public GenerateConceptsActionHandler() {
-		System.err.println("[Server] Instantiate StanfordCoreNLP ...");
+        System.err.println("[Server] Change to GenerateConceptsActionHandler takes effect!");
+        System.err.println("[Server] Instantiate StanfordCoreNLP ...");
 		Properties props = new Properties();
 		props.put("annotators", "tokenize, ssplit, pos");
 		pipeline = new StanfordCoreNLP(props);
