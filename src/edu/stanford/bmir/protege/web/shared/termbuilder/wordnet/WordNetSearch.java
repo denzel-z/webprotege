@@ -24,7 +24,7 @@ import edu.stanford.bmir.protege.web.shared.termbuilder.RecommendedConceptInfo.C
 
 /**
  * This is a singleton class. For this class, you don't need to create an instance 
- * for every concept you search.
+ * for every conceptName you search.
  * 
  * @author Yuhao Zhang
  *

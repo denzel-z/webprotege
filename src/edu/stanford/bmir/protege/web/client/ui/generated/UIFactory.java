@@ -39,6 +39,7 @@ import edu.stanford.bmir.protege.web.client.ui.termbuilder.*;
 import edu.stanford.bmir.protege.web.client.ui.termbuilder.extract.ExtractedConceptsPortlet;
 import edu.stanford.bmir.protege.web.client.ui.termbuilder.question.CompetencyQuestionsPortlet;
 import edu.stanford.bmir.protege.web.client.ui.termbuilder.recommend.RecommendedConceptsPortlet;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.reference.ReferenceDocumentsPortlet;
 import edu.stanford.bmir.protege.web.client.usage.UsagePortlet;
 
 import java.util.*;
@@ -208,6 +209,9 @@ public class UIFactory {
             }
             else if(portletJavaClassName.equals(RecommendedConceptsPortlet.class.getName())) {
             	return new RecommendedConceptsPortlet(project);
+            }
+            else if(portletJavaClassName.equals(ReferenceDocumentsPortlet.class.getName())) {
+                return new ReferenceDocumentsPortlet(project);
             }
         }
         catch (Exception e) {

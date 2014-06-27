@@ -221,7 +221,7 @@ public class BioPortalSearchComponent extends GridPanel {
         });
 
         Toolbar topToolbar = new Toolbar();
-        topToolbar.addText("&nbsp<i>Search for concept</i>:&nbsp&nbsp");
+        topToolbar.addText("&nbsp<i>Search for conceptName</i>:&nbsp&nbsp");
         topToolbar.addElement(searchStringTextField.getElement());
         topToolbar.addSpacer();
         topToolbar.addButton(searchButton);
@@ -581,7 +581,7 @@ public class BioPortalSearchComponent extends GridPanel {
         bpRefData.setOntologyVersionId(null);
         bpRefData.setOntologyName(null);
         bpRefData.setPreferredName(BioPortalConstants.DNF_CONCEPT_LABEL);
-        bpRefData.setBpUrl(null);//do not use the BP rest URL to find out more information about this concept
+        bpRefData.setBpUrl(null);//do not use the BP rest URL to find out more information about this conceptName
         OntologyServiceManager.getInstance().createExternalReference(
                 projectId,
                 currentEntity.getName(),
@@ -605,7 +605,7 @@ public class BioPortalSearchComponent extends GridPanel {
         bpRefData.setOntologyVersionId(ontologyVersionId);
         bpRefData.setOntologyName(null);
         bpRefData.setPreferredName(preferredName);
-        bpRefData.setBpUrl(null);//do not use the BP rest URL to find out more information about this concept
+        bpRefData.setBpUrl(null);//do not use the BP rest URL to find out more information about this conceptName
         OntologyServiceManager.getInstance().createExternalReference(
                 projectId,
                 currentEntity.getName(),
@@ -628,7 +628,7 @@ public class BioPortalSearchComponent extends GridPanel {
         bpRefData.setOntologyVersionId(ontologyVersionId);
         bpRefData.setOntologyName(null);
         bpRefData.setPreferredName(preferredName);
-        bpRefData.setBpUrl(null);//do not use the BP rest URL to find out more information about this concept
+        bpRefData.setBpUrl(null);//do not use the BP rest URL to find out more information about this conceptName
 
         EntityData oldValueEntityData = new EntityData(oldInstanceName);
         OntologyServiceManager.getInstance().replaceExternalReference(
@@ -743,7 +743,7 @@ public class BioPortalSearchComponent extends GridPanel {
         @Override
         public void handleFailure(Throwable caught) {
             doUnmask(BioPortalSearchComponent.this);
-            GWT.log("Could not import BioPortal concept for " + currentEntity, null);
+            GWT.log("Could not import BioPortal conceptName for " + currentEntity, null);
             MessageBox.alert("Import operation failed!");
         }
 

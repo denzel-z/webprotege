@@ -123,8 +123,8 @@ public class ConceptNetSearch {
 //		con.sendGet(url);
 //		ConceptNetSearchResult result = gson.fromJson(con.getResponseString(), ConceptNetSearchResult.class);
 //		for(ConceptNetEdge edge:result.getEdges()) {
-//			String concept = parseConceptFromStartField(edge.getStart());
-//			RecommendedConceptInfo info = new RecommendedConceptInfo(srcConcept, new Concept(concept),
+//			String conceptName = parseConceptFromStartField(edge.getStart());
+//			RecommendedConceptInfo info = new RecommendedConceptInfo(srcConcept, new Concept(conceptName),
 //					RecommendedConceptInfo.ConceptRelation.ANTONYM);
 //			recommendedConcepts.add(info);
 //		}

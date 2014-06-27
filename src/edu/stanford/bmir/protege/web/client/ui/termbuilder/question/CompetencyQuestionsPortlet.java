@@ -12,7 +12,7 @@ import edu.stanford.bmir.protege.web.client.ui.portlet.AbstractOWLEntityPortlet;
 @SuppressWarnings("unchecked")
 public class CompetencyQuestionsPortlet extends AbstractOWLEntityPortlet {
 
-	public static final int INITIAL_HEIGHT = 570;
+	public static final int INITIAL_HEIGHT = 280;
 	private CompetencyQuestionsViewPresenter presenter;
 	
 	public CompetencyQuestionsPortlet(Project project) {

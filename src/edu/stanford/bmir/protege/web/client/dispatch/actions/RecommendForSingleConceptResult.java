@@ -9,7 +9,7 @@ import java.util.Set;
 
 /**
  * This action is similar to RecommendedConceptsResult, save for that it store results
- * for a single concept instead of concepts in a set.
+ * for a single conceptName instead of concepts in a set.
  *
  * @author Yuhao Zhang
  */

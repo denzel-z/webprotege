@@ -51,7 +51,7 @@ public class CompetencyQuestionsViewImpl extends Composite implements Competency
 			UiBinder<Widget, CompetencyQuestionsViewImpl> {
 	}
 	
-	private final String COMPETENCY_QUESTIONS_COL_TITLE = "Competentcy Questions";
+	private final String COMPETENCY_QUESTIONS_COL_TITLE = "Competency Questions";
 	private final String SELECT_COL_TITLE = "Select";
 	private final String EMPTY_TABLE_LABEL = "There is no competency question to show.";
 	

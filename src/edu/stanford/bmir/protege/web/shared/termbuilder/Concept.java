@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 
 /**
- * This is the class that represent a "concept" extracted from a competency question.
+ * This is the class that represent a "conceptName" extracted from a competency question.
  * 
  * @author Yuhao Zhang <zyh@stanford.edu>
  */

@@ -13,6 +13,9 @@ import edu.stanford.bmir.protege.web.client.dispatch.actions.CreateClassesWithHi
 import edu.stanford.bmir.protege.web.client.dispatch.actions.RecommendForSingleConceptAction;
 import edu.stanford.bmir.protege.web.client.dispatch.actions.RecommendForSingleConceptResult;
 import edu.stanford.bmir.protege.web.shared.entity.OWLEntityData;
+import edu.stanford.bmir.protege.web.shared.event.EventBusManager;
+import edu.stanford.bmir.protege.web.shared.termbuilder.ExtractedConceptsChangedEvent;
+import edu.stanford.bmir.protege.web.shared.termbuilder.SourceConceptChangedEvent;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
 
@@ -156,7 +159,7 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
 		DispatchServiceManager.get().execute(action, getRecommendConceptsActionAsyncHandler());
 		*/
 
-        // New implementation that only recommend for selected concept
+        // New implementation that only recommend for selected conceptName
         Optional<OWLEntityData> entity = portlet.getSelectedEntityData();
         if(!entity.isPresent()) return;
         String className = entity.get().getBrowserText();
@@ -184,6 +187,7 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
                 System.err.println("[Client] Recommend Concept Action Handling Succeed!");
                 CompetencyQuestionsManager manager = project.getCompetencyQuestionsManager();
                 manager.addRecommendedConcepts(result.getRecommendedConcepts());
+                EventBusManager.getManager().postEvent(new SourceConceptChangedEvent(project.getProjectId()));
                 presenter.reload();
             }
         };

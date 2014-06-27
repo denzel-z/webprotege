@@ -11,6 +11,7 @@ import java.util.Set;
 import edu.stanford.bmir.protege.web.shared.termbuilder.CompetencyQuestionInfo;
 import edu.stanford.bmir.protege.web.shared.termbuilder.Concept;
 import edu.stanford.bmir.protege.web.shared.termbuilder.RecommendedConceptInfo;
+import edu.stanford.bmir.protege.web.shared.termbuilder.ReferenceDocumentInfo;
 
 /**
  * This is the class to store competency questions and their corresponding concepts
@@ -27,12 +28,14 @@ public class CompetencyQuestionsManager {
 	private Set<Concept> extractedConceptSet;
 	private Set<Concept> acceptedConceptSet;
 	private Set<RecommendedConceptInfo> recommendedConceptSet;
+    private List<ReferenceDocumentInfo> referenceDocumentInfoList;
 	
 	public CompetencyQuestionsManager() {
 		questions = new ArrayList<CompetencyQuestionInfo>();
 		extractedConceptSet = new HashSet<Concept>();
 		acceptedConceptSet = new HashSet<Concept>();
 		recommendedConceptSet = new HashSet<RecommendedConceptInfo>();
+        referenceDocumentInfoList = new ArrayList<ReferenceDocumentInfo>();
 		maxId = 0;
 	}
 	
@@ -112,9 +115,14 @@ public class CompetencyQuestionsManager {
 		recommendedConceptSet.clear();
 		recommendedConceptSet.addAll(c);
 	}
+
+    public void addRecommendedDocuments(Collection<ReferenceDocumentInfo> c) {
+        referenceDocumentInfoList.clear();
+        referenceDocumentInfoList.addAll(c);
+    }
 	
 	/**
-	 * Return a readonly extracted concept set. If want to change the conceptSet, please use
+	 * Return a readonly extracted conceptName set. If want to change the conceptSet, please use
 	 * other methods like addExtractedConcepts().
 	 * @return
 	 */
@@ -123,7 +131,7 @@ public class CompetencyQuestionsManager {
 	}
 	
 	/**
-	 * Return a readonly accepted concept set. If want to change the acceptedConceptSet, please use
+	 * Return a readonly accepted conceptName set. If want to change the acceptedConceptSet, please use
 	 * other methods like addAcceptedConcepts().
 	 * @return
 	 */
@@ -134,6 +142,9 @@ public class CompetencyQuestionsManager {
 	public Set<RecommendedConceptInfo> getRecommendedConcepts() {
 		return Collections.unmodifiableSet(recommendedConceptSet);
 	}
-	
+
+    public List<ReferenceDocumentInfo> getRecommendedDocuments() {
+        return Collections.unmodifiableList(referenceDocumentInfoList);
+    }
 	
 }

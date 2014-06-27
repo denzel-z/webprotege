@@ -322,7 +322,7 @@ public class ReferenceFieldWidget extends InstanceGridWidget {
         @Override
         public void handleFailure(Throwable caught) {
             bpSearchComponent.getEl().unmask();
-            GWT.log("Could not import BioPortal concept ", null);
+            GWT.log("Could not import BioPortal conceptName ", null);
             MessageBox.alert("Import operation failed!");
         }
 

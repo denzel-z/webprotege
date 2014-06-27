@@ -3,7 +3,7 @@ package edu.stanford.bmir.protege.web.shared.termbuilder;
 import java.io.Serializable;
 
 /**
- * This class is used to represent the all the info about a recommended concept. 
+ * This class is used to represent the all the info about a recommended conceptName.
  * The three properties are necessary for the table display.
  * 
  * @author Yuhao Zhang <zyh@stanford.edu>

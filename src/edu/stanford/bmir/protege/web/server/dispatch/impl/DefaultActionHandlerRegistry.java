@@ -143,6 +143,7 @@ public class DefaultActionHandlerRegistry implements ActionHandlerRegistry {
         register(new GenerateConceptsActionHandler(), GenerateConceptsAction.class);
         register(new RecommendConceptsActionHandler(), RecommendConceptsAction.class);
         register(new RecommendForSingleConceptActionHandler(), RecommendForSingleConceptAction.class);
+        register(new SearchReferenceDocumentActionHandler(), SearchReferenceDocumentAction.class);
 
         // TODO: Plugin
         register(new GetEntityCrudKitsActionHandler(), GetEntityCrudKitsAction.class);

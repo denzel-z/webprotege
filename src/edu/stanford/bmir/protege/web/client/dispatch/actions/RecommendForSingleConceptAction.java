@@ -10,7 +10,7 @@ import java.util.Set;
 
 /**
  * This action is similar to RecommendedConceptsAction, save for that it recommends
- * for a single concept instead of concepts in a set.
+ * for a single conceptName instead of concepts in a set.
  *
  * @author Yuhao Zhang
  */
