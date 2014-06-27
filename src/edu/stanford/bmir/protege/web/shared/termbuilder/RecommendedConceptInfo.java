@@ -65,20 +65,58 @@ public class RecommendedConceptInfo implements Serializable, Comparable<Recommen
 	public void setRelation(ConceptRelation relation) {
 		this.relation = relation;
 	}
+
+    public String[] getTextRelation() {
+        if(relation == ConceptRelation.SUPERCLASS_OF) {
+            return new String[] {"SuperClass", "Of"};
+        } else if (relation == ConceptRelation.SUBCLASS_OF) {
+            return new String[] {"SubClass", "Of"};
+        } else if (relation == ConceptRelation.RELATED_TO) {
+            return new String[] {"Related", "To"};
+        } else if (relation == ConceptRelation.PART_OF) {
+            return new String[] {"Part", "Of"};
+        } else {
+            return new String[] {"Synonym", "Of"};
+        }
+    }
 	
 	public String getConceptRelationDescription() {
-		if(relation == ConceptRelation.SUPERCLASS_OF) {
-			return "SuperClass Of [" + srcConcept.getConceptName() + "]";
-		} else if (relation == ConceptRelation.SUBCLASS_OF) {
-			return "SubClass Of [" + srcConcept.getConceptName() + "]";
-		} else if (relation == ConceptRelation.RELATED_TO) {
-			return "Related To [" + srcConcept.getConceptName() + "]";
-		} else if (relation == ConceptRelation.PART_OF) {
-			return "Part Of [" + srcConcept.getConceptName() + "]";
-		} else {
-			return "Synonym Of [" + srcConcept.getConceptName() + "]";
-		}
+        String[] text = getTextRelation();
+        return text[0] + " " + text[1] + " [" + srcConcept.getConceptName() + "]";
 	}
+
+    public String getHTMLConceptRelationDescription() {
+        String[] text = getTextRelation();
+        StringBuffer sb = new StringBuffer();
+        sb.append("<span style=\"color:");
+        sb.append(getRelationColor());
+        sb.append(";\">");
+        sb.append(text[0]);
+        sb.append("</span>");
+        sb.append(" " + text[1] + " ");
+        sb.append("<span style=\"color:grey;\">");
+        sb.append(srcConcept.getConceptName());
+        sb.append("</span>");
+        return sb.toString();
+    }
+
+    public String getHTMLRecommendedConceptDescription() {
+        return "<span style=\"color:#175AA9;\">" + recommendedConcept.getConceptName() + "</span>";
+    }
+
+    public String getRelationColor() {
+        if(relation == ConceptRelation.SUPERCLASS_OF) {
+            return "#337FB8";
+        } else if (relation == ConceptRelation.SUBCLASS_OF) {
+            return "#6CB42A";
+        } else if (relation == ConceptRelation.RELATED_TO) {
+            return "#87579C";
+        } else if (relation == ConceptRelation.PART_OF) {
+            return "#CD4939";
+        } else {
+            return "#D96F00";
+        }
+    }
 
 	/**
 	 * The comparison is based on the srcConcept, the recommendedConcept.

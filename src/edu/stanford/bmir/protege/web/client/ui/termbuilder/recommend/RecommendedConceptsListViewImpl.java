@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.common.base.Optional;
+import com.google.gwt.cell.client.SafeHtmlCell;
+import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.ui.ListBox;
 import edu.stanford.bmir.protege.web.client.dispatch.DispatchService;
 import edu.stanford.bmir.protege.web.client.dispatch.actions.CreateClassesWithHierarchyAction;
@@ -15,6 +18,7 @@ import edu.stanford.bmir.protege.web.client.dispatch.actions.RecommendForSingleC
 import edu.stanford.bmir.protege.web.shared.entity.OWLEntityData;
 import edu.stanford.bmir.protege.web.shared.event.EventBusManager;
 import edu.stanford.bmir.protege.web.shared.termbuilder.ExtractedConceptsChangedEvent;
+import edu.stanford.bmir.protege.web.shared.termbuilder.ReferenceDocumentInfo;
 import edu.stanford.bmir.protege.web.shared.termbuilder.SourceConceptChangedEvent;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -109,16 +113,28 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
 	private void initTableColumns(
 			final SelectionModel<RecommendedConceptInfo> selectionModel) {
 		
-		TextColumn<RecommendedConceptInfo> candidateConceptColumn = 
+		/*
+        TextColumn<RecommendedConceptInfo> candidateConceptColumn =
 				new TextColumn<RecommendedConceptInfo> () {
 					@Override
 					public String getValue(RecommendedConceptInfo object) {						
 						return object.getRecommendedConcept().getConceptName();
 					}
 		};
+		*/
+        final SafeHtmlCell conceptCell = new SafeHtmlCell();
+        Column<RecommendedConceptInfo, SafeHtml> candidateConceptColumn = new Column<RecommendedConceptInfo, SafeHtml>(conceptCell) {
+            @Override
+            public SafeHtml getValue(RecommendedConceptInfo object) {
+                SafeHtmlBuilder sb = new SafeHtmlBuilder();
+                sb.appendHtmlConstant(object.getHTMLRecommendedConceptDescription());
+                return sb.toSafeHtml();
+            }
+        };
 		dataGrid.addColumn(candidateConceptColumn, this.CANDIDATE_CONCEPT_COL_TITLE);
 		dataGrid.setColumnWidth(candidateConceptColumn, 25, Unit.PCT);
-		
+
+        /*
 		TextColumn<RecommendedConceptInfo> relationColumn = 
 				new TextColumn<RecommendedConceptInfo> () {
 					@Override
@@ -126,6 +142,16 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
 						return object.getConceptRelationDescription();
 					}
 		};
+		*/
+        final SafeHtmlCell relationCell = new SafeHtmlCell();
+        Column<RecommendedConceptInfo, SafeHtml> relationColumn = new Column<RecommendedConceptInfo, SafeHtml>(relationCell) {
+            @Override
+            public SafeHtml getValue(RecommendedConceptInfo object) {
+                SafeHtmlBuilder sb = new SafeHtmlBuilder();
+                sb.appendHtmlConstant(object.getHTMLConceptRelationDescription());
+                return sb.toSafeHtml();
+            }
+        };
 		dataGrid.addColumn(relationColumn, this.RELATION_COL_TITLE);
 		dataGrid.setColumnWidth(relationColumn, 65, Unit.PCT);
 		

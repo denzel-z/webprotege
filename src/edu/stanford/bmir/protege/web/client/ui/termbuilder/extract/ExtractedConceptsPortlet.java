@@ -48,7 +48,8 @@ public class ExtractedConceptsPortlet extends AbstractOWLEntityPortlet {
 
 	@Override
 	public void reload() {
-		presenter.reload();
+        // Don't reload the presenter otherwise the canvas will be reinitialized.
+		// presenter.reload();
 	}
 
 	@Override
@@ -59,7 +60,8 @@ public class ExtractedConceptsPortlet extends AbstractOWLEntityPortlet {
 		presenter = new ExtractedConceptsViewPresenter(getProjectId(),
 				new ExtractedConceptsViewImpl(getProject()));
 		add(presenter.getWidget());
-		presenter.reload();
+        // Don't reload the presenter when initialize.
+		// presenter.reload();
 		setTitle("Extracted Concepts");
 	}
 	

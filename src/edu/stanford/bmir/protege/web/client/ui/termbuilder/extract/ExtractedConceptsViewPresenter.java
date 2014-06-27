@@ -60,12 +60,9 @@ public class ExtractedConceptsViewPresenter implements HasDispose {
 	public void reload() {
 //		canvasWidth = view.getCanvasWidth();
 //		canvasHeight = view.getCanvasHeight();
-//		System.err.println("Get Canvas Width " + view.canvasWidth);
-//		System.err.println("Get Canvas Height " + view.canvasHeight);
 		//First clear visualization area
 		clearTermVis();
 		//Then initialize again
-//		initializeTermVis(canvasWidth, canvasHeight);
 		initializeTermVis();
 		System.err.println("Canvas initialize finished!");
 		//Here is some code to get data from the service, and store the data

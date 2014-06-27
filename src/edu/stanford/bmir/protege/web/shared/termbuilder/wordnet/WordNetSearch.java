@@ -30,17 +30,25 @@ import edu.stanford.bmir.protege.web.shared.termbuilder.RecommendedConceptInfo.C
  *
  */
 public class WordNetSearch {
-	
+
 	private String DICT_PATH = "wordnetdb";
+    private String DATA_PATH = "/data/webprotege/";
 	private IDictionary dict;
 	private WordnetStemmer stemmer;
 	
 	private static WordNetSearch instance = null;
 	
 	protected WordNetSearch() throws IOException {
-		URL url = new URL("file", null, DICT_PATH);
-		
-		dict = new Dictionary(url);
+//		URL url = new URL("file", null, DICT_PATH);
+//        URL url = new URL("file", null, System.getProperty("user.dir") + "/" + DICT_PATH);
+        URL url = new URL("file", null, DATA_PATH + DICT_PATH);
+
+        System.out.println("############# WordNet file URL: ###########");
+        System.out.println(url.toString());
+        System.out.println(url.getPath());
+        System.out.println(System.getProperty("user.dir"));
+
+        dict = new Dictionary(url);
 		dict.open();
 		
 		stemmer = new WordnetStemmer(dict);
