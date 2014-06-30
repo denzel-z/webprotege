@@ -17,7 +17,8 @@
 			<g:Button text="Add Into Class Tree" ui:field = "acceptButton"/>
 		</g:HorizontalPanel>
 		<table width="100%">
-		<g:HTMLPanel ui:field="termVisCanvas" styleName="{style.termVisCanvas}"></g:HTMLPanel>
+		<!--<g:HTMLPanel ui:field="termVisCanvas" styleName="{style.termVisCanvas}"></g:HTMLPanel>-->
+            <g:HTMLPanel ui:field="termVisCanvas"></g:HTMLPanel>
 		</table>
 	</g:HTMLPanel>
 </ui:UiBinder> 

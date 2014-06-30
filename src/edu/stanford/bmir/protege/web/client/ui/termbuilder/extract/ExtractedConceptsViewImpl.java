@@ -96,7 +96,6 @@ public class ExtractedConceptsViewImpl extends Composite implements ExtractedCon
 		}
 		
 		manager.addAcceptedConceptsFromString(selectedClassesArray);
-//		Window.alert("You have accepted " + selectedClassesArray.size() + " concepts!");
 		
 		//Add classes into class tree
 		final OWLClass superCls = DataFactory.getOWLThing();

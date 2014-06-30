@@ -259,7 +259,7 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
         populateAcceptedClassesInfo(selectedSet, selectedClassesArray, pairList);
 		
 		manager.addAcceptedConceptsFromString(selectedClassesArray);
-		Window.alert("You have accepted " + selectedClassesArray.size() + " concepts!");
+//		Window.alert("You have accepted " + selectedClassesArray.size() + " concepts!");
 		
 		/*
 		//Add classes into class tree, naive implementation simply add all concepts as the subclass of Thing

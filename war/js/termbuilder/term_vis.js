@@ -9,8 +9,9 @@ var fill = d3.scale.category20();
 // var fill = ['#5195C9', '#3982C4', '#1467B5', '#004080', '#112B4D'];
 var fontFamily = "Helvetica Neue";
 
-var w = 615,
-    h = 240;
+// The original size is 615 x 240
+var w = 455,
+    h = 230;
 var rectHorizontalMargin = 2;
 var textBlockPadding = 10;
 var selectedClass = [];

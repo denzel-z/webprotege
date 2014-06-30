@@ -291,10 +291,10 @@
 
                 <!-- Column 1 -->
                 <column>
-                    <width>0.25</width>
+                    <width>0.375</width>
                     <portlets>
                         <portlet>
-                            <name>edu.stanford.bmir.protege.web.client.ui.termbuilder.reference.ReferenceDocumentsPortlet</name>
+                            <name>edu.stanford.bmir.protege.web.client.ui.termbuilder.extract.ExtractedConceptsPortlet</name>
                             <height>280</height>
                             <width>450</width>
                         </portlet>
@@ -308,16 +308,11 @@
 
                 <!-- Column 2 -->
                 <column>
-                    <width>0.5</width>
+                    <width>0.25</width>
                     <portlets>
                         <portlet>
-                            <name>edu.stanford.bmir.protege.web.client.ui.termbuilder.recommend.RecommendedConceptsPortlet</name>
-                            <height>280</height>
-                            <width>450</width>
-                        </portlet>
-                        <portlet>
-                            <name>edu.stanford.bmir.protege.web.client.ui.termbuilder.extract.ExtractedConceptsPortlet</name>
-                            <height>280</height>
+                            <name>edu.stanford.bmir.protege.web.client.ui.ontology.classes.ClassTreePortlet</name>
+                            <height>570</height>
                             <width>450</width>
                         </portlet>
                     </portlets>
@@ -325,11 +320,16 @@
 
                 <!-- Column 3 -->
                 <column>
-                    <width>0.25</width>
+                    <width>0.375</width>
                     <portlets>
                         <portlet>
-                            <name>edu.stanford.bmir.protege.web.client.ui.ontology.classes.ClassTreePortlet</name>
-                            <height>570</height>
+                            <name>edu.stanford.bmir.protege.web.client.ui.termbuilder.reference.ReferenceDocumentsPortlet</name>
+                            <height>280</height>
+                            <width>450</width>
+                        </portlet>
+                        <portlet>
+                            <name>edu.stanford.bmir.protege.web.client.ui.termbuilder.recommend.RecommendedConceptsPortlet</name>
+                            <height>280</height>
                             <width>450</width>
                         </portlet>
                     </portlets>
