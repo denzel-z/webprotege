@@ -81,8 +81,7 @@ public class CompetencyQuestionsViewImpl extends Composite implements Competency
 		dataGrid.setEmptyTableWidget(new Label(this.EMPTY_TABLE_LABEL));
 		selectionModel =
 				new MultiSelectionModel<CompetencyQuestionInfo>(providesKey);
-		dataGrid.setSelectionModel(selectionModel, DefaultSelectionEventManager
-				.<CompetencyQuestionInfo> createCheckboxManager());
+        dataGrid.setSelectionModel(selectionModel, DefaultSelectionEventManager.<CompetencyQuestionInfo> createDefaultManager());
 		initTableColumns(selectionModel);
 	}
 	
@@ -97,17 +96,8 @@ public class CompetencyQuestionsViewImpl extends Composite implements Competency
 					}
 		};
 		dataGrid.addColumn(questionColumn, this.COMPETENCY_QUESTIONS_COL_TITLE);
-		dataGrid.setColumnWidth(questionColumn, 80, Unit.PCT);
-		
-		Column<CompetencyQuestionInfo, Boolean> checkColumn =
-				new Column<CompetencyQuestionInfo, Boolean>(new CheckboxCell(true, false)) {
-					@Override
-					public Boolean getValue(CompetencyQuestionInfo object) {
-						return selectionModel.isSelected(object);
-					}
-		};
-		dataGrid.addColumn(checkColumn, this.SELECT_COL_TITLE);
-		dataGrid.setColumnWidth(checkColumn, 20, Unit.PCT);
+		dataGrid.setColumnWidth(questionColumn, 100, Unit.PCT);
+
 	}
 
 	@Override
