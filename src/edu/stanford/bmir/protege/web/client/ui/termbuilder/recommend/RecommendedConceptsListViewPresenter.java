@@ -51,9 +51,14 @@ public class RecommendedConceptsListViewPresenter {
 		List<RecommendedConceptInfo> data = dataProvider.getList();
 		data.clear();
 		data.addAll(list);
-//		data = list;
 		dataProvider.flush();
 	}
 	
 	//Here probably need some other methods.
+    public void refresh(String className) {
+        List<RecommendedConceptInfo> data = dataProvider.getList();
+        data.clear();
+        dataProvider.flush();
+        view.refreshView(className);
+    }
 }

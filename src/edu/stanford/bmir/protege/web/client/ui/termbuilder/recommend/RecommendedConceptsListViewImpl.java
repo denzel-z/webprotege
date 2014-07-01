@@ -6,9 +6,12 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.common.base.Optional;
+import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.SafeHtmlCell;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.ListBox;
 import edu.stanford.bmir.protege.web.client.dispatch.DispatchService;
 import edu.stanford.bmir.protege.web.client.dispatch.actions.CreateClassesWithHierarchyAction;
@@ -76,16 +79,15 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
 	
 	private final String CANDIDATE_CONCEPT_COL_TITLE = "Candidate Concepts";
 	private final String RELATION_COL_TITLE = "Relation to Existing Concepts";
-	private final String SELECT_COL_TITLE = "Select";
 	private final String EMPTY_TABLE_LABEL = "There is no recommendations to show.";
+
+    private final String ANCHOR_TEXT_PREFFIX = "Click here to get related concepts for: ";
 	
 	final MultiSelectionModel<RecommendedConceptInfo> selectionModel;
 	
 	@UiField(provided=true) DataGrid<RecommendedConceptInfo> dataGrid;
-    //@UiField ListBox listBox;
-    //@UiField Button submitButton;
-	@UiField Button refreshButton;
 	@UiField Button acceptButton;
+    @UiField Anchor anchor;
 
 	public RecommendedConceptsListViewImpl(Project project, RecommendedConceptsPortlet portlet) {
 		ProvidesKey<RecommendedConceptInfo> providesKey = new ProvidesKey<RecommendedConceptInfo>() {
@@ -104,24 +106,24 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
 		dataGrid.setEmptyTableWidget(new Label(this.EMPTY_TABLE_LABEL));
 		selectionModel =
 				new MultiSelectionModel<RecommendedConceptInfo>(providesKey);
-		dataGrid.setSelectionModel(selectionModel, DefaultSelectionEventManager
-				.<RecommendedConceptInfo> createCheckboxManager());
+        dataGrid.setSelectionModel(selectionModel, DefaultSelectionEventManager.<RecommendedConceptInfo>createDefaultManager());
 		initTableColumns(selectionModel);
-		
+
+        anchor.setText(ANCHOR_TEXT_PREFFIX + "owl:Thing");
+        anchor.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                onRefresh();
+                anchor.setVisible(false);
+                dataGrid.setVisible(true);
+                acceptButton.setVisible(true);
+            }
+        });
 	}
 	
 	private void initTableColumns(
 			final SelectionModel<RecommendedConceptInfo> selectionModel) {
-		
-		/*
-        TextColumn<RecommendedConceptInfo> candidateConceptColumn =
-				new TextColumn<RecommendedConceptInfo> () {
-					@Override
-					public String getValue(RecommendedConceptInfo object) {						
-						return object.getRecommendedConcept().getConceptName();
-					}
-		};
-		*/
+
         final SafeHtmlCell conceptCell = new SafeHtmlCell();
         Column<RecommendedConceptInfo, SafeHtml> candidateConceptColumn = new Column<RecommendedConceptInfo, SafeHtml>(conceptCell) {
             @Override
@@ -132,17 +134,8 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
             }
         };
 		dataGrid.addColumn(candidateConceptColumn, this.CANDIDATE_CONCEPT_COL_TITLE);
-		dataGrid.setColumnWidth(candidateConceptColumn, 25, Unit.PCT);
+		dataGrid.setColumnWidth(candidateConceptColumn, 40, Unit.PCT);
 
-        /*
-		TextColumn<RecommendedConceptInfo> relationColumn = 
-				new TextColumn<RecommendedConceptInfo> () {
-					@Override
-					public String getValue(RecommendedConceptInfo object) {						
-						return object.getConceptRelationDescription();
-					}
-		};
-		*/
         final SafeHtmlCell relationCell = new SafeHtmlCell();
         Column<RecommendedConceptInfo, SafeHtml> relationColumn = new Column<RecommendedConceptInfo, SafeHtml>(relationCell) {
             @Override
@@ -153,28 +146,26 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
             }
         };
 		dataGrid.addColumn(relationColumn, this.RELATION_COL_TITLE);
-		dataGrid.setColumnWidth(relationColumn, 65, Unit.PCT);
-		
-		Column<RecommendedConceptInfo, Boolean> checkColumn =
-				new Column<RecommendedConceptInfo, Boolean>(new CheckboxCell(true, false)) {
-					@Override
-					public Boolean getValue(RecommendedConceptInfo object) {
-						return selectionModel.isSelected(object);
-					}
-		};
-		dataGrid.addColumn(checkColumn, this.SELECT_COL_TITLE);
-		dataGrid.setColumnWidth(checkColumn, 10, Unit.PCT);
+		dataGrid.setColumnWidth(relationColumn, 60, Unit.PCT);
+
 	}
+
+    @Override
+    public void refreshView(String className) {
+        acceptButton.setVisible(false);
+        dataGrid.setVisible(false);
+        anchor.setVisible(true);
+        if(className == null) {
+            anchor.setText(ANCHOR_TEXT_PREFFIX + "owl:Thing");
+        } else {
+            anchor.setText(ANCHOR_TEXT_PREFFIX + className);
+        }
+    }
 
 	@Override
     public Widget getWidget() {
         return this;
     }
-
-	@UiHandler("refreshButton")
-	void onRefreshButtonClick(ClickEvent event) {
-		onRefresh();
-	}
 	
 	private void onRefresh() {
         /* // Old implementation that support recommending for all accepted concepts.
@@ -213,7 +204,7 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
                 System.err.println("[Client] Recommend Concept Action Handling Succeed!");
                 CompetencyQuestionsManager manager = project.getCompetencyQuestionsManager();
                 manager.addRecommendedConcepts(result.getRecommendedConcepts());
-                EventBusManager.getManager().postEvent(new SourceConceptChangedEvent(project.getProjectId()));
+//                EventBusManager.getManager().postEvent(new SourceConceptChangedEvent(project.getProjectId()));
                 presenter.reload();
             }
         };

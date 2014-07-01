@@ -18,4 +18,6 @@ public interface RecommendedConceptsListView {
 
 	void setViewPresenter(RecommendedConceptsListViewPresenter presenter);
 
+    void refreshView(String className);
+
 }

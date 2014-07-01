@@ -5,6 +5,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 import edu.stanford.bmir.protege.web.shared.event.EventBusManager;
 import edu.stanford.bmir.protege.web.shared.project.ProjectId;
+import edu.stanford.bmir.protege.web.shared.termbuilder.RecommendedConceptInfo;
 import edu.stanford.bmir.protege.web.shared.termbuilder.ReferenceDocumentInfo;
 import edu.stanford.bmir.protege.web.shared.termbuilder.SourceConceptChangedEvent;
 import edu.stanford.bmir.protege.web.shared.termbuilder.SourceConceptChangedHandler;
@@ -21,12 +22,13 @@ public class ReferenceDocumentsViewPresenter {
     private ReferenceDocumentsView view;
     private ListDataProvider<ReferenceDocumentInfo> dataProvider;
 
-    private HandlerRegistration registration;
+    // private HandlerRegistration registration;
 
     public ReferenceDocumentsViewPresenter(ProjectId projectId, ReferenceDocumentsView view) {
         this.view = view;
         this.projectId = projectId;
 
+        /*
         registration = EventBusManager.getManager().registerHandlerToProject(projectId,
                 SourceConceptChangedEvent.TYPE, new SourceConceptChangedHandler() {
                     @Override
@@ -35,6 +37,7 @@ public class ReferenceDocumentsViewPresenter {
                         searchAndReload();
                     }
         });
+        */
 
         dataProvider = new ListDataProvider<ReferenceDocumentInfo>();
         view.setDataProvider(dataProvider);
@@ -54,11 +57,20 @@ public class ReferenceDocumentsViewPresenter {
         dataProvider.flush();
     }
 
+    /*
     public void searchAndReload() {
         view.onSearch();
     }
+    */
 
     public Widget getWidget() {
         return view.getWidget();
+    }
+
+    public void refresh(String className) {
+        List<ReferenceDocumentInfo> data = dataProvider.getList();
+        data.clear();
+        dataProvider.flush();
+        view.refreshView(className);
     }
 }

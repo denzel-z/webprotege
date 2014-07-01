@@ -4,6 +4,8 @@ import com.google.common.base.Optional;
 import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -12,6 +14,7 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -40,12 +43,15 @@ public class ReferenceDocumentsViewImpl extends Composite implements ReferenceDo
 
     private final String EMPTY_TABLE_LABEL = "There is no online documents to show.";
 
+    private final String ANCHOR_TEXT_PREFFIX = "Click here to get online documents for: ";
+
     private final Project project;
     private ReferenceDocumentsViewPresenter presenter = null;
     private ReferenceDocumentsPortlet portlet = null;
     private final NoSelectionModel<ReferenceDocumentInfo> selectionModel;
 
     @UiField(provided=true) DataGrid<ReferenceDocumentInfo> dataGrid;
+    @UiField Anchor anchor;
 
     public ReferenceDocumentsViewImpl(Project project, ReferenceDocumentsPortlet portlet) {
         ProvidesKey<ReferenceDocumentInfo> providesKey = new ProvidesKey<ReferenceDocumentInfo>() {
@@ -65,15 +71,19 @@ public class ReferenceDocumentsViewImpl extends Composite implements ReferenceDo
         selectionModel = new NoSelectionModel<ReferenceDocumentInfo>(providesKey);
         dataGrid.setSelectionModel(selectionModel);
         initTableColumns(selectionModel);
+
+        anchor.setText(ANCHOR_TEXT_PREFFIX + "owl:Thing");
+        anchor.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                onSearch();
+                anchor.setVisible(false);
+                dataGrid.setVisible(true);
+            }
+        });
     }
 
     public void initTableColumns(final SelectionModel<ReferenceDocumentInfo> selectionModel) {
-//        TextColumn<ReferenceDocumentInfo> documentColumn = new TextColumn<ReferenceDocumentInfo> () {
-//            @Override
-//            public String getValue(ReferenceDocumentInfo object) {
-//                return object.getHyperlinkDocument();
-//            }
-//        };
         final SafeHtmlCell docCell = new SafeHtmlCell();
         Column<ReferenceDocumentInfo, SafeHtml> documentColumn = new Column<ReferenceDocumentInfo, SafeHtml> (docCell) {
             @Override
@@ -86,6 +96,17 @@ public class ReferenceDocumentsViewImpl extends Composite implements ReferenceDo
 
         dataGrid.addColumn(documentColumn);
         dataGrid.setColumnWidth(documentColumn, 100, Style.Unit.PCT);
+    }
+
+    @Override
+    public void refreshView(String className) {
+        dataGrid.setVisible(false);
+        anchor.setVisible(true);
+        if(className == null) {
+            anchor.setText(ANCHOR_TEXT_PREFFIX + "owl:Thing");
+        } else {
+            anchor.setText(ANCHOR_TEXT_PREFFIX + className);
+        }
     }
 
     @Override

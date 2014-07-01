@@ -15,4 +15,5 @@ public interface ReferenceDocumentsView {
     CompetencyQuestionsManager getCompetencyQuestionsManager();
     Widget getWidget();
     void onSearch();
+    void refreshView(String className);
 }
