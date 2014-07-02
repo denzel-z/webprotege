@@ -1,11 +1,15 @@
 package edu.stanford.bmir.protege.web.client.ui.termbuilder.extract;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import edu.stanford.bmir.protege.web.client.dispatch.actions.CreateClassesWithHierarchyAction;
+import edu.stanford.bmir.protege.web.client.dispatch.actions.CreateClassesWithHierarchyResult;
+import edu.stanford.bmir.protege.web.server.owlapi.OWLAPIProjectConfigurationListener;
+import edu.stanford.bmir.protege.web.shared.termbuilder.ClassStringAndSuperClassPair;
+import edu.stanford.bmir.protege.web.shared.termbuilder.RecommendedConceptInfo;
 import org.semanticweb.owlapi.model.OWLClass;
 
 import com.google.gwt.core.client.GWT;
@@ -14,23 +18,15 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtext.client.data.Node;
-import com.gwtext.client.widgets.tree.TreeNode;
 
 import edu.stanford.bmir.protege.web.client.dispatch.DispatchServiceManager;
 import edu.stanford.bmir.protege.web.client.dispatch.actions.CreateClassesAction;
 import edu.stanford.bmir.protege.web.client.dispatch.actions.CreateClassesResult;
 import edu.stanford.bmir.protege.web.client.project.Project;
-import edu.stanford.bmir.protege.web.client.rpc.data.EntityData;
-import edu.stanford.bmir.protege.web.client.rpc.data.SubclassEntityData;
-import edu.stanford.bmir.protege.web.client.rpc.data.ValueType;
 import edu.stanford.bmir.protege.web.client.ui.termbuilder.CompetencyQuestionsManager;
 import edu.stanford.bmir.protege.web.shared.DataFactory;
 
@@ -94,25 +90,39 @@ public class ExtractedConceptsViewImpl extends Composite implements ExtractedCon
 		for(int i=0; i<selectedClasses.length(); i++) {
 			selectedClassesArray.add(selectedClasses.get(i));
 		}
+
+        List<ClassStringAndSuperClassPair> pairList = new ArrayList<ClassStringAndSuperClassPair>();
+
+        populateAcceptedClassesInfo(selectedClassesArray, pairList);
 		
 		manager.addAcceptedConceptsFromString(selectedClassesArray);
 		
 		//Add classes into class tree
-		final OWLClass superCls = DataFactory.getOWLThing();
-		final Set<String> newClasses = new HashSet<String>(selectedClassesArray);
-		DispatchServiceManager.get().execute(new CreateClassesAction(project.getProjectId(), superCls, newClasses),
-				getCreateClassesActionAsyncHandler());
+//		final OWLClass superCls = DataFactory.getOWLThing();
+//		final Set<String> newClasses = new HashSet<String>(selectedClassesArray);
+//		DispatchServiceManager.get().execute(new CreateClassesAction(project.getProjectId(), superCls, newClasses),
+//				getCreateClassesActionAsyncHandler());
+        DispatchServiceManager.get().execute(new CreateClassesWithHierarchyAction(project.getProjectId(), pairList),
+                getCreateClassesWithHierarchyActionAsyncHandler());
 	}
+
+    private void populateAcceptedClassesInfo(List<String> selectedClassesArray, List<ClassStringAndSuperClassPair> pairList) {
+        for(String className : selectedClassesArray) {
+            // Add all selected classes as the subclass of owl:Thing class
+            OWLClass superClass = DataFactory.getOWLThing();
+            pairList.add(new ClassStringAndSuperClassPair(className, superClass));
+        }
+    }
 	
-	private AsyncCallback<CreateClassesResult> getCreateClassesActionAsyncHandler() {
-        return new AsyncCallback<CreateClassesResult>() {
+	private AsyncCallback<CreateClassesWithHierarchyResult> getCreateClassesWithHierarchyActionAsyncHandler() {
+        return new AsyncCallback<CreateClassesWithHierarchyResult>() {
             @Override
             public void onFailure(Throwable caught) {
                 GWT.log("There was a problem creating the classes.  Please try again.");
             }
 
             @Override
-            public void onSuccess(CreateClassesResult result) {
+            public void onSuccess(CreateClassesWithHierarchyResult result) {
             	System.err.println("Classes added into the tree!");
             }
         };

@@ -1,7 +1,7 @@
 package edu.stanford.bmir.protege.web.client.dispatch.actions;
 
 import edu.stanford.bmir.protege.web.client.dispatch.AbstractHasProjectAction;
-import edu.stanford.bmir.protege.web.client.ui.termbuilder.recommend.ClassStringAndSuperClassPair;
+import edu.stanford.bmir.protege.web.shared.termbuilder.ClassStringAndSuperClassPair;
 import edu.stanford.bmir.protege.web.shared.project.ProjectId;
 
 import java.util.ArrayList;

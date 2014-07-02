@@ -1,4 +1,4 @@
-package edu.stanford.bmir.protege.web.client.ui.termbuilder.recommend;
+package edu.stanford.bmir.protege.web.shared.termbuilder;
 
 import org.semanticweb.owlapi.model.OWLClass;
 

@@ -17,9 +17,6 @@ import edu.stanford.bmir.protege.web.server.msg.OWLMessageFormatter;
 import edu.stanford.bmir.protege.web.server.owlapi.OWLAPIProject;
 import edu.stanford.bmir.protege.web.shared.BrowserTextMap;
 import edu.stanford.bmir.protege.web.shared.ObjectPath;
-import edu.stanford.bmir.protege.web.shared.event.ProjectEvent;
-import edu.stanford.bmir.protege.web.shared.events.EventList;
-import edu.stanford.bmir.protege.web.shared.events.EventTag;
 import org.semanticweb.owlapi.model.OWLClass;
 
 import java.util.HashSet;
@@ -31,7 +28,7 @@ import java.util.Set;
  *
  * @author Yuhao Zhang <zyh@stanford.edu>
  */
-public class CreateClassesWithHierarchyActionHandler extends AbstractHasProjectActionHandler<CreateClassesWithHierarchyAction,CreateClassesWithHierarchyResult> {
+public class CreateClassesWithHierarchyActionHandler2 extends AbstractHasProjectActionHandler<CreateClassesWithHierarchyAction,CreateClassesWithHierarchyResult> {
     @Override
     public Class<CreateClassesWithHierarchyAction> getActionClass() {
         return CreateClassesWithHierarchyAction.class;
@@ -44,8 +41,6 @@ public class CreateClassesWithHierarchyActionHandler extends AbstractHasProjectA
 
     @Override
     protected CreateClassesWithHierarchyResult execute(CreateClassesWithHierarchyAction action, OWLAPIProject project, ExecutionContext executionContext) {
-        EventTag tag = project.getEventManager().getCurrentTag();
-
         List<ClassStringAndSuperClassPair> pairList = action.getPairList();
         Set<OWLClass> superClasses = new HashSet<OWLClass>();
         Set<OWLClass> createdClasses = new HashSet<OWLClass>();
@@ -68,9 +63,7 @@ public class CreateClassesWithHierarchyActionHandler extends AbstractHasProjectA
 
         BrowserTextMap browserTextMap = BrowserTextMap.build(project.getRenderingManager(), superClasses, createdClasses);
 
-        EventList<ProjectEvent<?>> eventList = project.getEventManager().getEventsFromTag(tag);
-
-        return new CreateClassesWithHierarchyResult(browserTextMap, pathToRootSet, createdClasses, eventList);
+        return new CreateClassesWithHierarchyResult(browserTextMap, pathToRootSet, createdClasses, null);
     }
 
     private ChangeDescriptionGenerator<Set<OWLClass>> createChangeText(OWLAPIProject project, String className, OWLClass superClass) {
