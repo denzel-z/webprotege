@@ -5,18 +5,10 @@
 	.important {
 		font-weight: bold;
 	}
-    .anchor-text {
-        color: #175AA9;
-        font-size: 14px;
-        margin: 5px;
-        cursor: pointer;
-        cursor: hand;
-        text-decoration: underline;
-    }
 	</ui:style>
 	<g:HTMLPanel>
-        <g:HorizontalPanel width="100%" horizontalAlignment="ALIGN_LEFT" height="">
-            <g:Anchor ui:field="anchor" styleName="{style.anchor-text}" />
+        <g:HorizontalPanel ui:field="anchorTextBar" width="100%" horizontalAlignment="ALIGN_LEFT" styleName="tb-anchor-text-bar">
+            <g:Anchor ui:field="anchor" styleName="tb-anchor-text" />
         </g:HorizontalPanel>
 		<p1:DataGrid width="100%" height="100%" ui:field="dataGrid"/>
 	</g:HTMLPanel>

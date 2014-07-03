@@ -16,6 +16,7 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.AbstractDataProvider;
@@ -27,6 +28,7 @@ import edu.stanford.bmir.protege.web.client.dispatch.actions.SearchReferenceDocu
 import edu.stanford.bmir.protege.web.client.dispatch.actions.SearchReferenceDocumentResult;
 import edu.stanford.bmir.protege.web.client.project.Project;
 import edu.stanford.bmir.protege.web.client.ui.termbuilder.CompetencyQuestionsManager;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.TermBuilderConstant;
 import edu.stanford.bmir.protege.web.shared.entity.OWLEntityData;
 import edu.stanford.bmir.protege.web.shared.termbuilder.ReferenceDocumentInfo;
 
@@ -52,6 +54,7 @@ public class ReferenceDocumentsViewImpl extends Composite implements ReferenceDo
 
     @UiField(provided=true) DataGrid<ReferenceDocumentInfo> dataGrid;
     @UiField Anchor anchor;
+    @UiField HorizontalPanel anchorTextBar;
 
     public ReferenceDocumentsViewImpl(Project project, ReferenceDocumentsPortlet portlet) {
         ProvidesKey<ReferenceDocumentInfo> providesKey = new ProvidesKey<ReferenceDocumentInfo>() {
@@ -72,12 +75,13 @@ public class ReferenceDocumentsViewImpl extends Composite implements ReferenceDo
         dataGrid.setSelectionModel(selectionModel);
         initTableColumns(selectionModel);
 
-        anchor.setText(ANCHOR_TEXT_PREFFIX + "owl:Thing");
+        anchor.setText(ANCHOR_TEXT_PREFFIX + project.getDisplayName());
         anchor.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 onSearch();
                 anchor.setVisible(false);
+                anchorTextBar.setVisible(false);
                 dataGrid.setVisible(true);
             }
         });
@@ -101,9 +105,10 @@ public class ReferenceDocumentsViewImpl extends Composite implements ReferenceDo
     @Override
     public void refreshView(String className) {
         dataGrid.setVisible(false);
+        anchorTextBar.setVisible(true);
         anchor.setVisible(true);
-        if(className == null) {
-            anchor.setText(ANCHOR_TEXT_PREFFIX + "owl:Thing");
+        if(className == null || className.equals(TermBuilderConstant.OWLTHING_NAME)) {
+            anchor.setText(ANCHOR_TEXT_PREFFIX + project.getDisplayName());
         } else {
             anchor.setText(ANCHOR_TEXT_PREFFIX + className);
         }

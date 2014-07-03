@@ -336,7 +336,7 @@
                 </column>
 
             </columns>
-            <controllingPortlet reference="../columns/column/portlets/portlet"/>
+            <controllingPortlet reference="../columns/column[2]/portlets/portlet"/>
         </tab>
 
     </tabs>

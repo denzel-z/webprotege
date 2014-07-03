@@ -51,6 +51,8 @@ public class ExtractedConceptsViewPresenter implements HasDispose {
 					}
 		});
 		//Here probably need some code.
+        canvasWidth = 450;
+        canvasHeight = 220;
 	}
 	
 	public Widget getWidget() {
@@ -63,6 +65,7 @@ public class ExtractedConceptsViewPresenter implements HasDispose {
 		//First clear visualization area
 		clearTermVis();
 		//Then initialize again
+        setCanvasSize(canvasWidth, canvasHeight);
 		initializeTermVis();
 		System.err.println("Canvas initialize finished!");
 		//Here is some code to get data from the service, and store the data
@@ -77,6 +80,7 @@ public class ExtractedConceptsViewPresenter implements HasDispose {
 			conceptArray.push(c.getConceptName());
 		}
 		clearTermVis();
+        setCanvasSize(canvasWidth, canvasHeight);
 		initializeTermVisWithConcepts(conceptArray);
 	}
 	
@@ -97,7 +101,11 @@ public class ExtractedConceptsViewPresenter implements HasDispose {
 	private native void initializeTermVisWithConcepts(JsArrayString array)/*-{
 		console.log("Embeded Javascript initializeTermVisWithConcept() run!");
 		$wnd.initializeTermVisWithConcepts(array);
-}-*/;
+    }-*/;
+
+    private native void setCanvasSize(int width, int height)/*-{
+        $wnd.setCanvasSize(width, height);
+    }-*/;
 	
 	/**
 	 * A local call to the term_vis.js function, which clear the SVG

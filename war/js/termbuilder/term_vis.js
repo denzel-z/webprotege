@@ -11,7 +11,7 @@ var fontFamily = "Helvetica Neue";
 
 // The original size is 615 x 240
 var w = 455,
-    h = 230;
+    h = 220;
 var rectHorizontalMargin = 2;
 var textBlockPadding = 10;
 var selectedClass = [];
@@ -231,6 +231,11 @@ function convertConceptArrayIntoRandomData(array) {
 
 function getSelectedClass() {
   return selectedClass;
+}
+
+function setCanvasSize(width, height) {
+  w = width;
+  h = height;
 }
 
 /*********************************************

@@ -10,10 +10,12 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import edu.stanford.bmir.protege.web.client.dispatch.actions.CreateClassesWithHierarchyAction;
 import edu.stanford.bmir.protege.web.client.dispatch.actions.CreateClassesWithHierarchyResult;
 import edu.stanford.bmir.protege.web.client.dispatch.actions.RecommendForSingleConceptAction;
 import edu.stanford.bmir.protege.web.client.dispatch.actions.RecommendForSingleConceptResult;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.TermBuilderConstant;
 import edu.stanford.bmir.protege.web.shared.entity.OWLEntityData;
 import edu.stanford.bmir.protege.web.shared.termbuilder.ClassStringAndSuperClassPair;
 import org.semanticweb.owlapi.model.IRI;
@@ -46,6 +48,7 @@ import edu.stanford.bmir.protege.web.client.ui.termbuilder.CompetencyQuestionsMa
 import edu.stanford.bmir.protege.web.shared.DataFactory;
 import edu.stanford.bmir.protege.web.shared.termbuilder.Concept;
 import edu.stanford.bmir.protege.web.shared.termbuilder.RecommendedConceptInfo;
+import org.semanticweb.owlapi.model.OWLEntity;
 
 public class RecommendedConceptsListViewImpl extends Composite implements RecommendedConceptsListView {
 
@@ -62,15 +65,17 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
 	
 	private final String CANDIDATE_CONCEPT_COL_TITLE = "Candidate Concepts";
 	private final String RELATION_COL_TITLE = "Relation to Existing Concepts";
-	private final String EMPTY_TABLE_LABEL = "There is no recommendations to show.";
+	private final String EMPTY_TABLE_LABEL = "There is no recommendation to show.";
 
-    private final String ANCHOR_TEXT_PREFFIX = "Click here to get related concepts for: ";
+    private final String ANCHOR_TEXT_PREFFIX = "Click here to search WordNet for related concepts to: ";
 	
 	final MultiSelectionModel<RecommendedConceptInfo> selectionModel;
 	
 	@UiField(provided=true) DataGrid<RecommendedConceptInfo> dataGrid;
+    @UiField HorizontalPanel buttonBar;
+    @UiField HorizontalPanel anchorTextBar;
 	@UiField Button acceptButton;
-    @UiField Anchor anchor;
+    @UiField Anchor textAnchor;
 
 	public RecommendedConceptsListViewImpl(Project project, RecommendedConceptsPortlet portlet) {
 		ProvidesKey<RecommendedConceptInfo> providesKey = new ProvidesKey<RecommendedConceptInfo>() {
@@ -92,13 +97,15 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
         dataGrid.setSelectionModel(selectionModel, DefaultSelectionEventManager.<RecommendedConceptInfo>createDefaultManager());
 		initTableColumns(selectionModel);
 
-        anchor.setText(ANCHOR_TEXT_PREFFIX + "owl:Thing");
-        anchor.addClickHandler(new ClickHandler() {
+        textAnchor.setText(ANCHOR_TEXT_PREFFIX + project.getDisplayName());
+        textAnchor.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 onRefresh();
-                anchor.setVisible(false);
+                textAnchor.setVisible(false);
+                anchorTextBar.setVisible(false);
                 dataGrid.setVisible(true);
+                buttonBar.setVisible(true);
                 acceptButton.setVisible(true);
             }
         });
@@ -130,18 +137,19 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
         };
 		dataGrid.addColumn(relationColumn, this.RELATION_COL_TITLE);
 		dataGrid.setColumnWidth(relationColumn, 60, Unit.PCT);
-
 	}
 
     @Override
     public void refreshView(String className) {
         acceptButton.setVisible(false);
+        buttonBar.setVisible(false);
         dataGrid.setVisible(false);
-        anchor.setVisible(true);
-        if(className == null) {
-            anchor.setText(ANCHOR_TEXT_PREFFIX + "owl:Thing");
+        anchorTextBar.setVisible(true);
+        textAnchor.setVisible(true);
+        if(className == null || className.equals(TermBuilderConstant.OWLTHING_NAME)) {
+            textAnchor.setText(ANCHOR_TEXT_PREFFIX + project.getDisplayName());
         } else {
-            anchor.setText(ANCHOR_TEXT_PREFFIX + className);
+            textAnchor.setText(ANCHOR_TEXT_PREFFIX + className);
         }
     }
 
@@ -162,9 +170,14 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
         // New implementation that only recommend for selected conceptName
         Optional<OWLEntityData> entity = portlet.getSelectedEntityData();
         if(!entity.isPresent()) return;
+        // Get class name and IRI
         String className = entity.get().getBrowserText();
-        IRI classIRI = entity.get().getEntity().getIRI();
-        System.out.println("IRI: " + classIRI.toString());
+        IRI classIRI = null;
+        if(className.equals(TermBuilderConstant.OWLTHING_NAME)) {
+            className = project.getDisplayName();
+        } else {
+            classIRI = entity.get().getEntity().getIRI();
+        }
         RecommendForSingleConceptAction action = new RecommendForSingleConceptAction(project.getProjectId(), new Concept(className, classIRI));
         DispatchServiceManager.get().execute(action, getRecommendForSingleConceptActionAsyncHandler());
 	}

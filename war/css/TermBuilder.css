@@ -18,3 +18,53 @@ svg .rect-mouseover {
   stroke-dasharray: 3, 3;
   fill-opacity: 0.05;
 }
+
+.tb-anchor-text {
+  color: #15428B;
+  font-size: 12px;
+  margin: 10px;
+  cursor: pointer;
+  cursor: hand;
+  text-decoration: underline;
+}
+.tb-anchor-text-bar {
+  padding-top: 5px;
+}
+
+.tb-button-bar {
+  border-top: 1px solid #87AAE4;
+  height: 26px;
+  background: #DBEBF0;
+  overflow: hidden;
+  padding: 2px;
+  margin: 0;
+}
+.tb-button {
+  color: #15428B;
+  background: transparent;
+  border:1px solid transparent;
+  border-radius: 2px;
+  padding: 3px 10px 3px 10px;
+  cursor: pointer;
+  overflow: visible;
+  text-align: center;
+  font-size: 90%;
+  margin: 1px 0px 1px 5px;
+}
+.tb-button-special {
+  color: #B86109;
+}
+.tb-button:hover {
+  border: 1px solid #8CAADC;
+  background: -webkit-linear-gradient(#C4D8F2, #AFC7E7); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#C4D8F2, #AFC7E7); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#C4D8F2, #AFC7E7); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#C4D8F2, #AFC7E7);
+}
+.tb-button:active {
+  border: 1px solid #5478B1;
+  background: -webkit-linear-gradient(#C2D6F2, #87B7F5); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#C2D6F2, #87B7F5); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#C2D6F2, #87B7F5); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#C2D6F2, #87B7F5);
+}

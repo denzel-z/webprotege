@@ -5,6 +5,7 @@ import com.gwtext.client.widgets.layout.FitLayout;
 import edu.stanford.bmir.protege.web.client.project.Project;
 import edu.stanford.bmir.protege.web.client.rpc.data.EntityData;
 import edu.stanford.bmir.protege.web.client.ui.portlet.AbstractOWLEntityPortlet;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.TermBuilderConstant;
 import edu.stanford.bmir.protege.web.shared.entity.OWLEntityData;
 
 import java.util.Collection;
@@ -53,7 +54,7 @@ public class ReferenceDocumentsPortlet extends AbstractOWLEntityPortlet {
 
     private void setTitleDynamically(String className) {
         // Dynamically change the title of the portlet
-        if(className == null) {
+        if(className == null || className.equals(TermBuilderConstant.OWLTHING_NAME)) {
             setTitle(DEFAULT_TITLE);
         } else {
             setTitle(DEFAULT_TITLE_PREFFIX + className);

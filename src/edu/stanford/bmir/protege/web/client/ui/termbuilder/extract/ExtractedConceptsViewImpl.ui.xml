@@ -11,10 +11,10 @@
 	}
 	</ui:style>
 	<g:HTMLPanel>
-		<g:HorizontalPanel width="100%" horizontalAlignment="ALIGN_LEFT" height="">
-			<g:Button text="Select All" ui:field = "selectAllButton"></g:Button>
-			<g:Button text="Unselect All" ui:field = "unselectAllButton"></g:Button>
-			<g:Button text="Add Into Class Tree" ui:field = "acceptButton"/>
+		<g:HorizontalPanel width="100%" horizontalAlignment="ALIGN_LEFT" height="" styleName="tb-button-bar">
+			<g:Button text="Select All" ui:field = "selectAllButton" styleName="tb-button"></g:Button>
+			<g:Button text="Unselect All" ui:field = "unselectAllButton" styleName="tb-button"></g:Button>
+			<g:Button text="Add Into Class Tree" ui:field = "acceptButton" styleName="tb-button" addStyleNames="tb-button-special"></g:Button>
 		</g:HorizontalPanel>
 		<table width="100%">
 		<!--<g:HTMLPanel ui:field="termVisCanvas" styleName="{style.termVisCanvas}"></g:HTMLPanel>-->

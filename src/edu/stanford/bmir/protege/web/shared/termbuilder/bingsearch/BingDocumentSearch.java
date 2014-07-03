@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import edu.stanford.bmir.protege.web.shared.termbuilder.Concept;
 import edu.stanford.bmir.protege.web.shared.termbuilder.ReferenceDocumentInfo;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,7 +72,14 @@ public class BingDocumentSearch {
         StringBuilder sb = new StringBuilder(ROOT_URL);
         // add full query terms
         sb.append("?Query=%27");
-        sb.append(buildFullQuery());
+        String escapedQueryString = "";
+        // Use URLEncoder to support multiple word search
+        try {
+            escapedQueryString = URLEncoder.encode(buildFullQuery(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        sb.append(escapedQueryString);
         sb.append("%27");
         // add other query settings
         sb.append("&$top=" + SEARCH_RESULT_LIMIT);
@@ -79,7 +88,7 @@ public class BingDocumentSearch {
     }
 
     public String buildFullQuery() {
-        return normalizedConceptName;
+        return normalizedConceptName + " wikipedia";
     }
 
     public boolean preprocessResultString() {
@@ -97,11 +106,12 @@ public class BingDocumentSearch {
     }
 
     public static void main(String[] args) throws Exception {
-        BingDocumentSearch s = new BingDocumentSearch("Travel");
-        s.searchForDocuments();
+        BingDocumentSearch s = new BingDocumentSearch("west movie");
+//        s.searchForDocuments();
 
-        System.out.println(s.recommendedDocuments.size());
-        System.out.println(s.recommendedDocuments.get(0).getDocTitle());
+        System.out.println(s.buildQueryURL());
+//        System.out.println(s.recommendedDocuments.size());
+//        System.out.println(s.recommendedDocuments.get(0).getDocTitle());
     }
 
 }
