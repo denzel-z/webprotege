@@ -1,12 +1,11 @@
 package edu.stanford.bmir.protege.web.server.dispatch.handlers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 import edu.stanford.bmir.protege.web.client.dispatch.actions.GenerateConceptsAction;
 import edu.stanford.bmir.protege.web.client.dispatch.actions.GenerateConceptsResult;
@@ -14,10 +13,13 @@ import edu.stanford.bmir.protege.web.server.dispatch.ActionHandler;
 import edu.stanford.bmir.protege.web.server.dispatch.ExecutionContext;
 import edu.stanford.bmir.protege.web.server.dispatch.RequestContext;
 import edu.stanford.bmir.protege.web.server.dispatch.RequestValidator;
-import edu.stanford.bmir.protege.web.server.dispatch.validators.NullValidator;
+import edu.stanford.bmir.protege.web.server.dispatch.validators.UserHasProjectReadPermissionValidator;
 import edu.stanford.bmir.protege.web.shared.termbuilder.CompetencyQuestionInfo;
+import edu.stanford.bmir.protege.web.shared.termbuilder.Concept;
 import edu.stanford.bmir.protege.web.shared.termbuilder.ConceptList;
-import edu.stanford.bmir.protege.web.shared.termbuilder.ConceptSet;
+import edu.stanford.bmir.protege.web.shared.termbuilder.questionparsing.NounPhraseParser;
+import edu.stanford.bmir.protege.web.shared.termbuilder.questionparsing.QuestionParsingConstant;
+import edu.stanford.bmir.protege.web.shared.termbuilder.questionparsing.WordAndPOSTag;
 import edu.stanford.bmir.protege.web.shared.termbuilder.wordnet.WordNetSearch;
 import edu.stanford.nlp.ling.CoreAnnotations.PartOfSpeechAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.SentencesAnnotation;
@@ -32,7 +34,6 @@ public class GenerateConceptsActionHandler implements
 	ActionHandler<GenerateConceptsAction, GenerateConceptsResult> {
 	
 	StanfordCoreNLP pipeline;
-	Set<String> validTags;
 	WordNetSearch search; //Used to stem and normalize concepts
 	
 	/**
@@ -40,16 +41,10 @@ public class GenerateConceptsActionHandler implements
 	 * StanfordCoreNLP pipeline and validTags set.
 	 */
 	public GenerateConceptsActionHandler() {
-        System.err.println("[Server] Change to GenerateConceptsActionHandler takes effect!");
-        System.err.println("[Server] Instantiate StanfordCoreNLP ...");
 		Properties props = new Properties();
 		props.put("annotators", "tokenize, ssplit, pos");
 		pipeline = new StanfordCoreNLP(props);
-		validTags = new HashSet<String>();
-		validTags.add("NN");
-		validTags.add("NNS");
-		validTags.add("NNP");
-		validTags.add("NNPS");
+
 		System.err.println("[Server] StanfordCoreNLP initialized");
 		
 		try {
@@ -65,21 +60,15 @@ public class GenerateConceptsActionHandler implements
 		return GenerateConceptsAction.class;
 	}
 
-	/**
-	 * For now just use NullValidator to validate every user.
-	 * TODO: Add better validation mechanism.
-	 */
 	@Override
 	public RequestValidator<GenerateConceptsAction> getRequestValidator(
 			GenerateConceptsAction action, RequestContext requestContext) {
-		System.err.println("[Server] Request Validator processed!");
-		return new NullValidator<GenerateConceptsAction, GenerateConceptsResult>();
+        return UserHasProjectReadPermissionValidator.get();
 	}
 
 	@Override
 	public GenerateConceptsResult execute(GenerateConceptsAction action,
 			ExecutionContext executionContext) {
-		System.err.println("[Server] Execute Competency Questions...");
 		List<CompetencyQuestionInfo> questions = action.getQuestions();
 		
 		Map<CompetencyQuestionInfo, ConceptList> map = 
@@ -93,28 +82,54 @@ public class GenerateConceptsActionHandler implements
 	}
 	
 	private ConceptList parseConceptsFromSingleQuestion(CompetencyQuestionInfo info) {
-//		System.err.println("Enter parseConceptsFromSingleQuestion");
-//		ConceptSet conceptSet = new ConceptSet();
-		ConceptList conceptList = new ConceptList();
 		String text = info.getQuestion();
-//		System.err.println("Parsing question: " + text);
 		Annotation document = new Annotation(text);
 		pipeline.annotate(document);
 		List<CoreMap> sentences = document.get(SentencesAnnotation.class);
-//		System.err.println("Sentences constructed");
-		for(CoreMap sentence: sentences) {
-			for(CoreLabel token: sentence.get(TokensAnnotation.class)) {
-				String word = token.get(TextAnnotation.class);
-				String pos = token.get(PartOfSpeechAnnotation.class);
-				if(validTags.contains(pos)) {
-					String normalizedWord = search.normalizeConceptNameByString(word);
-					normalizedWord = search.convertWordNetOutputToConceptString(normalizedWord);
-//					conceptSet.addConcept(normalizedWord);
-					conceptList.addConcept(normalizedWord);
-				}
-			}
-		}
-//		return new ConceptList(conceptSet);
+//		ConceptList conceptList = tagBasedConceptParsing(sentences);
+        ConceptList conceptList = patternBasedConceptParsing(sentences);
 		return conceptList;
 	}
+
+    private ConceptList tagBasedConceptParsing(List<CoreMap> sentences) {
+        ConceptList conceptList = new ConceptList();
+        for(CoreMap sentence: sentences) {
+            for(CoreLabel token: sentence.get(TokensAnnotation.class)) {
+                String word = token.get(TextAnnotation.class);
+                String pos = token.get(PartOfSpeechAnnotation.class);
+                if(QuestionParsingConstant.validTags.contains(pos)) {
+                    String normalizedWord = search.normalizeConceptNameByString(word);
+                    normalizedWord = search.convertWordNetOutputToConceptString(normalizedWord);
+                    conceptList.addConcept(normalizedWord);
+                }
+            }
+        }
+        return conceptList;
+    }
+
+    private ConceptList patternBasedConceptParsing(List<CoreMap> sentences) {
+        ConceptList conceptList = new ConceptList();
+        for(CoreMap sentence: sentences) {
+            List<WordAndPOSTag> sequence = new ArrayList<WordAndPOSTag>();
+            for(CoreLabel token: sentence.get(TokensAnnotation.class)) {
+                String word = token.get(TextAnnotation.class);
+                String pos = token.get(PartOfSpeechAnnotation.class);
+                sequence.add(new WordAndPOSTag(word, pos));
+            }
+//            List<String> conceptStrings = parseConceptFromSequence(sequence);
+            ConceptList concepts = parseConceptFromSequence(sequence);
+            conceptList.addAll(concepts);
+        }
+        return conceptList;
+    }
+
+    private ConceptList convertStringListToFormalConcepts(List<String> conceptStrings) {
+        return null;
+    }
+
+    private ConceptList parseConceptFromSequence(List<WordAndPOSTag> sequence) {
+        NounPhraseParser parser = new NounPhraseParser(sequence, search);
+        return parser.parseToConceptList();
+    }
+
 }

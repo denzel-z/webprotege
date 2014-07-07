@@ -39,7 +39,11 @@ public class ConceptList implements Serializable, IsSerializable{
 	}
 	
 	public ConceptList(List<String> sList) {
-		//TODO: add it
+        super();
+        conceptList = new ArrayList<Concept>();
+        for(String s : sList) {
+            addConcept(s);
+        }
 	}
 	
 	public void addConcept(Concept concept) {
@@ -53,6 +57,10 @@ public class ConceptList implements Serializable, IsSerializable{
 	public List<Concept> getList() {
 		return conceptList;
 	}
+
+    public void addAll(ConceptList list) {
+        conceptList.addAll(list.conceptList);
+    }
 	
 	@Override
 	public String toString() {

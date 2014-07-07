@@ -19,13 +19,15 @@ import edu.mit.jwi.morph.WordnetStemmer;
 import edu.stanford.bmir.protege.web.shared.termbuilder.Concept;
 import edu.stanford.bmir.protege.web.shared.termbuilder.RecommendedConceptInfo;
 import edu.stanford.bmir.protege.web.shared.termbuilder.RecommendedConceptInfo.ConceptRelation;
-
+import edu.stanford.bmir.protege.web.shared.termbuilder.TBStringUtils;
+import edu.stanford.bmir.protege.web.shared.termbuilder.questionparsing.WordAndPOSTag;
+import edu.stanford.nlp.util.StringUtils;
 
 
 /**
- * This is a singleton class. For this class, you don't need to create an instance 
+ * This is a singleton class. For this class, you don't need to create an instance
  * for every conceptName you search.
- * 
+ *
  * @author Yuhao Zhang
  *
  */
@@ -35,9 +37,9 @@ public class WordNetSearch {
     private String DATA_PATH = "/data/webprotege/";
 	private IDictionary dict;
 	private WordnetStemmer stemmer;
-	
+
 	private static WordNetSearch instance = null;
-	
+
 	protected WordNetSearch() throws IOException {
 //		URL url = new URL("file", null, DICT_PATH);
 //        URL url = new URL("file", null, System.getProperty("user.dir") + "/" + DICT_PATH);
@@ -50,21 +52,21 @@ public class WordNetSearch {
 
         dict = new Dictionary(url);
 		dict.open();
-		
+
 		stemmer = new WordnetStemmer(dict);
 	}
-	
+
 	public static WordNetSearch getInstance() throws IOException {
 		if(instance == null) {
 			instance = new WordNetSearch();
 		}
 		return instance;
 	}
-	
+
 	public List<RecommendedConceptInfo> searchConcept(Concept srcConcept) {
 		List<RecommendedConceptInfo> recommendedConcept = new ArrayList<RecommendedConceptInfo>();
 		List<RecommendedConceptInfo> conceptList; //temp store
-		
+
 		String normalizedConceptName = normalizeConceptNameByConcept(srcConcept);
 		String capNormalizedConceptName = convertWordNetOutputToConceptString(normalizedConceptName);
 		// get the synset
@@ -72,7 +74,7 @@ public class WordNetSearch {
 		IWordID wordID = idxWord.getWordIDs().get(0);
 		IWord iword = dict.getWord(wordID);
 		ISynset synset = iword.getSynset();
-		
+
 		//Get Synonyms
 		List<IWord> synonyms = synset.getWords();
 		for(Iterator<IWord> i = synonyms.iterator(); i.hasNext();) {
@@ -84,25 +86,25 @@ public class WordNetSearch {
 				recommendedConcept.add(info);
 			}
 		}
-		
+
 		//Get hypernyms
 		List<ISynsetID> hypernyms = synset.getRelatedSynsets(Pointer.HYPERNYM);
 		conceptList = addSynsetsIntoRecommendedConceptsList(srcConcept, hypernyms,
 				RecommendedConceptInfo.ConceptRelation.SUPERCLASS_OF);
 		recommendedConcept.addAll(conceptList);
-		
+
 		//Get hyponym
 		List<ISynsetID> hyponyms = synset.getRelatedSynsets(Pointer.HYPONYM);
 		conceptList = addSynsetsIntoRecommendedConceptsList(srcConcept, hyponyms,
 				RecommendedConceptInfo.ConceptRelation.SUBCLASS_OF);
 		recommendedConcept.addAll(conceptList);
-		
+
 		//Get meronym_part
 		List<ISynsetID> meronyms = synset.getRelatedSynsets(Pointer.MERONYM_PART);
 		conceptList = addSynsetsIntoRecommendedConceptsList(srcConcept, meronyms,
 				RecommendedConceptInfo.ConceptRelation.PART_OF);
 		recommendedConcept.addAll(conceptList);
-		
+
 		//Get Topic and domain
 		List<ISynsetID> comb = new ArrayList<ISynsetID>();
 		List<ISynsetID> topics = synset.getRelatedSynsets(Pointer.TOPIC);
@@ -112,10 +114,10 @@ public class WordNetSearch {
 		conceptList = addSynsetsIntoRecommendedConceptsList(srcConcept, comb,
 				RecommendedConceptInfo.ConceptRelation.RELATED_TO);
 		recommendedConcept.addAll(conceptList);
-		
+
 		return recommendedConcept;
 	}
-	
+
 	private List<RecommendedConceptInfo> addSynsetsIntoRecommendedConceptsList(Concept srcConcept,
 			List<ISynsetID> synsets, ConceptRelation relation) {
 		List<IWord> words;
@@ -132,11 +134,11 @@ public class WordNetSearch {
 		}
 		return recommendedConcept;
 	}
-	
+
 	/**
 	 * Convert a concatenated WordNet-output format string into a Concept format.
 	 * For example, "computer_network" will be converted into "Computer Network".
-	 * 
+	 *
 	 * @param output
 	 * @return
 	 */
@@ -155,19 +157,49 @@ public class WordNetSearch {
 
 	/**
 	 * Get WordNet supported version of the word normalization.
-	 * 
+	 *
 	 * @param srcConcept
 	 * @return
 	 */
 	public String normalizeConceptNameByConcept(Concept srcConcept) {
-		String normalizedConceptName = srcConcept.getConceptName().toLowerCase();
+        String srcConceptName = srcConcept.getConceptName();
+        // To handle the case where the word is all in upper case
+        if(TBStringUtils.isAllUpper(srcConceptName)) {
+            return srcConceptName;
+        }
+		String normalizedConceptName = srcConceptName.toLowerCase();
 		normalizedConceptName = stemmer.findStems(normalizedConceptName, POS.NOUN).get(0);
 		return normalizedConceptName;
 	}
-	
+
 	public String normalizeConceptNameByString(String conceptName) {
+        // To handle the case where the word is all in upper case
+        if(TBStringUtils.isAllUpper(conceptName)) {
+            return conceptName;
+        }
 		String normalizedConceptName = conceptName.toLowerCase();
-		normalizedConceptName = stemmer.findStems(normalizedConceptName, POS.NOUN).get(0);
+        List<String> stemmed = stemmer.findStems(normalizedConceptName, POS.NOUN);
+        if(stemmed.size() > 0) {
+            normalizedConceptName = stemmed.get(0);
+        }
 		return normalizedConceptName;
 	}
+
+    public String normalizeConceptNameByWordAndPOSTag(WordAndPOSTag w) {
+        // To handle the case where the word is all in upper case
+        if(TBStringUtils.isAllUpper(w.getWord())) {
+            return w.getWord();
+        }
+        String normalizedConceptName = w.getWord().toLowerCase();
+        List<String> stemmed = null;
+        if(w.isNoun()) {
+            stemmed = stemmer.findStems(normalizedConceptName, POS.NOUN);
+        } else if(w.isAdj()) {
+            stemmed = stemmer.findStems(normalizedConceptName, POS.ADJECTIVE);
+        }
+        if(stemmed != null && stemmed.size() > 0) {
+            normalizedConceptName = stemmed.get(0);
+        }
+        return normalizedConceptName;
+    }
 }
