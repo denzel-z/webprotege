@@ -8,8 +8,8 @@ import java.util.regex.Pattern;
 import com.google.gson.Gson;
 
 import edu.stanford.bmir.protege.web.shared.termbuilder.Concept;
+import edu.stanford.bmir.protege.web.shared.termbuilder.HttpConnection;
 import edu.stanford.bmir.protege.web.shared.termbuilder.RecommendedConceptInfo;
-import edu.stanford.bmir.protege.web.shared.termbuilder.RecommendedConceptInfo.ConceptRelation;
 
 public class ConceptNetSearch {
 	

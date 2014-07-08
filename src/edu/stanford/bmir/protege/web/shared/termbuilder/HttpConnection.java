@@ -1,4 +1,4 @@
-package edu.stanford.bmir.protege.web.shared.termbuilder.conceptnet;
+package edu.stanford.bmir.protege.web.shared.termbuilder;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

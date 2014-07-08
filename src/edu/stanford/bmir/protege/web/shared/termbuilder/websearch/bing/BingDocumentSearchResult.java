@@ -1,4 +1,4 @@
-package edu.stanford.bmir.protege.web.shared.termbuilder.bingsearch;
+package edu.stanford.bmir.protege.web.shared.termbuilder.websearch.bing;
 
 /**
  * @author Yuhao Zhang

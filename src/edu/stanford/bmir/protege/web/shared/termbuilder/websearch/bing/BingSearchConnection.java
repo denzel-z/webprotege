@@ -1,4 +1,4 @@
-package edu.stanford.bmir.protege.web.shared.termbuilder.bingsearch;
+package edu.stanford.bmir.protege.web.shared.termbuilder.websearch.bing;
 
 import org.apache.commons.codec.binary.Base64;
 

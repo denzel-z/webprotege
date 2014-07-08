@@ -7,7 +7,7 @@ import edu.stanford.bmir.protege.web.server.dispatch.ExecutionContext;
 import edu.stanford.bmir.protege.web.server.dispatch.RequestContext;
 import edu.stanford.bmir.protege.web.server.dispatch.RequestValidator;
 import edu.stanford.bmir.protege.web.server.dispatch.validators.UserHasProjectReadPermissionValidator;
-import edu.stanford.bmir.protege.web.shared.termbuilder.bingsearch.BingDocumentSearch;
+import edu.stanford.bmir.protege.web.shared.termbuilder.websearch.bing.BingDocumentSearcher;
 
 /**
  * @author Yuhao Zhang
@@ -27,7 +27,7 @@ public class SearchReferenceDocumentActionHandler implements
 
     @Override
     public SearchReferenceDocumentResult execute(SearchReferenceDocumentAction action, ExecutionContext executionContext) {
-        BingDocumentSearch search = new BingDocumentSearch(action.getConceptName());
+        BingDocumentSearcher search = new BingDocumentSearcher(action.getConceptName());
         try {
             search.searchForDocuments();
         } catch (Exception e) {

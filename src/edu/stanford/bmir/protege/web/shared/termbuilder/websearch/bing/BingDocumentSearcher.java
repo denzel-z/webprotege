@@ -1,18 +1,16 @@
-package edu.stanford.bmir.protege.web.shared.termbuilder.bingsearch;
+package edu.stanford.bmir.protege.web.shared.termbuilder.websearch.bing;
 
 import com.google.gson.Gson;
-import edu.stanford.bmir.protege.web.shared.termbuilder.Concept;
 import edu.stanford.bmir.protege.web.shared.termbuilder.ReferenceDocumentInfo;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * @author denzel
+ * @author Yuhao Zhang <zyh@stanford.edu>
  */
-public class BingDocumentSearch {
+public class BingDocumentSearcher {
 
     public String conceptName;
     public String normalizedConceptName;
@@ -31,7 +29,7 @@ public class BingDocumentSearch {
     private String VALID_RESULT_PREFIX = "{\"d\":";
 
 
-    public BingDocumentSearch(String conceptName) {
+    public BingDocumentSearcher(String conceptName) {
         this.conceptName = conceptName;
         con = new BingSearchConnection();
         gson = new Gson();
@@ -88,7 +86,7 @@ public class BingDocumentSearch {
     }
 
     public String buildFullQuery() {
-        return normalizedConceptName + " wikipedia";
+        return normalizedConceptName;
     }
 
     public boolean preprocessResultString() {
@@ -106,7 +104,7 @@ public class BingDocumentSearch {
     }
 
     public static void main(String[] args) throws Exception {
-        BingDocumentSearch s = new BingDocumentSearch("west movie");
+        BingDocumentSearcher s = new BingDocumentSearcher("west movie");
 //        s.searchForDocuments();
 
         System.out.println(s.buildQueryURL());
