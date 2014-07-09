@@ -7,6 +7,7 @@ import edu.stanford.bmir.protege.web.server.dispatch.ExecutionContext;
 import edu.stanford.bmir.protege.web.server.dispatch.RequestContext;
 import edu.stanford.bmir.protege.web.server.dispatch.RequestValidator;
 import edu.stanford.bmir.protege.web.server.dispatch.validators.UserHasProjectReadPermissionValidator;
+import edu.stanford.bmir.protege.web.shared.termbuilder.websearch.ReferenceDocSearcher;
 import edu.stanford.bmir.protege.web.shared.termbuilder.websearch.bing.BingDocumentSearcher;
 
 /**
@@ -27,13 +28,13 @@ public class SearchReferenceDocumentActionHandler implements
 
     @Override
     public SearchReferenceDocumentResult execute(SearchReferenceDocumentAction action, ExecutionContext executionContext) {
-        BingDocumentSearcher search = new BingDocumentSearcher(action.getConceptName());
+        ReferenceDocSearcher s = new ReferenceDocSearcher(action.getConceptName());
         try {
-            search.searchForDocuments();
+            s.search();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        SearchReferenceDocumentResult result = new SearchReferenceDocumentResult(search.recommendedDocuments);
+        SearchReferenceDocumentResult result = new SearchReferenceDocumentResult(s.getDocs());
         return result;
     }
 }

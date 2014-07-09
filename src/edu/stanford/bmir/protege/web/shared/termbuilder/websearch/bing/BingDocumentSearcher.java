@@ -2,15 +2,18 @@ package edu.stanford.bmir.protege.web.shared.termbuilder.websearch.bing;
 
 import com.google.gson.Gson;
 import edu.stanford.bmir.protege.web.shared.termbuilder.ReferenceDocumentInfo;
+import edu.stanford.bmir.protege.web.shared.termbuilder.websearch.SubSearcher;
+import edu.stanford.bmir.protege.web.shared.termbuilder.websearch.WebSearchSource;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Yuhao Zhang <zyh@stanford.edu>
  */
-public class BingDocumentSearcher {
+public class BingDocumentSearcher implements SubSearcher {
 
     public String conceptName;
     public String normalizedConceptName;
@@ -28,7 +31,6 @@ public class BingDocumentSearcher {
     private String ROOT_URL = "https://api.datamarket.azure.com/Bing/Search/Web";
     private String VALID_RESULT_PREFIX = "{\"d\":";
 
-
     public BingDocumentSearcher(String conceptName) {
         this.conceptName = conceptName;
         con = new BingSearchConnection();
@@ -39,7 +41,8 @@ public class BingDocumentSearcher {
 
     }
 
-    public void searchForDocuments() throws Exception {
+    @Override
+    public void search() throws Exception {
         String url = buildQueryURL();
         con.sendGet(url);
 
@@ -61,9 +64,15 @@ public class BingDocumentSearcher {
                 info.setDocSnippet(e.getDescription());
                 info.setDocURL(e.getUrl());
                 info.setDocDisplayedURL(e.getDisplayUrl());
+                info.setSource(WebSearchSource.BING_SEARCH);
                 recommendedDocuments.add(info);
             }
         }
+    }
+
+    @Override
+    public List<ReferenceDocumentInfo> getRecommendedDocs() {
+        return recommendedDocuments;
     }
 
     public String buildQueryURL() {
@@ -105,9 +114,11 @@ public class BingDocumentSearcher {
 
     public static void main(String[] args) throws Exception {
         BingDocumentSearcher s = new BingDocumentSearcher("west movie");
-//        s.searchForDocuments();
+        s.search();
 
         System.out.println(s.buildQueryURL());
+        System.out.println(s.recommendedDocuments.get(0).getDocURL());
+        System.out.println(s.recommendedDocuments.get(0).getDocDisplayedURL());
 //        System.out.println(s.recommendedDocuments.size());
 //        System.out.println(s.recommendedDocuments.get(0).getDocTitle());
     }

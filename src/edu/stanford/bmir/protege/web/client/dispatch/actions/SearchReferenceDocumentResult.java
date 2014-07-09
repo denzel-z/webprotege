@@ -12,11 +12,11 @@ import java.util.List;
  */
 public class SearchReferenceDocumentResult implements Result {
 
-    private ArrayList<ReferenceDocumentInfo> list;
+    private List<ReferenceDocumentInfo> list;
 
     protected SearchReferenceDocumentResult() {}
 
-    public SearchReferenceDocumentResult(ArrayList<ReferenceDocumentInfo> list) {
+    public SearchReferenceDocumentResult(List<ReferenceDocumentInfo> list) {
         this.list = list;
     }
 

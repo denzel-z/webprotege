@@ -1,5 +1,7 @@
 package edu.stanford.bmir.protege.web.shared.termbuilder;
 
+import edu.stanford.bmir.protege.web.shared.termbuilder.websearch.WebSearchSource;
+
 import java.io.Serializable;
 
 /**
@@ -13,6 +15,7 @@ public class ReferenceDocumentInfo implements Serializable {
     String docSnippet;
     String docURL;
     String docDisplayedURL;
+    WebSearchSource source;
 
     public ReferenceDocumentInfo() {}
 
@@ -54,6 +57,14 @@ public class ReferenceDocumentInfo implements Serializable {
 
     public void setDocDisplayedURL(String docDisplayedURL) {
         this.docDisplayedURL = docDisplayedURL;
+    }
+
+    public void setSource(WebSearchSource source) {
+        this.source = source;
+    }
+
+    public WebSearchSource getSource() {
+        return source;
     }
 
     public String getHyperlinkDocument() {

@@ -3,15 +3,18 @@ package edu.stanford.bmir.protege.web.shared.termbuilder.websearch.wikipedia;
 import com.google.gson.Gson;
 import edu.stanford.bmir.protege.web.shared.termbuilder.HttpConnection;
 import edu.stanford.bmir.protege.web.shared.termbuilder.ReferenceDocumentInfo;
+import edu.stanford.bmir.protege.web.shared.termbuilder.websearch.SubSearcher;
+import edu.stanford.bmir.protege.web.shared.termbuilder.websearch.WebSearchSource;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Yuhao Zhang <zyh@stanford.edu>
  */
-public class WikipediaPageSearcher {
+public class WikipediaPageSearcher implements SubSearcher {
 
     public String conceptName;
     public String normalizedConceptName;
@@ -28,7 +31,9 @@ public class WikipediaPageSearcher {
     private int SEARCH_RESULT_LIMIT = 10;
     private String ROOT_URL = "http://en.wikipedia.org/w/api.php?action=opensearch";
     private String DOC_SNIPPET_PREFFIX = "This is a wikipedia page of the concept: ";
-    private String PAGE_URL_PREFFIX = "http://en.wikipedia.org/wiki/";
+    private String PAGE_DISPLAYED_URL_PREFFIX = "en.wikipedia.org/wiki/";
+    private String HTTP_PREFFIX = "http://";
+    private String DOC_TITLE_SUFFIX = " - Wikipedia, the free encyclopedia";
 
     public WikipediaPageSearcher(String conceptName) {
         this.conceptName = conceptName;
@@ -39,6 +44,7 @@ public class WikipediaPageSearcher {
         normalizedConceptName = normalizeConceptName(conceptName);
     }
 
+    @Override
     public void search() throws Exception {
         String url = buildQueryURL();
         con.sendGet(url);
@@ -56,13 +62,19 @@ public class WikipediaPageSearcher {
             for(String title : titles) {
                 ReferenceDocumentInfo info = new ReferenceDocumentInfo();
                 info.setId(id);
-                info.setDocTitle(title);
+                info.setDocTitle(title + DOC_TITLE_SUFFIX);
                 info.setDocSnippet(generateDocSnippet(title));
-                info.setDocURL(generateDocURL(title));
-                info.setDocDisplayedURL(info.getDocURL());
+                info.setDocDisplayedURL(generateDocDisplayedURL(title));
+                info.setDocURL(HTTP_PREFFIX + info.getDocDisplayedURL());
+                info.setSource(WebSearchSource.WIKIPEDIA_SEARCH);
                 recommendedDocuments.add(info);
             }
         }
+    }
+
+    @Override
+    public List<ReferenceDocumentInfo> getRecommendedDocs() {
+        return recommendedDocuments;
     }
 
     private boolean preprocessResultString() {
@@ -75,10 +87,10 @@ public class WikipediaPageSearcher {
         return true;
     }
 
-    private String generateDocURL(String title) throws UnsupportedEncodingException {
+    private String generateDocDisplayedURL(String title) throws UnsupportedEncodingException {
         String url = title.replace(" ", "_");
         url = URLEncoder.encode(url, "UTF-8");
-        return PAGE_URL_PREFFIX + url;
+        return PAGE_DISPLAYED_URL_PREFFIX + url;
     }
 
     private String generateDocSnippet(String title) {
@@ -115,6 +127,7 @@ public class WikipediaPageSearcher {
         for(ReferenceDocumentInfo info : searcher.recommendedDocuments) {
             System.out.println("TITLE: " + info.getDocTitle());
             System.out.println("URL: " + info.getDocURL());
+            System.out.println("DISPLAYED URL: " + info.getDocDisplayedURL());
             System.out.println("-------------------------------");
         }
     }

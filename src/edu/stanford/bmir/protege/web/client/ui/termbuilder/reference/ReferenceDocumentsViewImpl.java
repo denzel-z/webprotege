@@ -45,7 +45,7 @@ public class ReferenceDocumentsViewImpl extends Composite implements ReferenceDo
 
     private final String EMPTY_TABLE_LABEL = "There is no online documents to show.";
 
-    private final String ANCHOR_TEXT_PREFFIX = "Click here to get online documents for: ";
+    private final String ANCHOR_TEXT_PREFFIX = "Click here to search for online reference documents for concept: ";
 
     private final Project project;
     private ReferenceDocumentsViewPresenter presenter = null;
