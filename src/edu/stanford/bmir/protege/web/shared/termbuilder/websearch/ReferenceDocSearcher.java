@@ -7,6 +7,8 @@ import edu.stanford.bmir.protege.web.shared.termbuilder.websearch.wikipedia.Wiki
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author Yuhao Zhang <zyh@stanford.edu>
@@ -52,8 +54,15 @@ public class ReferenceDocSearcher {
     public void search() throws Exception {
         loadSearchers();
         loadStrategy();
+        // Use a ThreadPool to accelerate the search api calling process
+        ExecutorService executor = Executors.newFixedThreadPool(3);
         for(SubSearcher s : searchers) {
-            s.search();
+            executor.execute((Runnable) s);
+        }
+        executor.shutdown();
+        while(!executor.isTerminated()) {}
+        // Add the search results into the integrated list
+        for(SubSearcher s : searchers) {
             strategy.addIntermediateResult(s.getRecommendedDocs());
         }
         strategy.integrate();

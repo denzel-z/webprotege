@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @author Yuhao Zhang <zyh@stanford.edu>
  */
-public class BingDocumentSearcher implements SubSearcher {
+public class BingDocumentSearcher implements SubSearcher, Runnable {
 
     public String conceptName;
     public String normalizedConceptName;
@@ -119,8 +119,14 @@ public class BingDocumentSearcher implements SubSearcher {
         System.out.println(s.buildQueryURL());
         System.out.println(s.recommendedDocuments.get(0).getDocURL());
         System.out.println(s.recommendedDocuments.get(0).getDocDisplayedURL());
-//        System.out.println(s.recommendedDocuments.size());
-//        System.out.println(s.recommendedDocuments.get(0).getDocTitle());
     }
 
+    @Override
+    public void run() {
+        try {
+            search();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

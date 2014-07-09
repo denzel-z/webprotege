@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * @author Yuhao Zhang <zyh@stanford.edu>
  */
-public class WikipediaPageSearcher implements SubSearcher {
+public class WikipediaPageSearcher implements SubSearcher, Runnable {
 
     public String conceptName;
     public String normalizedConceptName;
@@ -132,4 +132,12 @@ public class WikipediaPageSearcher implements SubSearcher {
         }
     }
 
+    @Override
+    public void run() {
+        try {
+            search();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
