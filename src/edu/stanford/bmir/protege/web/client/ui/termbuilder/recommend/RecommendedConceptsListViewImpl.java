@@ -159,14 +159,6 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
     }
 	
 	private void onRefresh() {
-        /* // Old implementation that support recommending for all accepted concepts.
-        Set<Concept> conceptSet = project.getCompetencyQuestionsManager().getAcceptedConcepts();
-		System.err.println("[Client] Accepted Concepts Number: " + conceptSet.size());
-		HashSet<Concept> conceptHashSet = new HashSet<Concept>(conceptSet);
-		RecommendConceptsAction action = new RecommendConceptsAction(project.getProjectId(), conceptHashSet);
-		DispatchServiceManager.get().execute(action, getRecommendConceptsActionAsyncHandler());
-		*/
-
         // New implementation that only recommend for selected conceptName
         Optional<OWLEntityData> entity = portlet.getSelectedEntityData();
         if(!entity.isPresent()) return;

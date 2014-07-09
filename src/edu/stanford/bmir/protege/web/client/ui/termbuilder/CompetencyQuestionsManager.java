@@ -139,8 +139,11 @@ public class CompetencyQuestionsManager {
 		return Collections.unmodifiableSet(acceptedConceptSet);
 	}
 	
-	public Set<RecommendedConceptInfo> getRecommendedConcepts() {
-		return Collections.unmodifiableSet(recommendedConceptSet);
+	public List<RecommendedConceptInfo> getRecommendedConcepts() {
+        List<RecommendedConceptInfo> result = new ArrayList<RecommendedConceptInfo>();
+        result.addAll(recommendedConceptSet);
+        Collections.sort(result);
+		return Collections.unmodifiableList(result);
 	}
 
     public List<ReferenceDocumentInfo> getRecommendedDocuments() {

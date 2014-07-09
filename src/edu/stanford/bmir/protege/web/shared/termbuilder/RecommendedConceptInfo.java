@@ -16,11 +16,11 @@ public class RecommendedConceptInfo implements Serializable, Comparable<Recommen
 	private ConceptRelation relation;
 	
 	public static enum ConceptRelation {
-		SUPERCLASS_OF,
-		SUBCLASS_OF,
+        SUBCLASS_OF,
+        SUPERCLASS_OF,
 		RELATED_TO,
-		PART_OF,
-		SYNONYM
+        SYNONYM,
+        PART_OF
 	}
 	
 	public RecommendedConceptInfo(Concept srcConcept,
@@ -118,22 +118,16 @@ public class RecommendedConceptInfo implements Serializable, Comparable<Recommen
         }
     }
 
-	/**
-	 * The comparison is based on the srcConcept, the recommendedConcept.
-	 * TODO: A better comparison need to be implemented.
-	 */
 	@Override
 	public int compareTo(RecommendedConceptInfo info) {
-//		int srcResult = this.srcConcept.compareTo(info.srcConcept);
-//		if(srcResult != 0) {
-//			return srcResult;
-//		} else {
-//			int recResult = this.recommendedConcept.compareTo(this.recommendedConcept);
-//			return recResult;
-//		}
-		int result = this.recommendationID.compareTo(info.recommendationID);
-		return result;
-	}
+        if(!this.relation.equals(info.relation)) {
+            return this.relation.compareTo(info.relation);
+        } else if(!this.recommendedConcept.equals(info.recommendedConcept)) {
+            return this.recommendedConcept.compareTo(info.recommendedConcept);
+        } else {
+            return this.recommendationID.compareTo(info.recommendationID);
+        }
+    }
 	
 	@Override
 	public String toString() {
