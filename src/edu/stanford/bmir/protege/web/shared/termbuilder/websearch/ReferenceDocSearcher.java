@@ -1,6 +1,7 @@
 package edu.stanford.bmir.protege.web.shared.termbuilder.websearch;
 
 import edu.stanford.bmir.protege.web.shared.termbuilder.ReferenceDocumentInfo;
+import edu.stanford.bmir.protege.web.shared.termbuilder.websearch.bing.BingCategoryDocumentSearcher;
 import edu.stanford.bmir.protege.web.shared.termbuilder.websearch.bing.BingDocumentSearcher;
 import edu.stanford.bmir.protege.web.shared.termbuilder.websearch.wikipedia.WikipediaPageSearcher;
 
@@ -22,10 +23,13 @@ public class ReferenceDocSearcher {
     private List<SubSearcher> searchers;
     private SearchStrategy strategy;
 
+    private static final int DEFAULT_MAX_NUM_RESULT = 15;
+
     public static final String SEARCHERS_PROPERTY_KEY = "searchers";
     public static final String STRATEGY_PROPERTY_KEY = "strategy";
 
     public static final String SEARCHERS_PROPERTY_BING = "bing";
+    public static final String SEARCHERS_PROPERTY_BING_CATEGORY = "category";
     public static final String SEARCHERS_PROPERTY_WIKIPEDIA = "wikipedia";
 
     public static final String STRATEGY_PROPERTY_MIX = "mix";
@@ -41,7 +45,7 @@ public class ReferenceDocSearcher {
 
     public ReferenceDocSearcher(String conceptName) {
         prop = new Properties();
-        prop.setProperty(SEARCHERS_PROPERTY_KEY, SEARCHERS_PROPERTY_BING + "," + SEARCHERS_PROPERTY_WIKIPEDIA);
+        prop.setProperty(SEARCHERS_PROPERTY_KEY, SEARCHERS_PROPERTY_BING_CATEGORY + "," + SEARCHERS_PROPERTY_BING + "," + SEARCHERS_PROPERTY_WIKIPEDIA);
         prop.setProperty(STRATEGY_PROPERTY_KEY, STRATEGY_PROPERTY_MIX);
         this.conceptName = conceptName;
         searchers = new ArrayList<SubSearcher>();
@@ -77,12 +81,15 @@ public class ReferenceDocSearcher {
         if(searchersProp.contains(SEARCHERS_PROPERTY_WIKIPEDIA)) {
             searchers.add(new WikipediaPageSearcher(conceptName));
         }
+        if(searchersProp.contains(SEARCHERS_PROPERTY_BING_CATEGORY)) {
+            searchers.add(new BingCategoryDocumentSearcher(conceptName));
+        }
     }
 
     private void loadStrategy() {
         String strategyProp = prop.getProperty(STRATEGY_PROPERTY_KEY);
         if(strategyProp.contains(STRATEGY_PROPERTY_MIX)) {
-            strategy = new MixSearchStrategy();
+            strategy = new MixSearchStrategy(DEFAULT_MAX_NUM_RESULT);
         }
     }
 
@@ -92,8 +99,11 @@ public class ReferenceDocSearcher {
         s.search();
         long end = System.currentTimeMillis();
         System.out.println((end - begin));
+        int count = 0;
         for(ReferenceDocumentInfo info : s.getDocs()) {
+            count++;
             System.out.println("------------------");
+            System.out.println(count);
             System.out.println(info.getSource().toString());
             System.out.println(info.getDocTitle());
             System.out.println(info.getDocURL());

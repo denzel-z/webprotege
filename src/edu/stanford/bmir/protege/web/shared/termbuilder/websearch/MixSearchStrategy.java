@@ -16,9 +16,12 @@ public class MixSearchStrategy implements SearchStrategy {
     private List<List<ReferenceDocumentInfo>> intermediateResultList;
     private List<ReferenceDocumentInfo> result;
 
-    public MixSearchStrategy() {
+    private int MAX_NUM_RESULT;
+
+    public MixSearchStrategy(int numResult) {
         intermediateResultList = new ArrayList<List<ReferenceDocumentInfo>>();
         result = new ArrayList<ReferenceDocumentInfo>();
+        this.MAX_NUM_RESULT = numResult;
     }
 
     @Override
@@ -51,6 +54,9 @@ public class MixSearchStrategy implements SearchStrategy {
                     if(!resultURLSet.contains(info.getDocURL())) {
                         result.add(info);
                         resultURLSet.add(info.getDocURL());
+                    }
+                    if(result.size() >= MAX_NUM_RESULT) {
+                        return;
                     }
                     if(!it.hasNext()) {
                         removeList.add(i);

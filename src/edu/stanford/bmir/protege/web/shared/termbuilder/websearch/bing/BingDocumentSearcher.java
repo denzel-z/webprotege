@@ -19,8 +19,8 @@ public class BingDocumentSearcher implements SubSearcher, Runnable {
     public String normalizedConceptName;
     public ArrayList<ReferenceDocumentInfo> recommendedDocuments;
 
-    private BingSearchConnection con;
-    private Gson gson;
+    protected BingSearchConnection con;
+    protected Gson gson;
 
     public String resultString;
 
@@ -38,7 +38,6 @@ public class BingDocumentSearcher implements SubSearcher, Runnable {
         recommendedDocuments = new ArrayList<ReferenceDocumentInfo>();
 
         this.normalizedConceptName = normalizeConceptName(conceptName);
-
     }
 
     @Override

@@ -5,5 +5,6 @@ package edu.stanford.bmir.protege.web.shared.termbuilder.websearch;
  */
 public enum WebSearchSource {
     BING_SEARCH,
+    BING_CATEGORY_SEARCH,
     WIKIPEDIA_SEARCH
 }
