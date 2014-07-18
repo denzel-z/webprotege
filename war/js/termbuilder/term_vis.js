@@ -27,7 +27,7 @@ conceptArray = [
 
 
 classData = conceptArray.map(function(d) {
-      return {text: d, size: 20 + Math.random() * 10};
+      return {text: d, size: 15 + Math.random() * 3};
     });
 
 /******************************************
@@ -224,7 +224,7 @@ function setcursor(cursor)
 
 function convertConceptArrayIntoRandomData(array) {
   var classData = array.map(function(d) {
-      return {text: d, size: 20 + Math.random() * 10};
+      return {text: d, size: 15 + Math.random() * 3};
     });
   return classData;
 };

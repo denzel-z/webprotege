@@ -46,7 +46,7 @@ public class ConceptNetSearch {
 		searchIsAConcepts();
 //		searchRelatedToConcepts();
 		searchSuperclassOfConcepts();
-		searchPartOfConcepts();
+		//searchPartOfConcepts();
 //		searchSynonymConcepts();
 //		searchAntonymConcepts();
 	}
@@ -90,7 +90,8 @@ public class ConceptNetSearch {
 			recommendedConcepts.add(info);
 		}
 	}
-	
+
+    /*
 	public void searchPartOfConcepts() throws Exception {
 		String url = ROOT_URL + "?rel=/r/PartOf&end=/c/en/" +
 				normalizedSrcConceptName + "&limit=" + SEARCH_RESULT_LIMIT;
@@ -103,6 +104,7 @@ public class ConceptNetSearch {
 			recommendedConcepts.add(info);
 		}
 	}
+	*/
 	
 	public void searchSynonymConcepts() throws Exception {
 		String url = ROOT_URL + "?rel=/r/Synonym&end=/c/en/" +

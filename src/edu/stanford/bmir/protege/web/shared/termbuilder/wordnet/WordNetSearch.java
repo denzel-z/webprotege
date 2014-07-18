@@ -17,6 +17,7 @@ import edu.mit.jwi.item.POS;
 import edu.mit.jwi.item.Pointer;
 import edu.mit.jwi.morph.WordnetStemmer;
 import edu.stanford.bmir.protege.web.shared.termbuilder.Concept;
+import edu.stanford.bmir.protege.web.shared.termbuilder.ConceptList;
 import edu.stanford.bmir.protege.web.shared.termbuilder.RecommendedConceptInfo;
 import edu.stanford.bmir.protege.web.shared.termbuilder.RecommendedConceptInfo.ConceptRelation;
 import edu.stanford.bmir.protege.web.shared.termbuilder.TBStringUtils;
@@ -39,6 +40,8 @@ public class WordNetSearch {
 	private WordnetStemmer stemmer;
 
 	private static WordNetSearch instance = null;
+
+    public static final int MAX_SIBLING_SUPERCLASS_NUM = 5;
 
 	protected WordNetSearch() throws IOException {
 //		URL url = new URL("file", null, DICT_PATH);
@@ -71,6 +74,10 @@ public class WordNetSearch {
 		String capNormalizedConceptName = convertWordNetOutputToConceptString(normalizedConceptName);
 		// get the synset
 		IIndexWord idxWord = dict.getIndexWord(normalizedConceptName, POS.NOUN);
+        if(idxWord == null || idxWord.getWordIDs().size() == 0) {
+            // no related concept in WordNet, simply return empty list.
+            return recommendedConcept;
+        }
 		IWordID wordID = idxWord.getWordIDs().get(0);
 		IWord iword = dict.getWord(wordID);
 		ISynset synset = iword.getSynset();
@@ -99,11 +106,17 @@ public class WordNetSearch {
 				RecommendedConceptInfo.ConceptRelation.SUBCLASS_OF);
 		recommendedConcept.addAll(conceptList);
 
-		//Get meronym_part
+        // Get siblings (concepts with the same super class)
+        conceptList = getSiblingConcepts(hypernyms, srcConcept);
+        recommendedConcept.addAll(conceptList);
+
+		/**
+         *  Don't care about meronym part relation
 		List<ISynsetID> meronyms = synset.getRelatedSynsets(Pointer.MERONYM_PART);
 		conceptList = addSynsetsIntoRecommendedConceptsList(srcConcept, meronyms,
 				RecommendedConceptInfo.ConceptRelation.PART_OF);
 		recommendedConcept.addAll(conceptList);
+		*/
 
 		//Get Topic and domain
 		List<ISynsetID> comb = new ArrayList<ISynsetID>();
@@ -118,7 +131,23 @@ public class WordNetSearch {
 		return recommendedConcept;
 	}
 
-	private List<RecommendedConceptInfo> addSynsetsIntoRecommendedConceptsList(Concept srcConcept,
+    private List<RecommendedConceptInfo> getSiblingConcepts(List<ISynsetID> hypernyms, Concept srcConcept) {
+        int count = 0;
+        List<RecommendedConceptInfo> result = new ArrayList<RecommendedConceptInfo>();
+        for(ISynsetID sid : hypernyms) {
+            count++;
+            if(count > MAX_SIBLING_SUPERCLASS_NUM) {
+                break;
+            }
+            ISynset synset = dict.getSynset(sid);
+            List<ISynsetID> siblings = synset.getRelatedSynsets(Pointer.HYPONYM);
+            List<RecommendedConceptInfo> cList = addSynsetsIntoRecommendedConceptsList(srcConcept, siblings, ConceptRelation.SIBLING_OF);
+            result.addAll(cList);
+        }
+        return result;
+    }
+
+    private List<RecommendedConceptInfo> addSynsetsIntoRecommendedConceptsList(Concept srcConcept,
 			List<ISynsetID> synsets, ConceptRelation relation) {
 		List<IWord> words;
 		List<RecommendedConceptInfo> recommendedConcept = new ArrayList<RecommendedConceptInfo>();

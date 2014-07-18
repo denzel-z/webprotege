@@ -1,5 +1,6 @@
 package edu.stanford.bmir.protege.web.shared.termbuilder.questionparsing;
 
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.TermBuilderConstant;
 import edu.stanford.bmir.protege.web.shared.termbuilder.ConceptList;
 import edu.stanford.bmir.protege.web.shared.termbuilder.wordnet.WordNetSearch;
 import edu.stanford.nlp.ling.CoreAnnotations;
@@ -10,6 +11,7 @@ import edu.stanford.nlp.util.CoreMap;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -44,6 +46,14 @@ public class NounPhraseParser {
                 clist.clear();
             } else {
                 clist.clear();
+            }
+        }
+        // Remove the stop concepts
+        Iterator<String> r = result.iterator();
+        while(r.hasNext()) {
+            String s = r.next();
+            if(TermBuilderConstant.STOP_CONCEPTS.contains(s.toLowerCase())) {
+                r.remove();
             }
         }
         return result;

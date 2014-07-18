@@ -259,7 +259,7 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
             String conceptName = info.getRecommendedConcept().getConceptName();
             selectedClassesArray.add(conceptName);
             OWLClass superClass;
-            if(info.getRelation() == RecommendedConceptInfo.ConceptRelation.SUBCLASS_OF || info.getRelation() == RecommendedConceptInfo.ConceptRelation.PART_OF) {
+            if(info.getRelation() == RecommendedConceptInfo.ConceptRelation.SUBCLASS_OF) {
                 superClass = DataFactory.getOWLClass(info.getSrcConcept().getIRI());
             } else {
                 superClass = DataFactory.getOWLThing();

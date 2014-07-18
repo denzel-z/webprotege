@@ -18,9 +18,9 @@ public class RecommendedConceptInfo implements Serializable, Comparable<Recommen
 	public static enum ConceptRelation {
         SUBCLASS_OF,
         SUPERCLASS_OF,
+        SIBLING_OF,
 		RELATED_TO,
-        SYNONYM,
-        PART_OF
+        SYNONYM
 	}
 	
 	public RecommendedConceptInfo(Concept srcConcept,
@@ -73,8 +73,8 @@ public class RecommendedConceptInfo implements Serializable, Comparable<Recommen
             return new String[] {"SubClass", "Of"};
         } else if (relation == ConceptRelation.RELATED_TO) {
             return new String[] {"Related", "To"};
-        } else if (relation == ConceptRelation.PART_OF) {
-            return new String[] {"Part", "Of"};
+        } else if (relation == ConceptRelation.SIBLING_OF) {
+            return new String[] {"Sibling", "Of"};
         } else {
             return new String[] {"Synonym", "Of"};
         }
@@ -111,7 +111,7 @@ public class RecommendedConceptInfo implements Serializable, Comparable<Recommen
             return "#6CB42A";
         } else if (relation == ConceptRelation.RELATED_TO) {
             return "#87579C";
-        } else if (relation == ConceptRelation.PART_OF) {
+        } else if (relation == ConceptRelation.SIBLING_OF) {
             return "#CD4939";
         } else {
             return "#D96F00";
