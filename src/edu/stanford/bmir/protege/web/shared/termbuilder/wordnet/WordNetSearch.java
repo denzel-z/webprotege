@@ -3,8 +3,10 @@ package edu.stanford.bmir.protege.web.shared.termbuilder.wordnet;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.IDictionary;
@@ -134,6 +136,8 @@ public class WordNetSearch {
     private List<RecommendedConceptInfo> getSiblingConcepts(List<ISynsetID> hypernyms, Concept srcConcept) {
         int count = 0;
         List<RecommendedConceptInfo> result = new ArrayList<RecommendedConceptInfo>();
+        // Used to remove duplicates
+        Set<RecommendedConceptInfo> resultSet = new HashSet<RecommendedConceptInfo>();
         for(ISynsetID sid : hypernyms) {
             count++;
             if(count > MAX_SIBLING_SUPERCLASS_NUM) {
@@ -142,8 +146,9 @@ public class WordNetSearch {
             ISynset synset = dict.getSynset(sid);
             List<ISynsetID> siblings = synset.getRelatedSynsets(Pointer.HYPONYM);
             List<RecommendedConceptInfo> cList = addSynsetsIntoRecommendedConceptsList(srcConcept, siblings, ConceptRelation.SIBLING_OF);
-            result.addAll(cList);
+            resultSet.addAll(cList);
         }
+        result.addAll(resultSet);
         return result;
     }
 

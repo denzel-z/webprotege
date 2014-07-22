@@ -128,6 +128,16 @@ public class RecommendedConceptInfo implements Serializable, Comparable<Recommen
             return this.recommendationID.compareTo(info.recommendationID);
         }
     }
+
+    @Override
+    public int hashCode() {
+        int prime = 31;
+        int result = 1;
+        result = result * prime + srcConcept.hashCode();
+        result = result * prime + recommendedConcept.hashCode();
+        result = result * prime + relation.hashCode();
+        return result;
+    }
 	
 	@Override
 	public String toString() {

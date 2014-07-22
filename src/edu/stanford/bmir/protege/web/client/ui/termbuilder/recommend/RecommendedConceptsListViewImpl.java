@@ -1,6 +1,7 @@
 package edu.stanford.bmir.protege.web.client.ui.termbuilder.recommend;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -232,10 +233,13 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
 		CompetencyQuestionsManager manager = project.getCompetencyQuestionsManager();
 		
 		Set<RecommendedConceptInfo> selectedSet = selectionModel.getSelectedSet();
+        if(selectedSet.isEmpty()) return;
+
 		List<String> selectedClassesArray = new ArrayList<String>();
-        List<ClassStringAndSuperClassPair> pairList = new ArrayList<ClassStringAndSuperClassPair>();
-		
-        populateAcceptedClassesInfo(selectedSet, selectedClassesArray, pairList);
+
+        // The new implementation
+        OWLClass srcConcept = getSrcConcept(selectedSet);
+        populateAcceptedClassesToArray(selectedSet, selectedClassesArray);
 		
 		manager.addAcceptedConceptsFromString(selectedClassesArray);
 		
@@ -247,24 +251,24 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
 				getCreateClassesActionAsyncHandler());
 	    */
 
-        //Add classes into class tree, with class hierarchy information
-        DispatchServiceManager.get().execute(new CreateClassesWithHierarchyAction(project.getProjectId(), pairList),
+        DispatchServiceManager.get().execute(new CreateClassesWithHierarchyAction(project.getProjectId(), selectedSet, srcConcept),
                 getCreateClassesWithHierarchyActionAsyncHandler());
 
 	}
 
-    // TODO: support more class hierarchy analysis when adding classes into class tree
-    private void populateAcceptedClassesInfo(Set<RecommendedConceptInfo> infoSet, List<String> selectedClassesArray, List<ClassStringAndSuperClassPair> pairList) {
-        for(RecommendedConceptInfo info: infoSet) {
+    private OWLClass getSrcConcept(Set<RecommendedConceptInfo> selectedSet) {
+        if(selectedSet.isEmpty()) return null;
+
+        Iterator<RecommendedConceptInfo> iter = selectedSet.iterator();
+        Concept c = iter.next().getSrcConcept();
+        OWLClass srcConcept = DataFactory.getOWLClass(c.getIRI());
+        return srcConcept;
+    }
+
+    private void populateAcceptedClassesToArray(Set<RecommendedConceptInfo> selectedSet, List<String> selectedClassesArray) {
+        for(RecommendedConceptInfo info: selectedSet) {
             String conceptName = info.getRecommendedConcept().getConceptName();
             selectedClassesArray.add(conceptName);
-            OWLClass superClass;
-            if(info.getRelation() == RecommendedConceptInfo.ConceptRelation.SUBCLASS_OF) {
-                superClass = DataFactory.getOWLClass(info.getSrcConcept().getIRI());
-            } else {
-                superClass = DataFactory.getOWLThing();
-            }
-            pairList.add(new ClassStringAndSuperClassPair(conceptName, superClass));
         }
     }
 
