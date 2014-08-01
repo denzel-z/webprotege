@@ -41,7 +41,7 @@ public class ReferenceDocumentsViewPresenter {
     }
 
     public void reload() {
-        List<ReferenceDocumentInfo> listData = new ArrayList<ReferenceDocumentInfo>(view.getCompetencyQuestionsManager().getRecommendedDocuments());
+        List<ReferenceDocumentInfo> listData = new ArrayList<ReferenceDocumentInfo>(view.getTermBuilderManagerBoard().getReferenceDocumentsManager().getRecommendedDocuments());
         setListData(listData);
     }
 

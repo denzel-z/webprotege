@@ -37,6 +37,7 @@ import edu.stanford.bmir.protege.web.client.ui.termbuilder.AcceptedConceptsManag
 import edu.stanford.bmir.protege.web.client.ui.termbuilder.CompetencyQuestionsManager;
 import edu.stanford.bmir.protege.web.client.ui.termbuilder.RecommendedConceptsManager;
 import edu.stanford.bmir.protege.web.client.ui.termbuilder.TermBuilderConstant;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.TermBuilderManagerBoard;
 import edu.stanford.bmir.protege.web.shared.DataFactory;
 import edu.stanford.bmir.protege.web.shared.entity.OWLEntityData;
 import edu.stanford.bmir.protege.web.shared.termbuilder.Concept;
@@ -311,7 +312,7 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
 	}
 	
 	@Override
-	public CompetencyQuestionsManager getCompetencyQuestionsManager() {
-		return project.getTermBuilderManagerBoard().getCompetencyQuestionsManager();
+	public TermBuilderManagerBoard getTermBuilderManagerBoard() {
+		return project.getTermBuilderManagerBoard();
 	}
 }

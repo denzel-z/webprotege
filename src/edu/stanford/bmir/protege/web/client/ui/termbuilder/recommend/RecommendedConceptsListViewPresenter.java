@@ -41,7 +41,7 @@ public class RecommendedConceptsListViewPresenter {
 		//Here is some code to get data from the service, and store the data
 		//into dataProvider
 		List<RecommendedConceptInfo> listData = 
-				new ArrayList<RecommendedConceptInfo>(view.getCompetencyQuestionsManager().getRecommendedConcepts());
+				new ArrayList<RecommendedConceptInfo>(view.getTermBuilderManagerBoard().getRecommendedConceptsManager().getRecommendedConcepts());
 		setListData(listData);
 	}
 	

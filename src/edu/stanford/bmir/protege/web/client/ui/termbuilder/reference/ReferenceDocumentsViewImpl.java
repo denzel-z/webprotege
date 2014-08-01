@@ -27,7 +27,9 @@ import edu.stanford.bmir.protege.web.client.dispatch.actions.SearchReferenceDocu
 import edu.stanford.bmir.protege.web.client.dispatch.actions.SearchReferenceDocumentResult;
 import edu.stanford.bmir.protege.web.client.project.Project;
 import edu.stanford.bmir.protege.web.client.ui.termbuilder.CompetencyQuestionsManager;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.ReferenceDocumentsManager;
 import edu.stanford.bmir.protege.web.client.ui.termbuilder.TermBuilderConstant;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.TermBuilderManagerBoard;
 import edu.stanford.bmir.protege.web.shared.entity.OWLEntityData;
 import edu.stanford.bmir.protege.web.shared.termbuilder.ReferenceDocumentInfo;
 
@@ -50,6 +52,8 @@ public class ReferenceDocumentsViewImpl extends Composite implements ReferenceDo
     private ReferenceDocumentsViewPresenter presenter = null;
     private ReferenceDocumentsPortlet portlet = null;
     private final NoSelectionModel<ReferenceDocumentInfo> selectionModel;
+
+    private ReferenceDocumentsManager referenceDocumentsManager;
 
     @UiField(provided=true) DataGrid<ReferenceDocumentInfo> dataGrid;
     @UiField Anchor anchor;
@@ -84,6 +88,8 @@ public class ReferenceDocumentsViewImpl extends Composite implements ReferenceDo
                 dataGrid.setVisible(true);
             }
         });
+
+        referenceDocumentsManager = project.getTermBuilderManagerBoard().getReferenceDocumentsManager();
     }
 
     public void initTableColumns(final SelectionModel<ReferenceDocumentInfo> selectionModel) {
@@ -138,7 +144,7 @@ public class ReferenceDocumentsViewImpl extends Composite implements ReferenceDo
             public void onSuccess(SearchReferenceDocumentResult result) {
                 System.err.println("[Client] Recommend Concept Action Handling Succeed!");
                 CompetencyQuestionsManager manager = project.getTermBuilderManagerBoard().getCompetencyQuestionsManager();
-                manager.addRecommendedDocuments(result.getReferenceDocuments());
+                referenceDocumentsManager.addRecommendedDocuments(result.getReferenceDocuments());
                 presenter.reload();
             }
         };
@@ -155,8 +161,8 @@ public class ReferenceDocumentsViewImpl extends Composite implements ReferenceDo
     }
 
     @Override
-    public CompetencyQuestionsManager getCompetencyQuestionsManager() {
-        return project.getTermBuilderManagerBoard().getCompetencyQuestionsManager();
+    public TermBuilderManagerBoard getTermBuilderManagerBoard() {
+        return project.getTermBuilderManagerBoard();
     }
 
     @Override
