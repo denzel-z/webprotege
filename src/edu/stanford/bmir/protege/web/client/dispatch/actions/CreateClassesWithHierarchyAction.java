@@ -16,27 +16,16 @@ import java.util.Set;
  * @author Yuhao Zhang <zyh@stanford.edu>
  */
 public class CreateClassesWithHierarchyAction extends AbstractHasProjectAction<CreateClassesWithHierarchyResult> {
-    private List<ClassStringAndSuperClassPair> pairList;
-
     private Set<RecommendedConceptInfo> infoSet;
     private OWLClass srcConcept;
 
     private CreateClassesWithHierarchyAction() {
     }
 
-    public CreateClassesWithHierarchyAction(ProjectId projectId, List<ClassStringAndSuperClassPair> pairList) {
-        super(projectId);
-        this.pairList = new ArrayList<ClassStringAndSuperClassPair>(pairList);
-    }
-
     public CreateClassesWithHierarchyAction(ProjectId projectId, Set<RecommendedConceptInfo> infoSet, OWLClass srcConcept) {
         super(projectId);
         this.infoSet = infoSet;
         this.srcConcept = srcConcept;
-    }
-
-    public List<ClassStringAndSuperClassPair> getPairList() {
-        return pairList;
     }
 
     public Set<RecommendedConceptInfo> getRecommendedConceptSet() {

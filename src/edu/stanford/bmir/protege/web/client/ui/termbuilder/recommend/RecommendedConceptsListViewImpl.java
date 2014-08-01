@@ -16,6 +16,8 @@ import edu.stanford.bmir.protege.web.client.dispatch.actions.CreateClassesWithHi
 import edu.stanford.bmir.protege.web.client.dispatch.actions.CreateClassesWithHierarchyResult;
 import edu.stanford.bmir.protege.web.client.dispatch.actions.RecommendForSingleConceptAction;
 import edu.stanford.bmir.protege.web.client.dispatch.actions.RecommendForSingleConceptResult;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.AcceptedConceptsManager;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.RecommendedConceptsManager;
 import edu.stanford.bmir.protege.web.client.ui.termbuilder.TermBuilderConstant;
 import edu.stanford.bmir.protege.web.shared.entity.OWLEntityData;
 import edu.stanford.bmir.protege.web.shared.termbuilder.ClassStringAndSuperClassPair;
@@ -56,6 +58,9 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
 	private final Project project;
 	private  RecommendedConceptsListViewPresenter presenter = null;
     private RecommendedConceptsPortlet portlet = null;
+
+    private AcceptedConceptsManager acceptedConceptsManager;
+    private RecommendedConceptsManager recommendedConceptsManager;
 	
 	private static RecommendedConceptsListViewImplUiBinder uiBinder = GWT
 			.create(RecommendedConceptsListViewImplUiBinder.class);
@@ -110,6 +115,9 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
                 acceptButton.setVisible(true);
             }
         });
+
+        acceptedConceptsManager = project.getTermBuilderManagerBoard().getAcceptedConceptsManager();
+        recommendedConceptsManager = project.getTermBuilderManagerBoard().getRecommendedConceptsManager();
 	}
 	
 	private void initTableColumns(
@@ -191,8 +199,7 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
             @Override
             public void onSuccess(RecommendForSingleConceptResult result) {
                 System.err.println("[Client] Recommend Concept Action Handling Succeed!");
-                CompetencyQuestionsManager manager = project.getTermBuilderManagerBoard().getCompetencyQuestionsManager();
-                manager.addRecommendedConcepts(result.getRecommendedConcepts());
+                recommendedConceptsManager.addRecommendedConcepts(result.getRecommendedConcepts());
 //                EventBusManager.getManager().postEvent(new SourceConceptChangedEvent(project.getProjectId()));
                 presenter.reload();
             }
@@ -215,8 +222,7 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
 			@Override
 			public void onSuccess(RecommendConceptsResult result) {
 				System.err.println("[Client] Recommend Concept Action Handling Succeed!");
-				CompetencyQuestionsManager manager = project.getTermBuilderManagerBoard().getCompetencyQuestionsManager();
-				manager.addRecommendedConcepts(result.getRecommendedConcepts());
+				recommendedConceptsManager.addRecommendedConcepts(result.getRecommendedConcepts());
 				presenter.reload();
 			}
 			
@@ -229,9 +235,6 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
 	}
 	
 	private void onAccept() {
-		//Get CQ Manager
-		CompetencyQuestionsManager manager = project.getTermBuilderManagerBoard().getCompetencyQuestionsManager();
-		
 		Set<RecommendedConceptInfo> selectedSet = selectionModel.getSelectedSet();
         if(selectedSet.isEmpty()) return;
 
@@ -241,7 +244,7 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
         OWLClass srcConcept = getSrcConcept(selectedSet);
         populateAcceptedClassesToArray(selectedSet, selectedClassesArray);
 		
-		manager.addAcceptedConceptsFromString(selectedClassesArray);
+		acceptedConceptsManager.addAcceptedConceptsFromString(selectedClassesArray);
 		
 		/*
 		//Add classes into class tree, naive implementation simply add all concepts as the subclass of Thing

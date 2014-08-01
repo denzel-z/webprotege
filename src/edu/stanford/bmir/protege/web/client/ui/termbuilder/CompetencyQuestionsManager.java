@@ -25,16 +25,9 @@ public class CompetencyQuestionsManager {
 	private List<CompetencyQuestionInfo> questions;
 	//Used to generate an unique Id for each question.
 	private int maxId = 0;
-	private Set<Concept> acceptedConceptSet;
-	private Set<RecommendedConceptInfo> recommendedConceptSet;
-    private List<ReferenceDocumentInfo> referenceDocumentInfoList;
 	
 	public CompetencyQuestionsManager() {
 		questions = new ArrayList<CompetencyQuestionInfo>();
-
-		acceptedConceptSet = new HashSet<Concept>();
-		recommendedConceptSet = new HashSet<RecommendedConceptInfo>();
-        referenceDocumentInfoList = new ArrayList<ReferenceDocumentInfo>();
 		maxId = 0;
 	}
 	
@@ -95,45 +88,5 @@ public class CompetencyQuestionsManager {
 		questions.clear();
 		maxId = 0;
 	}
-	
-	public void addAcceptedConcepts(Collection<Concept> c) {
-		acceptedConceptSet.addAll(c);
-	}
-	
-	public void addAcceptedConceptsFromString(Collection<String> c) {
-		for(String s: c) {
-			acceptedConceptSet.add(new Concept(s));
-		}
-	}
-	
-	public void addRecommendedConcepts(Collection<RecommendedConceptInfo> c) {
-		recommendedConceptSet.clear();
-		recommendedConceptSet.addAll(c);
-	}
-
-    public void addRecommendedDocuments(Collection<ReferenceDocumentInfo> c) {
-        referenceDocumentInfoList.clear();
-        referenceDocumentInfoList.addAll(c);
-    }
-	
-	/**
-	 * Return a readonly accepted conceptName set. If want to change the acceptedConceptSet, please use
-	 * other methods like addAcceptedConcepts().
-	 * @return
-	 */
-	public Set<Concept> getAcceptedConcepts() {
-		return Collections.unmodifiableSet(acceptedConceptSet);
-	}
-	
-	public List<RecommendedConceptInfo> getRecommendedConcepts() {
-        List<RecommendedConceptInfo> result = new ArrayList<RecommendedConceptInfo>();
-        result.addAll(recommendedConceptSet);
-        Collections.sort(result);
-		return Collections.unmodifiableList(result);
-	}
-
-    public List<ReferenceDocumentInfo> getRecommendedDocuments() {
-        return Collections.unmodifiableList(referenceDocumentInfoList);
-    }
 	
 }

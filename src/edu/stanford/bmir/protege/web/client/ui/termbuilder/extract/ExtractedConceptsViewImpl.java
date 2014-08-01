@@ -7,6 +7,7 @@ import java.util.Set;
 
 import edu.stanford.bmir.protege.web.client.dispatch.actions.CreateClassesWithHierarchyAction;
 import edu.stanford.bmir.protege.web.client.dispatch.actions.CreateClassesWithHierarchyResult;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.AcceptedConceptsManager;
 import edu.stanford.bmir.protege.web.client.ui.termbuilder.TermBuilderConstant;
 import edu.stanford.bmir.protege.web.client.ui.termbuilder.TermBuilderManagerBoard;
 import edu.stanford.bmir.protege.web.server.owlapi.OWLAPIProjectConfigurationListener;
@@ -43,6 +44,8 @@ public class ExtractedConceptsViewImpl extends Composite implements ExtractedCon
 	public int canvasWidth;
 	public int canvasHeight;
 	private Project project;
+
+    private AcceptedConceptsManager acceptedConceptsManager;
 	
 	private static ExtractedConceptsViewImplUiBinder uiBinder = GWT
 			.create(ExtractedConceptsViewImplUiBinder.class);
@@ -61,6 +64,8 @@ public class ExtractedConceptsViewImpl extends Composite implements ExtractedCon
 		initWidget(uiBinder.createAndBindUi(this));
 		termVisCanvas.getElement().setId(TERM_VIS_CANVAS_ID);
 		this.project = project;
+
+        acceptedConceptsManager = getTermBuilderManagerBoard().getAcceptedConceptsManager();
 	}
 
 //	@Override
@@ -85,8 +90,6 @@ public class ExtractedConceptsViewImpl extends Composite implements ExtractedCon
 	}
 	
 	private void onAccept() {
-		//Get CQ Manager
-		CompetencyQuestionsManager manager = project.getTermBuilderManagerBoard().getCompetencyQuestionsManager();
 		JsArrayString selectedClasses = getSelectedClass();
 		
 		List<String> selectedClassesArray = new ArrayList<String>();
@@ -101,7 +104,7 @@ public class ExtractedConceptsViewImpl extends Composite implements ExtractedCon
 
 		populateSelectedSet(selectedSet, selectedClassesArray);
 
-		manager.addAcceptedConceptsFromString(selectedClassesArray);
+		acceptedConceptsManager.addAcceptedConceptsFromString(selectedClassesArray);
 
         OWLClass thingClass = DataFactory.getOWLThing();
 
