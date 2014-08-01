@@ -1,14 +1,7 @@
 package edu.stanford.bmir.protege.web.shared.termbuilder.websearch.bing;
 
-import com.google.gson.Gson;
 import edu.stanford.bmir.protege.web.shared.termbuilder.ReferenceDocumentInfo;
-import edu.stanford.bmir.protege.web.shared.termbuilder.websearch.SubSearcher;
 import edu.stanford.bmir.protege.web.shared.termbuilder.websearch.WebSearchSource;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Yuhao Zhang

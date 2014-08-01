@@ -1,36 +1,15 @@
 package edu.stanford.bmir.protege.web.client.ui.termbuilder.recommend;
 
-import java.util.Collection;
-import java.util.Collections;
-
 import com.google.common.base.Optional;
-import com.gwtext.client.core.EventObject;
-import com.gwtext.client.data.ArrayReader;
-import com.gwtext.client.data.FieldDef;
-import com.gwtext.client.data.MemoryProxy;
-import com.gwtext.client.data.RecordDef;
-import com.gwtext.client.data.Store;
-import com.gwtext.client.data.StringFieldDef;
-import com.gwtext.client.widgets.Button;
-import com.gwtext.client.widgets.Panel;
-import com.gwtext.client.widgets.Toolbar;
-import com.gwtext.client.widgets.ToolbarButton;
-import com.gwtext.client.widgets.event.ButtonListenerAdapter;
-import com.gwtext.client.widgets.grid.BaseColumnConfig;
-import com.gwtext.client.widgets.grid.CheckboxColumnConfig;
-import com.gwtext.client.widgets.grid.CheckboxSelectionModel;
-import com.gwtext.client.widgets.grid.ColumnConfig;
-import com.gwtext.client.widgets.grid.ColumnModel;
-import com.gwtext.client.widgets.grid.GridPanel;
-import com.gwtext.client.widgets.grid.GridView;
-import com.gwtext.client.widgets.grid.RowNumberingColumnConfig;
 import com.gwtext.client.widgets.layout.FitLayout;
-
 import edu.stanford.bmir.protege.web.client.project.Project;
 import edu.stanford.bmir.protege.web.client.rpc.data.EntityData;
 import edu.stanford.bmir.protege.web.client.ui.portlet.AbstractOWLEntityPortlet;
 import edu.stanford.bmir.protege.web.client.ui.termbuilder.TermBuilderConstant;
 import edu.stanford.bmir.protege.web.shared.entity.OWLEntityData;
+
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * The portlet that shows recommended concepts generated according to the concepts in 

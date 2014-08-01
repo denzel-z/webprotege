@@ -1,6 +1,5 @@
 package edu.stanford.bmir.protege.web.shared.termbuilder;
 
-import com.google.web.bindery.event.shared.Event;
 import edu.stanford.bmir.protege.web.shared.event.ProjectEvent;
 import edu.stanford.bmir.protege.web.shared.project.ProjectId;
 

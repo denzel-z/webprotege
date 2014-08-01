@@ -1,19 +1,13 @@
 package edu.stanford.bmir.protege.web.client.ui.termbuilder.extract;
 
-import java.util.Collection;
-import java.util.Collections;
-
-import com.gwtext.client.core.EventObject;
-import com.gwtext.client.widgets.Button;
-import com.gwtext.client.widgets.Toolbar;
-import com.gwtext.client.widgets.ToolbarButton;
-import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.layout.FitLayout;
-
 import edu.stanford.bmir.protege.web.client.project.Project;
 import edu.stanford.bmir.protege.web.client.rpc.data.EntityData;
 import edu.stanford.bmir.protege.web.client.ui.portlet.AbstractOWLEntityPortlet;
 import edu.stanford.bmir.protege.web.client.ui.termbuilder.question.CompetencyQuestionsPortlet2;
+
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * The portlet that shows concepts extracted from {@link CompetencyQuestionsPortlet2} and

@@ -1,21 +1,5 @@
 package edu.stanford.bmir.protege.web.client.ui.termbuilder.extract;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import edu.stanford.bmir.protege.web.client.dispatch.actions.CreateClassesWithHierarchyAction;
-import edu.stanford.bmir.protege.web.client.dispatch.actions.CreateClassesWithHierarchyResult;
-import edu.stanford.bmir.protege.web.client.ui.termbuilder.AcceptedConceptsManager;
-import edu.stanford.bmir.protege.web.client.ui.termbuilder.TermBuilderConstant;
-import edu.stanford.bmir.protege.web.client.ui.termbuilder.TermBuilderManagerBoard;
-import edu.stanford.bmir.protege.web.server.owlapi.OWLAPIProjectConfigurationListener;
-import edu.stanford.bmir.protege.web.shared.termbuilder.ClassStringAndSuperClassPair;
-import edu.stanford.bmir.protege.web.shared.termbuilder.Concept;
-import edu.stanford.bmir.protege.web.shared.termbuilder.RecommendedConceptInfo;
-import org.semanticweb.owlapi.model.OWLClass;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -26,13 +10,23 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
-
 import edu.stanford.bmir.protege.web.client.dispatch.DispatchServiceManager;
-import edu.stanford.bmir.protege.web.client.dispatch.actions.CreateClassesAction;
-import edu.stanford.bmir.protege.web.client.dispatch.actions.CreateClassesResult;
+import edu.stanford.bmir.protege.web.client.dispatch.actions.CreateClassesWithHierarchyAction;
+import edu.stanford.bmir.protege.web.client.dispatch.actions.CreateClassesWithHierarchyResult;
 import edu.stanford.bmir.protege.web.client.project.Project;
-import edu.stanford.bmir.protege.web.client.ui.termbuilder.CompetencyQuestionsManager;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.AcceptedConceptsManager;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.TermBuilderConstant;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.TermBuilderManagerBoard;
 import edu.stanford.bmir.protege.web.shared.DataFactory;
+import edu.stanford.bmir.protege.web.shared.termbuilder.ClassStringAndSuperClassPair;
+import edu.stanford.bmir.protege.web.shared.termbuilder.Concept;
+import edu.stanford.bmir.protege.web.shared.termbuilder.RecommendedConceptInfo;
+import org.semanticweb.owlapi.model.OWLClass;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 

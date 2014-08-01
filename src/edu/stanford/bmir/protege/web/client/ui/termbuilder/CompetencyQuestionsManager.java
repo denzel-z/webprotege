@@ -1,17 +1,11 @@
 package edu.stanford.bmir.protege.web.client.ui.termbuilder;
 
+import edu.stanford.bmir.protege.web.shared.termbuilder.CompetencyQuestionInfo;
+
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
-import edu.stanford.bmir.protege.web.shared.termbuilder.CompetencyQuestionInfo;
-import edu.stanford.bmir.protege.web.shared.termbuilder.Concept;
-import edu.stanford.bmir.protege.web.shared.termbuilder.RecommendedConceptInfo;
-import edu.stanford.bmir.protege.web.shared.termbuilder.ReferenceDocumentInfo;
 
 /**
  * This is the class to store competency questions and their corresponding concepts

@@ -1,8 +1,8 @@
 package edu.stanford.bmir.protege.web.shared.termbuilder;
 
-import java.io.Serializable;
-
 import com.google.gwt.user.client.rpc.IsSerializable;
+
+import java.io.Serializable;
 
 public class CompetencyQuestionInfo implements Serializable, IsSerializable, Comparable<CompetencyQuestionInfo> {
 	

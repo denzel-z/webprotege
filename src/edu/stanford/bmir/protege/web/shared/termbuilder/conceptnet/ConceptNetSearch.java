@@ -1,15 +1,14 @@
 package edu.stanford.bmir.protege.web.shared.termbuilder.conceptnet;
 
+import com.google.gson.Gson;
+import edu.stanford.bmir.protege.web.shared.termbuilder.Concept;
+import edu.stanford.bmir.protege.web.shared.termbuilder.HttpConnection;
+import edu.stanford.bmir.protege.web.shared.termbuilder.RecommendedConceptInfo;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.google.gson.Gson;
-
-import edu.stanford.bmir.protege.web.shared.termbuilder.Concept;
-import edu.stanford.bmir.protege.web.shared.termbuilder.HttpConnection;
-import edu.stanford.bmir.protege.web.shared.termbuilder.RecommendedConceptInfo;
 
 public class ConceptNetSearch {
 	

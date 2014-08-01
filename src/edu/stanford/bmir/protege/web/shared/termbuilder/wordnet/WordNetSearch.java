@@ -1,13 +1,5 @@
 package edu.stanford.bmir.protege.web.shared.termbuilder.wordnet;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.item.IIndexWord;
@@ -19,12 +11,18 @@ import edu.mit.jwi.item.POS;
 import edu.mit.jwi.item.Pointer;
 import edu.mit.jwi.morph.WordnetStemmer;
 import edu.stanford.bmir.protege.web.shared.termbuilder.Concept;
-import edu.stanford.bmir.protege.web.shared.termbuilder.ConceptList;
 import edu.stanford.bmir.protege.web.shared.termbuilder.RecommendedConceptInfo;
 import edu.stanford.bmir.protege.web.shared.termbuilder.RecommendedConceptInfo.ConceptRelation;
 import edu.stanford.bmir.protege.web.shared.termbuilder.TBStringUtils;
 import edu.stanford.bmir.protege.web.shared.termbuilder.questionparsing.WordAndPOSTag;
-import edu.stanford.nlp.util.StringUtils;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 
 /**

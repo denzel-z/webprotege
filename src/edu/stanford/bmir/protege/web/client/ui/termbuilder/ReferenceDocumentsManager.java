@@ -2,7 +2,6 @@ package edu.stanford.bmir.protege.web.client.ui.termbuilder;
 
 import edu.stanford.bmir.protege.web.shared.termbuilder.ReferenceDocumentInfo;
 
-import java.lang.ref.Reference;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;

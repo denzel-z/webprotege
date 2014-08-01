@@ -1,10 +1,10 @@
 package edu.stanford.bmir.protege.web.shared.termbuilder;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-
-import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
  * This is the class that represent a "conceptName" extracted from a competency question.

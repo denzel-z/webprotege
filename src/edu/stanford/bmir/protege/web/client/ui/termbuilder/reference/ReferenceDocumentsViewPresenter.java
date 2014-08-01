@@ -2,13 +2,8 @@ package edu.stanford.bmir.protege.web.client.ui.termbuilder.reference;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
-import com.google.web.bindery.event.shared.HandlerRegistration;
-import edu.stanford.bmir.protege.web.shared.event.EventBusManager;
 import edu.stanford.bmir.protege.web.shared.project.ProjectId;
-import edu.stanford.bmir.protege.web.shared.termbuilder.RecommendedConceptInfo;
 import edu.stanford.bmir.protege.web.shared.termbuilder.ReferenceDocumentInfo;
-import edu.stanford.bmir.protege.web.shared.termbuilder.SourceConceptChangedEvent;
-import edu.stanford.bmir.protege.web.shared.termbuilder.SourceConceptChangedHandler;
 
 import java.util.ArrayList;
 import java.util.List;

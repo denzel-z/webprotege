@@ -1,14 +1,8 @@
 package edu.stanford.bmir.protege.web.client.ui.termbuilder.extract;
 
-import java.util.Set;
-
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.view.client.ListDataProvider;
 import com.google.web.bindery.event.shared.HandlerRegistration;
-
-import edu.stanford.bmir.protege.web.client.Application;
-import edu.stanford.bmir.protege.web.client.ui.termbuilder.CompetencyQuestionsManager;
 import edu.stanford.bmir.protege.web.client.ui.termbuilder.ExtractedConceptsManager;
 import edu.stanford.bmir.protege.web.shared.HasDispose;
 import edu.stanford.bmir.protege.web.shared.event.EventBusManager;
@@ -16,7 +10,8 @@ import edu.stanford.bmir.protege.web.shared.project.ProjectId;
 import edu.stanford.bmir.protege.web.shared.termbuilder.Concept;
 import edu.stanford.bmir.protege.web.shared.termbuilder.ExtractedConceptsChangedEvent;
 import edu.stanford.bmir.protege.web.shared.termbuilder.ExtractedConceptsChangedHandler;
-import edu.stanford.bmir.protege.web.shared.termbuilder.RecommendedConceptInfo;
+
+import java.util.Set;
 
 /**
  * The presenter of Extracted Concept Portlet to connect data model with 

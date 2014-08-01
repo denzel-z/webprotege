@@ -1,7 +1,5 @@
 package edu.stanford.bmir.protege.web.client.ui.termbuilder.recommend;
 
-import java.util.Collection;
-
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.data.ArrayReader;
 import com.gwtext.client.data.FieldDef;
@@ -23,10 +21,11 @@ import com.gwtext.client.widgets.grid.GridPanel;
 import com.gwtext.client.widgets.grid.GridView;
 import com.gwtext.client.widgets.grid.RowNumberingColumnConfig;
 import com.gwtext.client.widgets.layout.FitLayout;
-
 import edu.stanford.bmir.protege.web.client.project.Project;
 import edu.stanford.bmir.protege.web.client.rpc.data.EntityData;
 import edu.stanford.bmir.protege.web.client.ui.portlet.AbstractOWLEntityPortlet;
+
+import java.util.Collection;
 
 /**
  * The portlet that shows recommended concepts generated according to the concepts in 

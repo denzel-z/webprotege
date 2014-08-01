@@ -1,13 +1,12 @@
 package edu.stanford.bmir.protege.web.client.ui.termbuilder.question;
 
-import java.util.Collection;
-import java.util.Collections;
-
 import com.gwtext.client.widgets.layout.FitLayout;
-
 import edu.stanford.bmir.protege.web.client.project.Project;
 import edu.stanford.bmir.protege.web.client.rpc.data.EntityData;
 import edu.stanford.bmir.protege.web.client.ui.portlet.AbstractOWLEntityPortlet;
+
+import java.util.Collection;
+import java.util.Collections;
 
 @SuppressWarnings("unchecked")
 public class CompetencyQuestionsPortlet extends AbstractOWLEntityPortlet {

@@ -1,7 +1,5 @@
 package edu.stanford.bmir.protege.web.client.ui.termbuilder;
 
-import com.gwtext.client.core.Ext;
-
 /**
  * @author Yuhao Zhang
  */

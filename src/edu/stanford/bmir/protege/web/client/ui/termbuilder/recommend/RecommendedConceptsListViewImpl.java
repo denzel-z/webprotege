@@ -1,57 +1,53 @@
 package edu.stanford.bmir.protege.web.client.ui.termbuilder.recommend;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import com.google.common.base.Optional;
 import com.google.gwt.cell.client.SafeHtmlCell;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.safehtml.shared.SafeHtml;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import edu.stanford.bmir.protege.web.client.dispatch.actions.CreateClassesWithHierarchyAction;
-import edu.stanford.bmir.protege.web.client.dispatch.actions.CreateClassesWithHierarchyResult;
-import edu.stanford.bmir.protege.web.client.dispatch.actions.RecommendForSingleConceptAction;
-import edu.stanford.bmir.protege.web.client.dispatch.actions.RecommendForSingleConceptResult;
-import edu.stanford.bmir.protege.web.client.ui.termbuilder.AcceptedConceptsManager;
-import edu.stanford.bmir.protege.web.client.ui.termbuilder.RecommendedConceptsManager;
-import edu.stanford.bmir.protege.web.client.ui.termbuilder.TermBuilderConstant;
-import edu.stanford.bmir.protege.web.shared.entity.OWLEntityData;
-import edu.stanford.bmir.protege.web.shared.termbuilder.ClassStringAndSuperClassPair;
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLClass;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.AbstractDataProvider;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.SelectionModel;
-
 import edu.stanford.bmir.protege.web.client.dispatch.DispatchServiceManager;
 import edu.stanford.bmir.protege.web.client.dispatch.actions.CreateClassesResult;
+import edu.stanford.bmir.protege.web.client.dispatch.actions.CreateClassesWithHierarchyAction;
+import edu.stanford.bmir.protege.web.client.dispatch.actions.CreateClassesWithHierarchyResult;
 import edu.stanford.bmir.protege.web.client.dispatch.actions.RecommendConceptsResult;
+import edu.stanford.bmir.protege.web.client.dispatch.actions.RecommendForSingleConceptAction;
+import edu.stanford.bmir.protege.web.client.dispatch.actions.RecommendForSingleConceptResult;
 import edu.stanford.bmir.protege.web.client.project.Project;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.AcceptedConceptsManager;
 import edu.stanford.bmir.protege.web.client.ui.termbuilder.CompetencyQuestionsManager;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.RecommendedConceptsManager;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.TermBuilderConstant;
 import edu.stanford.bmir.protege.web.shared.DataFactory;
+import edu.stanford.bmir.protege.web.shared.entity.OWLEntityData;
 import edu.stanford.bmir.protege.web.shared.termbuilder.Concept;
 import edu.stanford.bmir.protege.web.shared.termbuilder.RecommendedConceptInfo;
-import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLClass;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 public class RecommendedConceptsListViewImpl extends Composite implements RecommendedConceptsListView {
 

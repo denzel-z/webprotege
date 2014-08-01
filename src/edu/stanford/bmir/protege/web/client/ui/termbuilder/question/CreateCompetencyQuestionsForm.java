@@ -1,16 +1,15 @@
 package edu.stanford.bmir.protege.web.client.ui.termbuilder.question;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.common.base.Optional;
 import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.regexp.shared.SplitResult;
 import com.google.gwt.user.client.ui.Focusable;
-
 import edu.stanford.bmir.protege.web.client.ui.library.dlg.WebProtegeDialogForm;
 import edu.stanford.bmir.protege.web.client.ui.library.text.ExpandingTextBox;
 import edu.stanford.bmir.protege.web.client.ui.library.text.ExpandingTextBoxMode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The WebProtegeDialogForm that used to create a dialog for creating 

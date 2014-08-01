@@ -1,13 +1,12 @@
 package edu.stanford.bmir.protege.web.client.ui.termbuilder.question;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
-
 import edu.stanford.bmir.protege.web.shared.project.ProjectId;
 import edu.stanford.bmir.protege.web.shared.termbuilder.CompetencyQuestionInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The presenter of Competency Question Portlet to connect data model with 
