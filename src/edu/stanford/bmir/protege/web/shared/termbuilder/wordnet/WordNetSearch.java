@@ -201,9 +201,12 @@ public class WordNetSearch {
         if(TBStringUtils.isAllUpper(srcConceptName)) {
             return srcConceptName;
         }
-		String normalizedConceptName = srcConceptName.toLowerCase();
-		normalizedConceptName = stemmer.findStems(normalizedConceptName, POS.NOUN).get(0);
-		return normalizedConceptName;
+        String normalizedConceptName = srcConceptName.toLowerCase();
+        List<String> stemmed = stemmer.findStems(normalizedConceptName, POS.NOUN);
+        if(stemmed.size() > 0) {
+            normalizedConceptName = stemmed.get(0);
+        }
+        return normalizedConceptName;
 	}
 
 	public String normalizeConceptNameByString(String conceptName) {

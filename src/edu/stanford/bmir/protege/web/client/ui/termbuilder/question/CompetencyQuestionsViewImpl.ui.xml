@@ -10,7 +10,7 @@
 		<g:HorizontalPanel width="100%" horizontalAlignment="ALIGN_LEFT" styleName="tb-button-bar">
 			<g:Button text="Create" ui:field = "createButton" styleName="tb-button"></g:Button>
 			<g:Button text="Delete" ui:field = "deleteButton" styleName="tb-button"></g:Button>
-			<g:Button text="Clear All" ui:field = "clearButton" styleName="tb-button"></g:Button>
+			<g:Button text="Delete All" ui:field = "clearButton" styleName="tb-button"></g:Button>
 			<g:Button text="Generate" ui:field = "generateButton" styleName="tb-button" addStyleNames="tb-button-special"></g:Button>
 		</g:HorizontalPanel>
 		<p1:DataGrid width="100%" height="220px" ui:field="dataGrid"/>

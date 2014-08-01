@@ -25,14 +25,13 @@ public class CompetencyQuestionsManager {
 	private List<CompetencyQuestionInfo> questions;
 	//Used to generate an unique Id for each question.
 	private int maxId = 0;
-	private Set<Concept> extractedConceptSet;
 	private Set<Concept> acceptedConceptSet;
 	private Set<RecommendedConceptInfo> recommendedConceptSet;
     private List<ReferenceDocumentInfo> referenceDocumentInfoList;
 	
 	public CompetencyQuestionsManager() {
 		questions = new ArrayList<CompetencyQuestionInfo>();
-		extractedConceptSet = new HashSet<Concept>();
+
 		acceptedConceptSet = new HashSet<Concept>();
 		recommendedConceptSet = new HashSet<RecommendedConceptInfo>();
         referenceDocumentInfoList = new ArrayList<ReferenceDocumentInfo>();
@@ -97,12 +96,8 @@ public class CompetencyQuestionsManager {
 		maxId = 0;
 	}
 	
-	public void addExtractedConcepts(Collection<Concept> c) {
-		extractedConceptSet.addAll(c);
-	}
-	
 	public void addAcceptedConcepts(Collection<Concept> c) {
-		extractedConceptSet.addAll(c);
+		acceptedConceptSet.addAll(c);
 	}
 	
 	public void addAcceptedConceptsFromString(Collection<String> c) {
@@ -120,15 +115,6 @@ public class CompetencyQuestionsManager {
         referenceDocumentInfoList.clear();
         referenceDocumentInfoList.addAll(c);
     }
-	
-	/**
-	 * Return a readonly extracted conceptName set. If want to change the conceptSet, please use
-	 * other methods like addExtractedConcepts().
-	 * @return
-	 */
-	public Set<Concept> getExtractedConcepts() {
-		return Collections.unmodifiableSet(extractedConceptSet);
-	}
 	
 	/**
 	 * Return a readonly accepted conceptName set. If want to change the acceptedConceptSet, please use

@@ -138,7 +138,7 @@ public class ReferenceDocumentsViewImpl extends Composite implements ReferenceDo
             @Override
             public void onSuccess(SearchReferenceDocumentResult result) {
                 System.err.println("[Client] Recommend Concept Action Handling Succeed!");
-                CompetencyQuestionsManager manager = project.getCompetencyQuestionsManager();
+                CompetencyQuestionsManager manager = project.getTermBuilderManagerBoard().getCompetencyQuestionsManager();
                 manager.addRecommendedDocuments(result.getReferenceDocuments());
                 presenter.reload();
             }
@@ -157,7 +157,7 @@ public class ReferenceDocumentsViewImpl extends Composite implements ReferenceDo
 
     @Override
     public CompetencyQuestionsManager getCompetencyQuestionsManager() {
-        return project.getCompetencyQuestionsManager();
+        return project.getTermBuilderManagerBoard().getCompetencyQuestionsManager();
     }
 
     @Override

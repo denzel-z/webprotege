@@ -9,6 +9,7 @@ import com.google.web.bindery.event.shared.HandlerRegistration;
 
 import edu.stanford.bmir.protege.web.client.Application;
 import edu.stanford.bmir.protege.web.client.ui.termbuilder.CompetencyQuestionsManager;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.ExtractedConceptsManager;
 import edu.stanford.bmir.protege.web.shared.HasDispose;
 import edu.stanford.bmir.protege.web.shared.event.EventBusManager;
 import edu.stanford.bmir.protege.web.shared.project.ProjectId;
@@ -73,7 +74,7 @@ public class ExtractedConceptsViewPresenter implements HasDispose {
 	}
 	
 	public void reloadWithConcepts() {
-		CompetencyQuestionsManager manager = view.getCompetencyQuestionsManager();
+        ExtractedConceptsManager manager = view.getTermBuilderManagerBoard().getExtractedConceptsManager();
 		Set<Concept> conceptSet = manager.getExtractedConcepts();
 		JsArrayString conceptArray = (JsArrayString) JsArrayString.createArray();
 		for(Concept c:conceptSet) {

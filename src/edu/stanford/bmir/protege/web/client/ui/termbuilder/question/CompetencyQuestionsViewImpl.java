@@ -35,6 +35,7 @@ import edu.stanford.bmir.protege.web.client.dispatch.actions.GenerateConceptsRes
 import edu.stanford.bmir.protege.web.client.project.Project;
 import edu.stanford.bmir.protege.web.client.ui.library.dlg.WebProtegeDialog;
 import edu.stanford.bmir.protege.web.client.ui.termbuilder.CompetencyQuestionsManager;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.ExtractedConceptsManager;
 import edu.stanford.bmir.protege.web.shared.dispatch.Action;
 import edu.stanford.bmir.protege.web.shared.event.EventBusManager;
 import edu.stanford.bmir.protege.web.shared.termbuilder.CompetencyQuestionInfo;
@@ -58,6 +59,9 @@ public class CompetencyQuestionsViewImpl extends Composite implements Competency
 	private final Project project;
 	private CompetencyQuestionsViewPresenter presenter = null;
 	private final MultiSelectionModel<CompetencyQuestionInfo> selectionModel;
+
+    private CompetencyQuestionsManager competencyQuestionsManager;
+    private ExtractedConceptsManager extractedConceptsManager;
 
 	@UiField(provided=true) DataGrid<CompetencyQuestionInfo> dataGrid;
 	@UiField Button createButton;
@@ -83,6 +87,9 @@ public class CompetencyQuestionsViewImpl extends Composite implements Competency
 				new MultiSelectionModel<CompetencyQuestionInfo>(providesKey);
         dataGrid.setSelectionModel(selectionModel, DefaultSelectionEventManager.<CompetencyQuestionInfo> createDefaultManager());
 		initTableColumns(selectionModel);
+
+        competencyQuestionsManager = project.getTermBuilderManagerBoard().getCompetencyQuestionsManager();
+        extractedConceptsManager = project.getTermBuilderManagerBoard().getExtractedConceptsManager();
 	}
 	
 	private void initTableColumns(
@@ -135,7 +142,7 @@ public class CompetencyQuestionsViewImpl extends Composite implements Competency
 				//TODO: Add code to handle server side operation on
 				// on input questions.
 				final Set<String> browserTexts = new HashSet<String>(createCompetencyQuestionsInfo.getBrowserTexts());
-				project.getCompetencyQuestionsManager().addQuestionFromStringSet(browserTexts);
+				project.getTermBuilderManagerBoard().getCompetencyQuestionsManager().addQuestionFromStringSet(browserTexts);
 				presenter.reload();
 			}
 		}));
@@ -143,20 +150,22 @@ public class CompetencyQuestionsViewImpl extends Composite implements Competency
 	
 	private void onDeleteQuestions() {
 		Set<CompetencyQuestionInfo> selectedSet = selectionModel.getSelectedSet();
-		project.getCompetencyQuestionsManager().removeQuestionsInSet(selectedSet);
+		competencyQuestionsManager.removeQuestionsInSet(selectedSet);
+        extractedConceptsManager.removeExtractedConceptsForQuestions(selectedSet);
 		//You have to clear all the selection in selectionModel
 		selectionModel.clear();
 		presenter.reload();
 	}
 	
 	private void onClearQuestions() {
-		project.getCompetencyQuestionsManager().clearQuestions();
+		competencyQuestionsManager.clearQuestions();
+        extractedConceptsManager.clearExtractedConcepts();
 		presenter.reload();
 	}
 	
 	private void onGenerateConcepts() {
 		System.err.println("[Client] Generate Button Clicked!");
-		List<CompetencyQuestionInfo> questions = project.getCompetencyQuestionsManager().getQuestions();
+		List<CompetencyQuestionInfo> questions = competencyQuestionsManager.getQuestions();
 		GenerateConceptsAction action = new GenerateConceptsAction(project.getProjectId(), questions);
 		DispatchServiceManager.get().execute(action, getGenerateConceptsActionAsyncHandler());
 	}
@@ -173,12 +182,8 @@ public class CompetencyQuestionsViewImpl extends Composite implements Competency
 			public void onSuccess(GenerateConceptsResult result) {
 				System.err.println("[Client] Generate Concept Action Handling return Success!");
 				Map<CompetencyQuestionInfo, ConceptList> map = result.getQuestionToConceptMap();
-//				List questions = project.getCompetencyQuestionsManager().getQuestions();
-//				CompetencyQuestionInfo info = (CompetencyQuestionInfo) questions.get(1);
-//				ConceptList list = (ConceptList) map.get(info);
-				CompetencyQuestionsManager manager = project.getCompetencyQuestionsManager();
 				for(CompetencyQuestionInfo info: map.keySet()) {
-					manager.addExtractedConcepts(map.get(info).getList());
+                    extractedConceptsManager.addExtractedConceptsForSingleQuestion(map.get(info).getList(), info.getId());
 				}
 				EventBusManager.getManager().postEvent(new ExtractedConceptsChangedEvent(project.getProjectId()));
 			}
@@ -198,6 +203,6 @@ public class CompetencyQuestionsViewImpl extends Composite implements Competency
 
 	@Override
 	public CompetencyQuestionsManager getCompetencyQuestionsManager() {
-		return project.getCompetencyQuestionsManager();
+		return project.getTermBuilderManagerBoard().getCompetencyQuestionsManager();
 	}
 }

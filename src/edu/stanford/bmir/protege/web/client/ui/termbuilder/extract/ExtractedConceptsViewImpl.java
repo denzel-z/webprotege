@@ -7,8 +7,11 @@ import java.util.Set;
 
 import edu.stanford.bmir.protege.web.client.dispatch.actions.CreateClassesWithHierarchyAction;
 import edu.stanford.bmir.protege.web.client.dispatch.actions.CreateClassesWithHierarchyResult;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.TermBuilderConstant;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.TermBuilderManagerBoard;
 import edu.stanford.bmir.protege.web.server.owlapi.OWLAPIProjectConfigurationListener;
 import edu.stanford.bmir.protege.web.shared.termbuilder.ClassStringAndSuperClassPair;
+import edu.stanford.bmir.protege.web.shared.termbuilder.Concept;
 import edu.stanford.bmir.protege.web.shared.termbuilder.RecommendedConceptInfo;
 import org.semanticweb.owlapi.model.OWLClass;
 
@@ -83,7 +86,7 @@ public class ExtractedConceptsViewImpl extends Composite implements ExtractedCon
 	
 	private void onAccept() {
 		//Get CQ Manager
-		CompetencyQuestionsManager manager = project.getCompetencyQuestionsManager();
+		CompetencyQuestionsManager manager = project.getTermBuilderManagerBoard().getCompetencyQuestionsManager();
 		JsArrayString selectedClasses = getSelectedClass();
 		
 		List<String> selectedClassesArray = new ArrayList<String>();
@@ -91,20 +94,28 @@ public class ExtractedConceptsViewImpl extends Composite implements ExtractedCon
 			selectedClassesArray.add(selectedClasses.get(i));
 		}
 
-        List<ClassStringAndSuperClassPair> pairList = new ArrayList<ClassStringAndSuperClassPair>();
+        Set<RecommendedConceptInfo> selectedSet = new HashSet<RecommendedConceptInfo>();
 
-        populateAcceptedClassesInfo(selectedClassesArray, pairList);
-		
+//        List<ClassStringAndSuperClassPair> pairList = new ArrayList<ClassStringAndSuperClassPair>();
+//        populateAcceptedClassesInfo(selectedClassesArray, pairList);
+
+		populateSelectedSet(selectedSet, selectedClassesArray);
+
 		manager.addAcceptedConceptsFromString(selectedClassesArray);
-		
-		//Add classes into class tree
-//		final OWLClass superCls = DataFactory.getOWLThing();
-//		final Set<String> newClasses = new HashSet<String>(selectedClassesArray);
-//		DispatchServiceManager.get().execute(new CreateClassesAction(project.getProjectId(), superCls, newClasses),
-//				getCreateClassesActionAsyncHandler());
-        DispatchServiceManager.get().execute(new CreateClassesWithHierarchyAction(project.getProjectId(), pairList),
+
+        OWLClass thingClass = DataFactory.getOWLThing();
+
+        DispatchServiceManager.get().execute(new CreateClassesWithHierarchyAction(project.getProjectId(), selectedSet, thingClass),
                 getCreateClassesWithHierarchyActionAsyncHandler());
 	}
+
+    private void populateSelectedSet(Set<RecommendedConceptInfo> selectedSet, List<String> selectedClassesArray) {
+        for(String c : selectedClassesArray) {
+            RecommendedConceptInfo info = new RecommendedConceptInfo(new Concept(TermBuilderConstant.OWLTHING_NAME), new Concept(c),
+                    RecommendedConceptInfo.ConceptRelation.SUBCLASS_OF);
+            selectedSet.add(info);
+        }
+    }
 
     private void populateAcceptedClassesInfo(List<String> selectedClassesArray, List<ClassStringAndSuperClassPair> pairList) {
         for(String className : selectedClassesArray) {
@@ -148,9 +159,9 @@ public class ExtractedConceptsViewImpl extends Composite implements ExtractedCon
     }
 
 	@Override
-	public CompetencyQuestionsManager getCompetencyQuestionsManager() {
-		return project.getCompetencyQuestionsManager();
-	}
+	public TermBuilderManagerBoard getTermBuilderManagerBoard() {
+        return project.getTermBuilderManagerBoard();
+    }
 	
 //	public int getCanvasWidth() {
 //		return termVisCanvas.getOffsetWidth();

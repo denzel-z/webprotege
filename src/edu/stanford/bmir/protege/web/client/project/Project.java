@@ -6,6 +6,7 @@ import edu.stanford.bmir.protege.web.client.permissions.ProjectPermissionManager
 import edu.stanford.bmir.protege.web.client.rpc.data.layout.ProjectLayoutConfiguration;
 import edu.stanford.bmir.protege.web.client.ui.LayoutManager;
 import edu.stanford.bmir.protege.web.client.ui.termbuilder.CompetencyQuestionsManager;
+import edu.stanford.bmir.protege.web.client.ui.termbuilder.TermBuilderManagerBoard;
 import edu.stanford.bmir.protege.web.shared.HasDispose;
 import edu.stanford.bmir.protege.web.shared.HasProjectId;
 import edu.stanford.bmir.protege.web.shared.permissions.Permission;
@@ -36,7 +37,7 @@ public class Project implements HasProjectId, HasDispose {
 
     private EventPollingManager eventPollingManager;
     
-    private CompetencyQuestionsManager competencyQuestionsManager;
+    private TermBuilderManagerBoard termBuilderManagerBoard;
 
 
     /**
@@ -55,7 +56,7 @@ public class Project implements HasProjectId, HasDispose {
         this.eventPollingManager = EventPollingManager.get(10 * 1000, projectDetails.getProjectId());
         eventPollingManager.start();
         
-        this.competencyQuestionsManager = new CompetencyQuestionsManager();
+        this.termBuilderManagerBoard = new TermBuilderManagerBoard();
     }
 
     public ProjectId getProjectId() {
@@ -95,8 +96,8 @@ public class Project implements HasProjectId, HasDispose {
         return layoutManager;
     }
     
-    public CompetencyQuestionsManager getCompetencyQuestionsManager() {
-    	return this.competencyQuestionsManager;
+    public TermBuilderManagerBoard getTermBuilderManagerBoard() {
+        return termBuilderManagerBoard;
     }
 
 //    public ProjectPermissionManager getProjectPermissionManager() {

@@ -191,7 +191,7 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
             @Override
             public void onSuccess(RecommendForSingleConceptResult result) {
                 System.err.println("[Client] Recommend Concept Action Handling Succeed!");
-                CompetencyQuestionsManager manager = project.getCompetencyQuestionsManager();
+                CompetencyQuestionsManager manager = project.getTermBuilderManagerBoard().getCompetencyQuestionsManager();
                 manager.addRecommendedConcepts(result.getRecommendedConcepts());
 //                EventBusManager.getManager().postEvent(new SourceConceptChangedEvent(project.getProjectId()));
                 presenter.reload();
@@ -215,7 +215,7 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
 			@Override
 			public void onSuccess(RecommendConceptsResult result) {
 				System.err.println("[Client] Recommend Concept Action Handling Succeed!");
-				CompetencyQuestionsManager manager = project.getCompetencyQuestionsManager();
+				CompetencyQuestionsManager manager = project.getTermBuilderManagerBoard().getCompetencyQuestionsManager();
 				manager.addRecommendedConcepts(result.getRecommendedConcepts());
 				presenter.reload();
 			}
@@ -230,7 +230,7 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
 	
 	private void onAccept() {
 		//Get CQ Manager
-		CompetencyQuestionsManager manager = project.getCompetencyQuestionsManager();
+		CompetencyQuestionsManager manager = project.getTermBuilderManagerBoard().getCompetencyQuestionsManager();
 		
 		Set<RecommendedConceptInfo> selectedSet = selectionModel.getSelectedSet();
         if(selectedSet.isEmpty()) return;
@@ -313,6 +313,6 @@ public class RecommendedConceptsListViewImpl extends Composite implements Recomm
 	
 	@Override
 	public CompetencyQuestionsManager getCompetencyQuestionsManager() {
-		return project.getCompetencyQuestionsManager();
+		return project.getTermBuilderManagerBoard().getCompetencyQuestionsManager();
 	}
 }
